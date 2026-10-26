@@ -41,3 +41,6 @@ python3 -m http.server 8000
 
 ### Zwykły hosting (FTP)
 Wgraj całą zawartość repozytorium (z zachowaniem folderów `img/` i `panel/`) do katalogu `public_html` na serwerze.
+
+### Docker (Coolify, Railway, Render itp.)
+Repozytorium zawiera `Dockerfile` serwujący stronę przez nginx na porcie **80**. Wskaż w platformie gałąź `main`, typ budowania *Dockerfile* i port 80.
