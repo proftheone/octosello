@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../img/octosello-logo.png">
+<title>Octosello Panel Compliance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: panel firmy — stała ciemna kolumna nawigacji (obszary compliance) po lewej, obszar roboczy po prawej; na telefonie nawigacja to przewijany pasek u góry */
+:root{
+  --bg:#0A0B0B; --surface:#121514; --sunk:#1A1E1D; --raise:#202524; --line:#262C2A; --ink:#EEF2EF; --muted:#959E99; --dim:#6F7873;
+  --mint:#95FFD1; --mint-ink:#0B1A14; --mint-soft:#14302A;
+  --amber:#F2B25C; --amber-soft:#33260F; --red:#FF8A7A; --red-soft:#3A1A16; --blue:#9DBBFF; --blue-soft:#18223A;
+  --f-body:"Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"Geist Mono", ui-monospace, Menlo, monospace;
+  --r:14px; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--mint)}
+:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+h1,h2,h3,h4{margin:0;text-wrap:balance;letter-spacing:-.03em}
+
+.app{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:100vh;position:relative;overflow-x:clip}
+.glow{position:absolute;left:58%;top:-320px;transform:translateX(-50%);width:1000px;max-width:100%;height:760px;background:radial-gradient(closest-side,rgba(149,255,209,.13),rgba(149,255,209,.03) 55%,transparent 75%);pointer-events:none;z-index:0}
+
+/* sidebar */
+.side{position:sticky;top:0;height:100vh;padding:16px 12px;display:flex;flex-direction:column;gap:14px;z-index:2}
+.side-in{background:var(--surface);border-radius:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),inset 0 0 0 1px rgba(255,255,255,.05);padding:18px 12px;display:flex;flex-direction:column;gap:16px;height:100%;overflow-y:auto}
+.brand{display:flex;align-items:center;justify-content:space-between;padding:0 8px}
+.brand img{height:24px;width:auto}
+.brand .free{font-size:11px;font-weight:600;background:var(--mint);color:var(--mint-ink);border-radius:999px;padding:3px 9px}
+.shop{display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;background:var(--sunk);border:0;text-align:left;width:100%}
+.shop:hover{background:var(--raise)}
+.shop-i{width:34px;height:34px;border-radius:10px;flex:none;background:linear-gradient(160deg,#c9ffe6,var(--mint) 45%,#4fd9a2);box-shadow:inset 0 -3px 0 rgba(0,0,0,.2)}
+.shop b{display:block;font-size:14px;font-weight:600}
+.shop small{color:var(--muted);font-size:12px}
+nav{display:flex;flex-direction:column;gap:2px}
+.nav-l{font-family:var(--f-mono);font-size:11px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;padding:12px 10px 4px}
+nav button{display:flex;align-items:center;gap:10px;border:0;background:none;padding:8px 10px;border-radius:10px;text-align:left;color:var(--muted);font-weight:500;font-size:14px;min-height:38px}
+nav button:hover{background:var(--sunk);color:var(--ink)}
+nav button[aria-current="true"]{background:var(--raise);color:var(--ink)}
+nav button[aria-current="true"] .ic{color:var(--mint)}
+nav .ic{width:18px;height:18px;flex:none}
+nav .cnt{margin-left:auto;font-family:var(--f-mono);font-size:11px;min-width:20px;height:20px;padding:0 6px;border-radius:999px;display:inline-grid;place-items:center;background:var(--sunk);color:var(--muted)}
+nav .cnt.hot{background:var(--amber-soft);color:var(--amber)}
+nav .cnt.red{background:var(--red-soft);color:var(--red)}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:8px;padding:8px}
+.side-foot small{color:var(--dim);font-size:12px}
+
+/* main */
+main{position:relative;z-index:1;padding-block:22px 64px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px));min-width:0;display:flex;flex-direction:column;gap:18px;max-width:1320px;width:100%}
+.topbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.search{display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:999px;padding:8px 14px;color:var(--muted);flex:1 1 260px;max-width:420px;box-shadow:inset 0 0 0 1px var(--line)}
+.search input{background:none;border:0;outline:0;flex:1;min-width:0;color:var(--ink)}
+.search svg{width:16px;height:16px;flex:none}
+.spacer{flex:1}
+.example{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);background:var(--amber-soft);border-radius:6px;padding:4px 8px}
+.who{display:flex;align-items:center;gap:8px;background:var(--surface);border-radius:999px;padding:5px 14px 5px 5px;box-shadow:inset 0 0 0 1px var(--line);font-weight:500}
+.who i{width:28px;height:28px;border-radius:50%;background:var(--raise);display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:600;color:var(--mint)}
+
+.head{display:flex;flex-direction:column;gap:6px}
+.head small{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.head h1{font-size:clamp(28px,3.4vw,44px);font-weight:300;line-height:1.08}
+.head h1 b{font-weight:700;color:var(--mint)}
+.head p{margin:0;color:var(--muted);max-width:68ch}
+.state{display:inline-flex;align-items:center;gap:8px;color:var(--ink)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--mint);flex:none}
+.dot.pulse{animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+.btn{border:0;background:var(--sunk);border-radius:999px;padding:9px 16px;font-weight:600;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;box-shadow:inset 0 0 0 1px var(--line);min-height:40px}
+.btn:hover{background:var(--raise)}
+.btn.primary{background:var(--mint);color:var(--mint-ink);box-shadow:none}
+.btn.primary:hover{background:#B5FFE0}
+.btn.ghost{background:none;box-shadow:inset 0 0 0 1px rgba(149,255,209,.55),0 0 18px -8px rgba(149,255,209,.6)}
+.btn.sm{padding:6px 12px;font-size:13px;min-height:34px}
+.btn svg{width:15px;height:15px}
+
+.card{background:var(--surface);border-radius:var(--r);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),inset 0 0 0 1px var(--line);min-width:0}
+.card-h{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.card-h h2{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.card-h .hint{color:var(--muted);font-size:13px}
+.card-b{padding:16px 18px}
+.label{font-family:var(--f-mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill.todo{background:var(--sunk);color:var(--muted)}
+.pill.progress{background:var(--blue-soft);color:var(--blue)}
+.pill.waiting{background:var(--amber-soft);color:var(--amber)}
+.pill.done{background:var(--mint-soft);color:var(--mint)}
+.pill.overdue{background:var(--red-soft);color:var(--red)}
+.tag{font-family:var(--f-mono);font-size:11px;font-weight:500;border-radius:6px;padding:2px 7px;background:var(--sunk);color:var(--ink);white-space:nowrap}
+
+/* setup */
+.setup{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;padding:18px 20px;border-radius:18px;background:linear-gradient(120deg,rgba(149,255,209,.10),rgba(149,255,209,.02) 60%),var(--surface);box-shadow:inset 0 0 0 1px rgba(149,255,209,.22)}
+.setup h2{font-size:19px;font-weight:600}
+.setup p{margin:4px 0 10px;color:var(--muted);max-width:70ch}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:0;background:var(--sunk);border-radius:999px;padding:5px 12px;font-weight:500;font-size:13px;box-shadow:inset 0 0 0 1px var(--line);min-height:32px}
+button.chip:hover{background:var(--raise)}
+.chip[aria-pressed="true"]{background:var(--mint);color:var(--mint-ink);box-shadow:none}
+.chip .mono{opacity:.7;margin-left:4px}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi{padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+.kpi .v{font-size:34px;font-weight:600;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:16px;color:var(--muted);font-weight:400}
+.kpi .d{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.meter{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden;margin-top:6px}
+.meter i{display:block;height:100%;background:var(--mint);border-radius:3px;transition:width .4s}
+
+.grid2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:14px;min-width:0}
+
+/* rows */
+.rows{display:flex;flex-direction:column}
+.row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 14px;align-items:center;padding:12px 18px;border:0;border-bottom:1px solid var(--line);background:none;text-align:left;width:100%}
+.row:last-child{border-bottom:0}
+.row:hover{background:var(--sunk)}
+.row .t{font-weight:500;min-width:0}
+.row .t small{display:block;color:var(--muted);font-weight:400;font-size:12.5px;margin-top:1px}
+.row .r{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.date{width:52px;text-align:center;border-radius:10px;background:var(--sunk);padding:6px 0;line-height:1.1}
+.date b{display:block;font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+.date span{font-family:var(--f-mono);font-size:10.5px;color:var(--muted);text-transform:uppercase}
+.date.soon{background:var(--amber-soft)}.date.soon b{color:var(--amber)}
+.date.late{background:var(--red-soft)}.date.late b{color:var(--red)}
+.days{font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.days.late{color:var(--red)}.days.soon{color:var(--amber)}
+.aic{width:34px;height:34px;border-radius:10px;background:var(--sunk);display:grid;place-items:center;color:var(--mint);flex:none}
+.aic svg{width:18px;height:18px}
+
+/* area bars */
+.areas{display:flex;flex-direction:column}
+.area-r{display:grid;grid-template-columns:110px minmax(0,1fr) 56px;gap:12px;align-items:center;padding:10px 18px;border:0;border-bottom:1px solid var(--line);background:none;text-align:left;width:100%}
+.area-r:last-child{border-bottom:0}
+.area-r:hover{background:var(--sunk)}
+.area-r b{font-weight:600}
+.stbar{display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--sunk);gap:2px}
+.stbar i{display:block;height:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);padding:12px 18px;border-top:1px solid var(--line)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+.log div{display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;padding:10px 18px;border-bottom:1px solid var(--line);align-items:center}
+.log div:last-child{border-bottom:0}
+.log img{width:32px;height:32px;border-radius:50%;object-fit:cover;object-position:50% 20%}
+.log b{font-weight:500;display:block}
+.log span{color:var(--muted);font-size:12.5px}
+
+/* table */
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-family:var(--f-mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:500;padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover td{background:var(--sunk)}
+td .t{font-weight:500}
+td small{display:block;color:var(--muted);font-size:12.5px}
+.owner{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.owner img{width:24px;height:24px;border-radius:50%;object-fit:cover;object-position:50% 20%}
+.owner i{width:24px;height:24px;border-radius:50%;background:var(--raise);display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:600;color:var(--mint)}
+.empty{padding:36px 18px;text-align:center;color:var(--muted)}
+
+/* area header */
+.ahead{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:14px;align-items:stretch}
+.expert{display:flex;gap:14px;align-items:center;padding:16px}
+.expert img{width:64px;height:64px;border-radius:16px;object-fit:cover;object-position:50% 18%;flex:none}
+.expert b{display:block;font-size:15px}
+.expert small{color:var(--muted);display:block;margin-bottom:8px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border-top:1px solid var(--line);border-radius:0 0 var(--r) var(--r);overflow:hidden}
+.facts div{background:var(--surface);padding:12px 18px}
+.facts b{display:block;font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+.facts span{font-size:12.5px;color:var(--muted)}
+
+.tabs{display:flex;gap:4px;background:var(--surface);border-radius:999px;padding:4px;box-shadow:inset 0 0 0 1px var(--line);width:max-content;max-width:100%;overflow-x:auto}
+.tabs button{border:0;background:none;border-radius:999px;padding:7px 14px;font-weight:500;color:var(--muted);white-space:nowrap;min-height:36px}
+.tabs button[aria-selected="true"]{background:var(--raise);color:var(--ink)}
+
+/* services */
+.svc{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.svc .card{padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.svc h3{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.svc p{margin:0;color:var(--muted);font-size:13.5px;flex:1}
+.svc .ft{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}
+.svc .ft span{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+
+.health{display:grid;grid-template-columns:200px minmax(0,1fr);gap:20px;align-items:center;padding:20px}
+.ring{position:relative;width:160px;height:160px;justify-self:center}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:10}
+.ring .bg{stroke:var(--sunk)}.ring .fg{stroke:var(--mint);stroke-linecap:round;transition:stroke-dashoffset .5s}
+.ring .t{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring .t b{font-size:38px;font-weight:600;letter-spacing:-.03em;display:block;line-height:1}
+.ring .t span{font-size:12px;color:var(--muted)}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.ck{display:flex;gap:10px;align-items:flex-start;background:var(--sunk);border-radius:12px;padding:10px 12px}
+.ck .s{width:20px;height:20px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:11px;font-weight:700;margin-top:1px}
+.ck .s.ok{background:var(--mint);color:var(--mint-ink)}
+.ck .s.mid{background:var(--amber-soft);color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber)}
+.ck .s.no{background:var(--red-soft);color:var(--red);box-shadow:inset 0 0 0 1px var(--red)}
+.ck b{font-weight:500;display:block}
+.ck small{color:var(--muted);font-size:12.5px}
+
+/* matrix */
+.mx td,.mx th{text-align:center}
+.mx td:first-child,.mx th:first-child{text-align:left}
+.cell{border:0;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:600;white-space:nowrap;min-height:30px}
+.cell.done{background:var(--mint-soft);color:var(--mint)}
+.cell.progress{background:var(--blue-soft);color:var(--blue)}
+.cell.todo{background:var(--amber-soft);color:var(--amber)}
+.cell.na{background:none;color:var(--dim);font-weight:400}
+.flag{font-family:var(--f-mono);font-size:11px;background:var(--raise);border-radius:5px;padding:2px 6px;margin-right:8px}
+
+/* calendar */
+.cal-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cal-h h2{font-size:20px;font-weight:600;min-width:180px;text-transform:capitalize}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:1px;background:var(--line);border-radius:var(--r);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line)}
+.cal .dn{background:var(--surface);padding:8px 10px;font-family:var(--f-mono);font-size:11px;color:var(--muted);text-transform:uppercase}
+.cal .d{background:var(--surface);min-height:96px;padding:8px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.cal .d.out{background:var(--bg)}
+.cal .d.out .n{color:var(--dim)}
+.cal .d .n{font-size:12.5px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.cal .d.today .n{background:var(--mint);color:var(--mint-ink);border-radius:999px;width:24px;height:24px;display:grid;place-items:center;font-weight:600}
+.ev{border:0;text-align:left;border-radius:6px;padding:3px 6px;font-size:11.5px;line-height:1.3;background:var(--sunk);color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;border-left:3px solid var(--c,var(--mint))}
+.ev:hover{background:var(--raise)}
+
+/* docs */
+.drop{border:1.5px dashed var(--line);border-radius:var(--r);padding:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:var(--muted)}
+.drop.over{border-color:var(--mint);background:var(--mint-soft)}
+.drop b{color:var(--ink);font-weight:500}
+.fic{width:34px;height:40px;border-radius:6px;background:var(--sunk);display:grid;place-items:center;font-family:var(--f-mono);font-size:9.5px;color:var(--muted);flex:none;box-shadow:inset 0 0 0 1px var(--line)}
+
+/* drawer & modal */
+.scrim{position:fixed;inset:0;background:rgba(3,5,5,.62);z-index:50;display:flex;justify-content:flex-end;backdrop-filter:blur(3px)}
+.scrim.center{justify-content:center;align-items:center;padding:20px}
+.drawer{width:min(560px,100%);height:100%;background:var(--surface);box-shadow:-1px 0 0 var(--line);overflow-y:auto;padding:22px max(22px,env(safe-area-inset-right,0px)) 40px 22px;display:flex;flex-direction:column;gap:18px;animation:slide .25s ease}
+@keyframes slide{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
+.dlg{width:min(620px,100%);max-height:calc(100vh - 40px);overflow:auto;background:var(--surface);border-radius:20px;box-shadow:inset 0 0 0 1px var(--line),0 40px 80px -30px rgba(0,0,0,.7);padding:22px;display:flex;flex-direction:column;gap:16px}
+.dh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.dh h2{font-size:22px;font-weight:600;line-height:1.2}
+.x{border:0;background:var(--sunk);border-radius:50%;width:38px;height:38px;display:grid;place-items:center;flex:none}
+.x:hover{background:var(--raise)}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 16px;font-size:13.5px}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+.seg{display:flex;gap:4px;flex-wrap:wrap}
+.seg button{border:0;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:500;background:var(--sunk);color:var(--muted);min-height:34px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.sec h3{font-size:13px;font-family:var(--f-mono);font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.sec p{margin:0;color:var(--ink);max-width:62ch}
+.steps{display:flex;flex-direction:column;gap:6px}
+.steps label{display:flex;gap:10px;align-items:flex-start;background:var(--sunk);border-radius:10px;padding:10px 12px;cursor:pointer}
+.steps input{accent-color:var(--mint);width:16px;height:16px;margin-top:2px;flex:none}
+.steps label.done span{color:var(--muted);text-decoration:line-through}
+.basis{font-family:var(--f-mono);font-size:12.5px;color:var(--muted);background:var(--sunk);border-radius:10px;padding:10px 12px}
+.cta-box{display:flex;gap:12px;align-items:center;background:var(--sunk);border-radius:14px;padding:12px;flex-wrap:wrap}
+.cta-box img{width:44px;height:44px;border-radius:12px;object-fit:cover;object-position:50% 18%}
+.cta-box div{flex:1;min-width:160px}
+.cta-box small{display:block;color:var(--muted)}
+.form{display:flex;flex-direction:column;gap:12px}
+.form label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted);font-weight:500}
+input[type=text],input[type=email],select,textarea{background:var(--sunk);border:0;box-shadow:inset 0 0 0 1px var(--line);border-radius:10px;padding:10px 12px;min-width:0;color:var(--ink)}
+textarea{min-height:96px;resize:vertical}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.opts label{flex-direction:row;align-items:center;gap:10px;background:var(--sunk);border-radius:10px;padding:10px 12px;cursor:pointer;color:var(--ink);font-weight:400}
+.opts label small{display:block;color:var(--muted);font-size:12px}
+.opts input{accent-color:var(--mint);width:16px;height:16px;flex:none}
+.dlg-f{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.dlg-f .hint{color:var(--muted);font-size:12.5px}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--mint);color:var(--mint-ink);padding:11px 18px;border-radius:12px;font-weight:600;z-index:60;box-shadow:0 10px 30px -10px rgba(0,0,0,.6);max-width:calc(100% - 32px)}
+
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2,.ahead{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:860px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;height:auto;padding:10px max(12px,env(safe-area-inset-left,0px)) 0 max(12px,env(safe-area-inset-right,0px))}
+  .side-in{padding:12px;gap:10px;overflow:visible}
+  .shop,.side-foot{display:none}
+  nav{flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:2px}
+  nav button{flex:none}
+  .nav-l{display:none}
+  main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .setup{grid-template-columns:minmax(0,1fr)}
+  .health{grid-template-columns:minmax(0,1fr)}
+  .checks,.opts{grid-template-columns:minmax(0,1fr)}
+  .cal .d{min-height:64px;padding:4px}
+  .ev{font-size:0;padding:0;height:6px;border-left:0;background:var(--c,var(--mint))}
+}
+@media (max-width:520px){.kpis{grid-template-columns:minmax(0,1fr)}.facts{grid-template-columns:minmax(0,1fr)}.area-r{grid-template-columns:80px minmax(0,1fr) 44px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="glow" aria-hidden="true"></div>
+  <aside class="side">
+    <div class="side-in">
+      <div class="brand"><a href="../index.html" title="Wróć na stronę octosello"><img src="../img/octosello-logo-white.png" alt="octosello"></a><span class="free">Za darmo</span></div>
+      <button class="shop" type="button" data-act="profile"><span class="shop-i"></span><span><b id="shop-name">Sklep Przykładowy</b><small id="shop-sub">Profil firmy</small></span></button>
+      <nav id="nav" aria-label="Sekcje panelu"></nav>
+      <div class="side-foot">
+        <button class="btn sm" type="button" data-act="reset">Wyczyść zmiany w demo</button>
+        <small>Wersja demonstracyjna. Dane są przykładowe i zostają tylko w tej przeglądarce.</small>
+      </div>
+    </div>
+  </aside>
+  <main id="main"></main>
+</div>
+<div id="layer"></div>
+<div id="toast" class="toast" role="status" hidden></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const TODAY=new Date(2026,9,25);
+const D=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const MON=['sty','lut','mar','kwi','maj','cze','lip','sie','wrz','paź','lis','gru'];
+const fmt=s=>{const d=D(s);return d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()};
+const daysTo=s=>Math.round((D(s)-TODAY)/864e5);
+const daysTxt=n=>n<0?`${-n} dni po terminie`:n===0?'dziś':n===1?'jutro':`za ${n} dni`;
+
+const IC={
+ pulpit:'<path d="M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 3v6h8V3z"/>',
+ lista:'<path d="M9 6h12M9 12h12M9 18h12M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/>',
+ kalendarz:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+ dokumenty:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>',
+ eudr:'<path d="M12 22v-7M12 15l-5-5M12 12l4-4"/><path d="M12 2c4 3 6 6 6 9a6 6 0 0 1-12 0c0-3 2-6 6-9z"/>',
+ ppwr:'<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/>',
+ epr:'<path d="M7 19H4.8a2 2 0 0 1-1.7-3l1.5-2.6M11 19h6.8a2 2 0 0 0 1.7-3l-1.2-2M14 16l-3 3 3 3M8.3 9.5 10.3 6a2 2 0 0 1 3.4 0l1.4 2.4M11 9.6 8.3 9.5 7.3 12.4M18.6 11.6l-1 2.6-2.6-1"/>',
+ bdo:'<path d="M3 6h18M8 6V4h8v2M6 6l1 15h10l1-15M10 10v7M14 10v7"/>',
+ kobize:'<path d="M4 18c0-3 2-5 5-5 0-3 2-6 6-6 3 0 5 2 5 5a3 3 0 0 1 0 6z"/><path d="M8 22h8"/>',
+ prawo:'<path d="M12 3v18M7 21h10M4 8h16"/><path d="m4 8-2 6a3 3 0 0 0 4 0zM20 8l-2 6a3 3 0 0 0 4 0z"/>',
+ cross:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.5 5.6 3.5 9s-1 6.4-3.5 9c-2.5-2.6-3.5-5.6-3.5-9s1-6.4 3.5-9z"/>',
+ search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+ x:'<path d="M6 6l12 12M18 6 6 18"/>',
+ up:'<path d="M12 16V4M7 9l5-5 5 5M4 20h16"/>',
+ arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>'
+};
+const svg=(k,cls='ic')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
+
+const EXPERTS={
+ dyrszka:{n:'Michał Dyrszka',role:'Usługi środowiskowe',img:'../img/michal-dyrszka.jpg'},
+ siwicka:{n:'mec. Siwicka',role:'Doradztwo prawne',img:'../img/siwicka.jpg'},
+ grzyw:{n:'Mateusz Grzywnowicz',role:'Sprzedaż cross-border',img:'../img/mateusz-grzywnowicz.jpg'}
+};
+const AREAS={
+ eudr:{n:'EUDR',full:'Wylesianie (EUDR)',ex:'dyrszka',c:'#7EE3B0',lead:'Drewno, kawa, kakao, kauczuk, soja, olej palmowy i bydło oraz produkty z nich, np. meble, papier i skóra. Przed wprowadzeniem na rynek UE potrzebne jest oświadczenie o należytej staranności.'},
+ ppwr:{n:'PPWR',full:'Opakowania (PPWR)',ex:'dyrszka',c:'#9DBBFF',lead:'Unijne rozporządzenie opakowaniowe stosowane od 12 sierpnia 2026 r. Wymogi recyklingu, oznakowania i ograniczania pustej przestrzeni w paczkach wchodzą etapami.'},
+ epr:{n:'EPR',full:'Rozszerzona odpowiedzialność producenta',ex:'dyrszka',c:'#F2B25C',lead:'Rejestracje i raporty opakowań, elektroniki i baterii w każdym kraju, do którego wysyłasz. Marketplace’y sprawdzają numery EPR i mogą wstrzymać ofertę.'},
+ bdo:{n:'BDO',full:'Rejestr BDO',ex:'dyrszka',c:'#C9A7FF',lead:'Wpis do rejestru BDO, roczne sprawozdania o produktach w opakowaniach i gospodarowaniu odpadami oraz opłata produktowa.'},
+ kobize:{n:'KOBiZE',full:'Raport KOBiZE i opłaty środowiskowe',ex:'dyrszka',c:'#FF9FC6',lead:'Raport do Krajowej bazy o emisjach z firmowych aut, ogrzewania i agregatów oraz wykaz opłat za korzystanie ze środowiska.'},
+ prawo:{n:'Prawo',full:'Prawo e-commerce',ex:'siwicka',c:'#FFD27A',lead:'Regulamin, prawa konsumenta, RODO, umowy z dostawcami i partnerami, znak towarowy, GPSR i AI Act. Rejestr umów pilnuje terminów wypowiedzeń i zobowiązań.'},
+ cross:{n:'Cross-border',full:'Sprzedaż cross-border',ex:'grzyw',c:'#7FD8FF',lead:'VAT OSS i lokalne rejestracje VAT, wymogi krajowe, tłumaczenia i konta na marketplace’ach w krajach, do których sprzedajesz.'}
+};
+const ENV=['eudr','ppwr','epr','bdo','kobize'];
+const STATUS={todo:'Do zrobienia',progress:'W toku',waiting:'Czeka na Ciebie',done:'Zrobione'};
+const MARKETS={DE:'Niemcy',FR:'Francja',CZ:'Czechy',AT:'Austria',ES:'Hiszpania',IT:'Włochy',NL:'Holandia',SK:'Słowacja'};
+const CATS={wood:['Meble i wyroby z drewna','EUDR'],coffee:['Kawa, kakao, czekolada','EUDR'],leather:['Wyroby skórzane','EUDR'],elec:['Elektronika i oświetlenie','ZSEE'],batt:['Baterie i akumulatory','baterie'],cosm:['Kosmetyki','CPNP'],textile:['Odzież i tekstylia','']};
+
+/* ---------- katalog obowiązków (dane przykładowe) ---------- */
+const CATALOG=[
+ {id:'oss-q3',a:'cross',t:'Deklaracja VAT OSS za III kwartał 2026',due:'2026-10-31',st:'progress',own:'grzyw',when:p=>p.markets.length>0,
+  d:'Sprzedaż wysyłkowa do konsumentów w innych krajach UE rozliczana w jednej kwartalnej deklaracji VIU-DO. Termin mija ostatniego dnia miesiąca po kwartale.',
+  b:'Ustawa o VAT, dział XII rozdz. 6a (procedura unijna OSS)',steps:['Zestawienie sprzedaży wg krajów','Weryfikacja stawek VAT','Złożenie VIU-DO','Przelew na rachunek US'],sd:2,docs:['Zestawienie sprzedaży OSS III kw.xlsx']},
+ {id:'bdo-update',a:'bdo',t:'Aktualizacja wpisu BDO: nowa kategoria elektroniki',due:'2026-11-06',st:'waiting',own:'dyrszka',when:p=>p.cats.elec,
+  d:'W ofercie pojawiły się lampy LED. Wpis w BDO trzeba rozszerzyć o dział dotyczący sprzętu elektrycznego w ciągu 30 dni od zmiany. Potwierdź listę produktów, resztę zrobi ekspert.',
+  b:'Ustawa o odpadach, art. 51 ust. 4 (aktualizacja wpisu)',steps:['Potwierdzenie listy produktów','Wniosek aktualizacyjny w BDO','Umowa z organizacją odzysku ZSEE'],sd:0,docs:[]},
+ {id:'withdraw-btn',a:'prawo',t:'Funkcja odstąpienia od umowy w sklepie',due:'2026-06-19',st:'todo',own:null,when:p=>true,
+  d:'Sklep musi mieć łatwo dostępny przycisk, którym konsument odstępuje od umowy zawartej online. Przepisy obowiązują od 19 czerwca 2026 r.',
+  b:'Dyrektywa (UE) 2023/2673, art. 11a dyrektywy 2011/83/UE',steps:['Projekt przycisku i formularza','Zmiana regulaminu','Wdrożenie w sklepie','Test potwierdzenia e-mail'],sd:0,docs:[]},
+ {id:'regulamin',a:'prawo',t:'Nowy regulamin sklepu do akceptacji',due:'2026-11-15',st:'waiting',own:'siwicka',when:p=>true,
+  d:'Projekt uwzględnia funkcję odstąpienia, GPSR i reklamacje. Przeczytaj zmiany i zatwierdź albo dodaj uwagi.',
+  b:'Kodeks cywilny, ustawa o prawach konsumenta',steps:['Projekt zmian','Akceptacja klienta','Publikacja i powiadomienie klientów'],sd:1,docs:['Regulamin sklepu v4 – projekt.docx']},
+ {id:'ai-act',a:'prawo',t:'Oznaczenie chatbota i treści AI',due:'2026-11-30',st:'progress',own:'siwicka',when:p=>p.ai,
+  d:'Klient musi wiedzieć, że rozmawia z chatbotem. Obrazy produktowe generowane przez AI wymagają oznaczenia. Obowiązki przejrzystości stosuje się od 2 sierpnia 2026 r.',
+  b:'AI Act, rozporządzenie (UE) 2024/1689, art. 50',steps:['Mapa narzędzi AI w sklepie','Komunikat w oknie czatu','Oznaczenia grafik'],sd:1,docs:[]},
+ {id:'gpsr',a:'prawo',t:'GPSR: dane producenta i ostrzeżenia na kartach produktów',due:'2026-12-10',st:'progress',own:'siwicka',when:p=>true,
+  d:'Każda oferta online musi zawierać dane producenta, identyfikację produktu i ostrzeżenia dotyczące bezpieczeństwa.',
+  b:'Rozporządzenie (UE) 2023/988 (GPSR), art. 19',steps:['Audyt 120 kart produktów','Szablon sekcji bezpieczeństwa','Uzupełnienie braków'],sd:1,docs:[]},
+ {id:'eaa',a:'prawo',t:'Dostępność sklepu (European Accessibility Act)',due:'2025-06-28',st:'done',own:'siwicka',when:p=>true,
+  d:'Sklep spełnia wymagania dostępności dla usług handlu elektronicznego. Deklaracja dostępności opublikowana.',
+  b:'Ustawa o zapewnianiu spełniania wymagań dostępności (wdrożenie EAA)',steps:['Audyt WCAG','Poprawki','Deklaracja dostępności'],sd:3,docs:['Deklaracja dostępności.pdf']},
+ {id:'eudr-dds',a:'eudr',t:'Oświadczenia due diligence dla mebli drewnianych',due:'2026-12-30',st:'progress',own:'dyrszka',when:p=>p.cats.wood||p.cats.coffee||p.cats.leather,
+  d:'Dla dużych i średnich firm EUDR stosuje się od 30 grudnia 2026 r., dla mikro i małych od 30 czerwca 2027 r. Termin był przesuwany, dlatego śledzimy zmiany.',
+  b:'Rozporządzenie (UE) 2023/1115 (EUDR), art. 4 i 33',steps:['Mapowanie kodów CN','Dane geolokalizacyjne od dostawców','Ocena ryzyka','Oświadczenia DDS w TRACES'],sd:1,docs:['Mapa produktów EUDR.xlsx']},
+ {id:'eudr-geo',a:'eudr',t:'5 dostawców bez danych geolokalizacyjnych',due:'2026-11-20',st:'waiting',own:'dyrszka',when:p=>p.cats.wood||p.cats.coffee||p.cats.leather,
+  d:'Zatwierdź wysyłkę przypomnień do dostawców. Bez danych o działkach nie złożymy oświadczeń.',
+  b:'EUDR, art. 9 (informacje od dostawców)',steps:['Lista dostawców','Akceptacja wysyłki przypomnień','Zebranie odpowiedzi'],sd:1,docs:[]},
+ {id:'ppwr-audit',a:'ppwr',t:'Przegląd opakowań pod PPWR',due:'2026-12-15',st:'progress',own:'dyrszka',when:p=>true,
+  d:'Sprawdzamy kartony i wypełniacze pod kątem recyklingu i pustej przestrzeni w paczkach. Wynik to lista zmian dla magazynu.',
+  b:'Rozporządzenie (UE) 2025/40 (PPWR)',steps:['Inwentaryzacja 9 typów opakowań','Ocena recyklingowalności','Rekomendacje dla magazynu'],sd:1,docs:[]},
+ {id:'ppwr-label',a:'ppwr',t:'Oznakowanie materiałowe opakowań',due:'2028-08-12',st:'todo',own:null,when:p=>true,
+  d:'Etykiety z informacją o składzie materiałowym, ułatwiające segregację. Plan wdrożenia z wyprzedzeniem.',
+  b:'PPWR, art. 12',steps:['Wybór wzoru etykiet','Zamówienie nowych opakowań'],sd:0,docs:[]},
+ {id:'lucid-dual',a:'epr',t:'Niemcy: umowa z systemem dualnym na 2027',due:'2026-12-31',st:'todo',own:null,when:p=>p.markets.includes('DE'),
+  d:'Opakowania wysyłane do konsumentów w Niemczech muszą być zgłoszone w systemie dualnym. Umowa na 2026 wygasa z końcem roku.',
+  b:'VerpackG, § 7',steps:['Prognoza ilości na 2027','Porównanie ofert systemów','Podpisanie umowy','Zgłoszenie w LUCID'],sd:0,docs:[]},
+ {id:'lucid-report',a:'epr',t:'Niemcy: roczne zgłoszenie ilości w LUCID za 2026',due:'2027-05-15',st:'todo',own:null,when:p=>p.markets.includes('DE'),
+  d:'Zgłoszenie rzeczywistych ilości opakowań do rejestru LUCID i systemu dualnego.',
+  b:'VerpackG, § 10',steps:['Dane z magazynu','Zgłoszenie w LUCID'],sd:0,docs:[]},
+ {id:'fr-uin',a:'epr',t:'Francja: deklaracja opakowań do Citeo',due:'2027-02-28',st:'progress',own:'dyrszka',when:p=>p.markets.includes('FR'),
+  d:'Numer UIN uzyskany. Pozostaje roczna deklaracja ilości i oznaczenie Triman na opakowaniach.',
+  b:'Code de l’environnement, art. L541-10',steps:['Numer UIN','Oznaczenie Triman','Deklaracja roczna'],sd:1,docs:['Numer UIN Francja.pdf']},
+ {id:'cz-ekokom',a:'epr',t:'Czechy: rejestracja opakowań w EKO-KOM',due:'2026-03-31',st:'done',own:'dyrszka',when:p=>p.markets.includes('CZ'),
+  d:'Firma zarejestrowana w systemie EKO-KOM. Raporty kwartalne prowadzi ekspert.',
+  b:'Ustawa czeska o opakowaniach nr 545/2020 Sb.',steps:['Umowa','Rejestracja','Pierwszy raport'],sd:3,docs:['EKO-KOM – umowa.pdf']},
+ {id:'weee-de',a:'epr',t:'Niemcy: rejestracja elektroniki w stiftung ear',due:'2026-11-25',st:'todo',own:null,when:p=>p.markets.includes('DE')&&p.cats.elec,
+  d:'Lampy LED wysyłane do Niemiec wymagają numeru WEEE przed wprowadzeniem do sprzedaży. Amazon.de wymaga go w Seller Central.',
+  b:'ElektroG, § 6',steps:['Wyznaczenie przedstawiciela','Wniosek w stiftung ear','Numer w Seller Central'],sd:0,docs:[]},
+ {id:'bdo-report',a:'bdo',t:'Roczne sprawozdanie BDO za 2026',due:'2027-03-15',st:'todo',own:null,when:p=>true,
+  d:'Sprawozdanie o produktach w opakowaniach i gospodarowaniu odpadami z opakowań.',
+  b:'Ustawa o gospodarce opakowaniami, art. 73',steps:['Zestawienie masy opakowań','Sprawozdanie w BDO'],sd:0,docs:[]},
+ {id:'bdo-fee',a:'bdo',t:'Opłata produktowa za 2026',due:'2027-03-15',st:'todo',own:null,when:p=>true,
+  d:'Opłata za nieosiągnięty poziom recyklingu, jeśli firma nie ma umowy z organizacją odzysku.',
+  b:'Ustawa o gospodarce opakowaniami, art. 34',steps:['Wyliczenie opłaty','Przelew do urzędu marszałkowskiego'],sd:0,docs:[]},
+ {id:'bdo-entry',a:'bdo',t:'Wpis do rejestru BDO',due:'2024-02-10',st:'done',own:'dyrszka',when:p=>true,
+  d:'Firma ma aktywny wpis w dziale opakowań. Numer BDO jest w stopce sklepu i na fakturach.',
+  b:'Ustawa o odpadach, art. 50',steps:['Wniosek','Numer BDO','Numer na stronie i fakturach'],sd:3,docs:['Zaświadczenie o wpisie BDO.pdf']},
+ {id:'kobize-raport',a:'kobize',t:'Raport do Krajowej bazy KOBiZE za 2026',due:'2027-02-28',st:'todo',own:null,when:p=>true,
+  d:'Raport o emisjach z dwóch aut firmowych i ogrzewania magazynu.',
+  b:'Ustawa o systemie zarządzania emisjami, art. 7',steps:['Zużycie paliwa z kart flotowych','Raport w bazie KOBiZE'],sd:0,docs:['Raport KOBiZE 2025 – potwierdzenie.pdf']},
+ {id:'kobize-oplata',a:'kobize',t:'Wykaz opłat za korzystanie ze środowiska',due:'2027-03-31',st:'todo',own:null,when:p=>true,
+  d:'Roczny wykaz dla urzędu marszałkowskiego. Przy niskiej kwocie płatność nie jest wymagana, ale wykaz tak.',
+  b:'Prawo ochrony środowiska, art. 286',steps:['Wyliczenie opłaty','Wykaz do marszałka'],sd:0,docs:[]},
+ {id:'vat-de',a:'cross',t:'Rejestracja VAT w Niemczech (magazyn Amazon)',due:'2026-11-30',st:'progress',own:'grzyw',when:p=>p.markets.includes('DE')&&p.ch.amazon,
+  d:'Towar w niemieckim magazynie Amazon wymaga lokalnego numeru VAT. Wniosek złożony, czekamy na urząd w Kleve.',
+  b:'UStG, § 18 i § 22f',steps:['Wniosek do urzędu','Numer USt-IdNr','Numer w Seller Central'],sd:1,docs:[]},
+ {id:'amz-epr',a:'cross',t:'Amazon: numery EPR w Seller Central',due:'2026-11-30',st:'todo',own:null,when:p=>p.ch.amazon&&p.markets.some(m=>['DE','FR'].includes(m)),
+  d:'Bez numerów EPR Amazon blokuje oferty w Niemczech i Francji. Wpisz numery LUCID i UIN w ustawieniach konta.',
+  b:'Wymogi Amazon EU EPR Compliance',steps:['Numer LUCID','Numer UIN','Weryfikacja w Seller Central'],sd:0,docs:[]},
+ {id:'de-lang',a:'cross',t:'Regulamin i karty produktów po niemiecku',due:'2026-09-15',st:'done',own:'grzyw',when:p=>p.markets.includes('DE'),
+  d:'Tłumaczenie regulaminu, polityki zwrotów i 120 kart produktów.',
+  b:'Prawo konsumenckie państwa sprzedaży',steps:['Tłumaczenie','Weryfikacja prawna','Publikacja'],sd:3,docs:['AGB – regulamin DE.pdf']}
+];
+
+const DEFAULT_PROFILE={name:'Sklep Przykładowy',cats:{wood:true,elec:true,textile:true},markets:['DE','FR','CZ'],ch:{own:true,amazon:true,allegro:true},ai:true};
+const CONTRACTS=[
+ {n:'Umowa dostawy mebli',p:'Dostawca mebli, Polska',end:'2027-03-31',notice:'3 mies.',dec:'2026-12-31',risk:'review',o:'Brak klauzuli o danych EUDR od dostawcy'},
+ {n:'Najem magazynu',p:'Właściciel hali, Łódź',end:'2027-01-31',notice:'3 mies.',dec:'2026-10-31',risk:'review',o:'Ostatni dzień na wypowiedzenie lub renegocjację'},
+ {n:'Umowa z firmą kurierską',p:'Operator kurierski',end:'2027-06-30',notice:'1 mies.',dec:'2027-05-31',risk:'ok',o:'Stawki aktualne do końca umowy'},
+ {n:'Umowa powierzenia danych',p:'Operator płatności',end:'bezterminowa',notice:'—',dec:null,risk:'ok',o:'Zgodna z RODO, art. 28'},
+ {n:'Umowa z agencją marketingową',p:'Agencja performance',end:'2026-12-31',notice:'1 mies.',dec:'2026-11-30',risk:'review',o:'Brak przeniesienia praw do kreacji'},
+ {n:'NDA z producentem lamp',p:'Producent, Chiny',end:'2028-02-01',notice:'—',dec:null,risk:'ok',o:'Prawo właściwe: polskie'}
+];
+const SERVICES=[
+ ['Analiza umowy przed podpisem','Wskazujemy ryzyka, poprawiamy zapisy i podpowiadamy, co negocjować.','do 3 dni roboczych'],
+ ['Umowa B2B z dostawcą lub partnerem','Umowa dopasowana do Twojego modelu, z klauzulami o EUDR, GPSR i reklamacjach.','do 5 dni roboczych'],
+ ['Regulamin sklepu i polityka prywatności','Komplet dokumentów dla sklepu i marketplace’ów, także w językach obcych.','do 7 dni roboczych'],
+ ['Pytanie prawne na piśmie','Krótka, konkretna odpowiedź z podstawą prawną.','do 2 dni roboczych'],
+ ['NDA i przeniesienie praw IP','Poufność z dostawcami, prawa do zdjęć, opisów i kreacji.','do 2 dni roboczych'],
+ ['Zgłoszenie znaku towarowego','Badanie zdolności rejestrowej i zgłoszenie w UPRP lub EUIPO.','do 5 dni roboczych'],
+ ['Reklamacje i spory z klientami','Odpowiedzi na trudne reklamacje, pisma do UOKiK i Rzecznika Konsumentów.','do 2 dni roboczych'],
+ ['Windykacja należności','Wezwania do zapłaty i prowadzenie sprawy od pierwszego pisma.','start w 1 dzień']
+];
+const HEALTH=[
+ ['Regulamin sklepu','mid','Nowa wersja czeka na Twoją akceptację'],
+ ['Polityka prywatności i cookies','ok','Aktualna, przegląd w marcu 2027'],
+ ['Funkcja odstąpienia od umowy','no','Wymagana od 19.06.2026'],
+ ['Dostępność (EAA)','ok','Deklaracja opublikowana'],
+ ['GPSR na kartach produktów','mid','Audyt 120 kart w toku'],
+ ['Oznaczenia AI (AI Act)','mid','Komunikat czatu w przygotowaniu'],
+ ['Ochrona znaku towarowego','no','Marka nie jest zarejestrowana'],
+ ['Umowy powierzenia danych','ok','4 z 4 podpisane']
+];
+const DOCS0=[
+ {n:'Zaświadczenie o wpisie BDO.pdf',a:'bdo',d:'2024-02-10',st:'ok'},
+ {n:'Potwierdzenie rejestracji LUCID.pdf',a:'epr',d:'2025-11-04',st:'ok'},
+ {n:'Umowa z systemem dualnym 2026.pdf',a:'epr',d:'2025-12-12',st:'exp',x:'wygasa 31.12.2026'},
+ {n:'Numer UIN Francja.pdf',a:'epr',d:'2026-04-22',st:'ok'},
+ {n:'EKO-KOM – umowa.pdf',a:'epr',d:'2026-03-18',st:'ok'},
+ {n:'Mapa produktów EUDR.xlsx',a:'eudr',d:'2026-09-30',st:'ok'},
+ {n:'Oświadczenia dostawców EUDR (3 z 8).zip',a:'eudr',d:'2026-10-14',st:'exp',x:'brakuje 5'},
+ {n:'Regulamin sklepu v4 – projekt.docx',a:'prawo',d:'2026-10-22',st:'draft'},
+ {n:'Polityka prywatności.pdf',a:'prawo',d:'2026-03-02',st:'ok'},
+ {n:'Deklaracja dostępności.pdf',a:'prawo',d:'2025-06-20',st:'ok'},
+ {n:'Raport KOBiZE 2025 – potwierdzenie.pdf',a:'kobize',d:'2026-02-24',st:'ok'},
+ {n:'VAT OSS II kw. 2026 – UPO.xml',a:'cross',d:'2026-07-29',st:'ok'},
+ {n:'AGB – regulamin DE.pdf',a:'cross',d:'2026-09-12',st:'ok'}
+];
+const LOG0=[
+ ['dyrszka','Przegląd opakowań: 6 z 9 typów ocenionych','dziś, 10:24'],
+ ['grzyw','Zestawienie sprzedaży OSS za III kwartał gotowe','dziś, 09:05'],
+ ['siwicka','Projekt regulaminu v4 wysłany do akceptacji','pt., 16:40'],
+ ['dyrszka','Wysłano zapytania o dane geolokalizacyjne do 8 dostawców','czw., 12:15']
+];
+const COUNTRIES0=[
+ {c:'PL',n:'Polska',vat:'done',pack:'done',weee:'done',lang:'done',mkt:'done'},
+ {c:'DE',n:'Niemcy',vat:'progress',pack:'done',weee:'todo',lang:'done',mkt:'progress'},
+ {c:'FR',n:'Francja',vat:'done',pack:'progress',weee:'na',lang:'progress',mkt:'na'},
+ {c:'CZ',n:'Czechy',vat:'done',pack:'done',weee:'na',lang:'done',mkt:'done'}
+];
+
+/* ---------- stan ---------- */
+let S;
+function fresh(){return {view:'pulpit',profile:JSON.parse(JSON.stringify(DEFAULT_PROFILE)),ov:{},docs:DOCS0.map(d=>({...d})),cases:[],log:LOG0.map(l=>[...l]),countries:COUNTRIES0.map(c=>({...c})),f:{area:'all',st:'all',q:''},cal:[2026,9],ptab:'umowy',setupHidden:false}}
+function load(){try{const r=localStorage.getItem('octosello-panel-demo-v1');if(r){const s=JSON.parse(r);return {...fresh(),...s,f:{area:'all',st:'all',q:''}}}}catch(e){}return fresh()}
+function save(){try{const {view,f,...rest}=S;localStorage.setItem('octosello-panel-demo-v1',JSON.stringify(rest))}catch(e){}}
+S=load();
+
+function obls(){
+ return CATALOG.filter(o=>o.when(S.profile)).map(o=>{
+  const v=S.ov[o.id]||{};
+  const st=v.st||o.st; const own=v.own!==undefined?v.own:o.own;
+  const sd=v.sd||o.steps.map((_,i)=>i<o.sd);
+  return {...o,st,own,sd};
+ });
+}
+const eff=o=>o.st!=='done'&&daysTo(o.due)<0?'overdue':o.st;
+const pill=o=>{const e=eff(o);return `<span class="pill ${e}">${e==='overdue'?'Po terminie':STATUS[e]}</span>`};
+const ownerHTML=o=>o.own?`<span class="owner"><img src="${EXPERTS[o.own].img}" alt="">${esc(EXPERTS[o.own].n)}</span>`:`<span class="owner"><i>TY</i>Ty</span>`;
+const dateBox=s=>{const d=D(s),n=daysTo(s);return `<span class="date ${n<0?'late':n<=14?'soon':''}"><b>${d.getDate()}</b><span>${MON[d.getMonth()]}</span></span>`};
+const daysSpan=(o)=>{if(o.st==='done')return `<span class="days">zrobione</span>`;const n=daysTo(o.due);return `<span class="days ${n<0?'late':n<=14?'soon':''}">${daysTxt(n)}</span>`};
+function setOv(id,patch){S.ov[id]={...(S.ov[id]||{}),...patch};save()}
+
+/* ---------- nawigacja ---------- */
+const VIEWS=[['pulpit','Pulpit'],['obowiazki','Obowiązki'],['kalendarz','Kalendarz'],['dokumenty','Dokumenty']];
+function renderNav(){
+ const L=obls(); const wait=L.filter(o=>o.st==='waiting').length; const late=L.filter(o=>eff(o)==='overdue').length;
+ const cnt=k=>{if(k==='obowiazki'&&wait)return `<span class="cnt hot" title="czeka na Ciebie">${wait}</span>`;return ''};
+ const acnt=a=>{const l=L.filter(o=>o.a===a);const lt=l.filter(o=>eff(o)==='overdue').length;const w=l.filter(o=>o.st==='waiting').length;return lt?`<span class="cnt red">${lt}</span>`:w?`<span class="cnt hot">${w}</span>`:`<span class="cnt">${l.filter(o=>o.st!=='done').length}</span>`};
+ const icon={pulpit:'pulpit',obowiazki:'lista',kalendarz:'kalendarz',dokumenty:'dokumenty'};
+ $('#nav').innerHTML=VIEWS.map(([k,l])=>`<button type="button" data-go="${k}" aria-current="${S.view===k}">${svg(icon[k])}${l}${cnt(k)}</button>`).join('')+
+  `<span class="nav-l">Obszary</span>`+Object.entries(AREAS).map(([k,a])=>`<button type="button" data-go="${k}" aria-current="${S.view===k}">${svg(k)}${a.n}${acnt(k)}</button>`).join('');
+ $('#shop-name').textContent=S.profile.name||'Twój sklep';
+ $('#shop-sub').textContent=`PL + ${S.profile.markets.length} ${S.profile.markets.length===1?'rynek':'rynki'} UE · edytuj profil`;
+}
+function go(v){S.view=v;try{history.replaceState(null,'','#'+v)}catch(e){}render();window.scrollTo(0,0)}
+function render(){renderNav();const v=S.view;(V[v]||(AREAS[v]?()=>vArea(v):V.pulpit))();}
+function toast(t){const el=$('#toast');el.textContent=t;el.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>el.hidden=true,2800)}
+const topbar=()=>`<div class="topbar"><label class="search">${svg('search','')}<span class="sr" hidden>Szukaj</span><input id="q" type="text" placeholder="Szukaj obowiązku, dokumentu, umowy" value="${esc(S.f.q)}" aria-label="Szukaj w panelu"></label><span class="spacer"></span><span class="example">Demo · dane przykładowe</span><span class="who"><i>AN</i>Anna</span></div>`;
+
+const V={};
+/* ---------- PULPIT ---------- */
+V.pulpit=function(){
+ const L=obls(); const done=L.filter(o=>o.st==='done').length; const score=Math.round(done/L.length*100+ L.filter(o=>o.st==='progress').length/L.length*40);
+ const open=L.filter(o=>o.st!=='done').sort((a,b)=>D(a.due)-D(b.due));
+ const next=open.filter(o=>daysTo(o.due)>=0)[0]; const wait=L.filter(o=>o.st==='waiting'); const late=L.filter(o=>eff(o)==='overdue');
+ const soon=open.filter(o=>daysTo(o.due)<=90).slice(0,6);
+ const p=S.profile;
+ $('#main').innerHTML=topbar()+
+ `<div class="head"><small>Niedziela, 25 października 2026</small><h1>Dzień dobry, <b>Anna.</b></h1>
+  <p class="state"><span class="dot pulse"></span>Eksperci pracują nad ${L.filter(o=>o.st==='progress').length} sprawami. ${wait.length} ${wait.length===1?'czeka':'czekają'} na Twoją decyzję${late.length?`, ${late.length} po terminie`:''}.</p></div>`+
+ (S.setupHidden?'':`<section class="setup" aria-labelledby="h-setup"><div><span class="label">Profil firmy</span><h2 id="h-setup" style="margin-top:4px">Obowiązki dobrane do tego, co i gdzie sprzedajesz</h2><p>Panel ułożył listę ${L.length} obowiązków na podstawie profilu. Zmień kategorie produktów albo rynki, a lista przeliczy się od razu.</p>
+  <div class="chips">${Object.keys(p.cats).filter(k=>p.cats[k]).map(k=>`<span class="chip">${CATS[k][0]}</span>`).join('')}${['PL',...p.markets].map(m=>`<span class="chip"><span class="mono">${m}</span></span>`).join('')}${p.ch.amazon?'<span class="chip">Amazon</span>':''}${p.ai?'<span class="chip">Chatbot AI</span>':''}</div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" data-act="profile">Edytuj profil</button><button class="btn" type="button" data-act="hide-setup">Ukryj</button></div></section>`)+
+ `<div class="kpis">
+  <div class="card kpi"><span class="label">Poziom zgodności</span><span class="v">${Math.min(score,100)}<small>%</small></span><div class="meter"><i style="width:${Math.min(score,100)}%"></i></div><span class="d">${done} z ${L.length} obowiązków zamkniętych</span></div>
+  <div class="card kpi"><span class="label">Najbliższy termin</span><span class="v">${next?D(next.due).getDate()+'.'+String(D(next.due).getMonth()+1).padStart(2,'0'):'—'}</span><span class="d">${next?esc(AREAS[next.a].n)+' · '+daysTxt(daysTo(next.due)):'brak'}</span></div>
+  <div class="card kpi"><span class="label">Czeka na Ciebie</span><span class="v">${wait.length}</span><span class="d"><span class="pill waiting">akcepty i decyzje</span></span></div>
+  <div class="card kpi"><span class="label">Dokumenty</span><span class="v">${S.docs.length}</span><span class="d">${S.docs.filter(d=>d.st==='exp').length} do uzupełnienia lub odnowienia</span></div>
+ </div>
+ <div class="grid2">
+  <div class="stack">
+   <div class="card"><div class="card-h"><h2>Terminy w najbliższych 90 dniach</h2><span class="hint">i zaległe</span><span class="spacer"></span><button class="btn sm" type="button" data-go="kalendarz">Kalendarz</button></div>
+    <div class="rows">${soon.map(o=>`<button class="row" type="button" data-open="${o.id}">${dateBox(o.due)}<span class="t">${esc(o.t)}<small>${AREAS[o.a].n} · ${o.own?esc(EXPERTS[o.own].n):'Ty'}</small></span><span class="r">${pill(o)}${daysSpan(o)}</span></button>`).join('')}</div></div>
+   <div class="card"><div class="card-h"><h2>Czeka na Ciebie</h2><span class="hint">Decyzje zostają przy Tobie, eksperci wykonują resztę.</span></div>
+    <div class="rows">${wait.length?wait.map(o=>`<button class="row" type="button" data-open="${o.id}"><span class="aic">${svg(o.a,'')}</span><span class="t">${esc(o.t)}<small>${AREAS[o.a].n} · ${esc(EXPERTS[o.own]?.n||'Ty')}</small></span><span class="r"><span class="btn sm primary" aria-hidden="true">Zobacz</span></span></button>`).join(''):`<p class="empty">Nic nie czeka na Twoją decyzję.</p>`}</div></div>
+  </div>
+  <div class="stack">
+   <div class="card"><div class="card-h"><h2>Obszary</h2></div><div class="areas">${Object.entries(AREAS).map(([k,a])=>{const l=L.filter(o=>o.a===k);if(!l.length)return `<button class="area-r" type="button" data-go="${k}"><b>${a.n}</b><span class="days">nie dotyczy profilu</span><span></span></button>`;const c=s=>l.filter(o=>eff(o)===s).length;const w=s=>c(s)/l.length*100;
+     return `<button class="area-r" type="button" data-go="${k}"><b>${a.n}</b><span class="stbar" aria-label="${c('done')} zrobione z ${l.length}"><i style="width:${w('done')}%;background:var(--mint)"></i><i style="width:${w('progress')}%;background:var(--blue)"></i><i style="width:${w('waiting')}%;background:var(--amber)"></i><i style="width:${w('overdue')}%;background:var(--red)"></i></span><span class="days" style="text-align:right">${c('done')}/${l.length}</span></button>`}).join('')}</div>
+    <div class="legend"><span><i style="background:var(--mint)"></i>Zrobione</span><span><i style="background:var(--blue)"></i>W toku</span><span><i style="background:var(--amber)"></i>Czeka na Ciebie</span><span><i style="background:var(--red)"></i>Po terminie</span></div></div>
+   <div class="card"><div class="card-h"><h2>Ostatnio zrobili eksperci</h2></div><div class="log">${S.log.slice(0,5).map(([e,t,w])=>`<div><img src="${EXPERTS[e].img}" alt=""><span><b>${esc(t)}</b><span>${esc(EXPERTS[e].n)} · ${esc(w)}</span></span></div>`).join('')}</div></div>
+  </div>
+ </div>`;
+};
+
+/* ---------- OBOWIĄZKI ---------- */
+function oblTable(L){
+ if(!L.length) return `<p class="empty">Brak obowiązków dla wybranych filtrów.</p>`;
+ return `<div class="tbl-wrap"><table><thead><tr><th>Obowiązek</th><th>Obszar</th><th>Termin</th><th>Status</th><th>Kto</th></tr></thead><tbody>${L.map(o=>`<tr class="click" data-open="${o.id}" tabindex="0"><td><span class="t">${esc(o.t)}</span><small>${o.sd.filter(Boolean).length} z ${o.steps.length} kroków</small></td><td><span class="tag">${AREAS[o.a].n}</span></td><td class="mono" style="white-space:nowrap">${fmt(o.due)}<small>${o.st==='done'?'':daysTxt(daysTo(o.due))}</small></td><td>${pill(o)}</td><td>${ownerHTML(o)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function filtered(areaFixed){
+ const f=S.f,q=f.q.trim().toLowerCase();
+ return obls().filter(o=>(areaFixed?o.a===areaFixed:(f.area==='all'||o.a===f.area||(f.area==='env'&&ENV.includes(o.a))))&&(f.st==='all'||eff(o)===f.st)&&(!q||o.t.toLowerCase().includes(q)||o.d.toLowerCase().includes(q)))
+  .sort((a,b)=>(a.st==='done')-(b.st==='done')||D(a.due)-D(b.due));
+}
+V.obowiazki=function(){
+ const L=obls(); const c=s=>L.filter(o=>eff(o)===s).length;
+ $('#main').innerHTML=topbar()+`<div class="head"><small>${L.length} obowiązków w profilu</small><h1>Wszystkie <b>obowiązki</b></h1><p>Każdy obowiązek ma termin, podstawę prawną i kroki. Możesz zrobić go sam albo zlecić ekspertowi Octosello.</p></div>
+ <div class="filters"><div class="chips" role="group" aria-label="Status">${[['all','Wszystkie',L.length],['overdue','Po terminie',c('overdue')],['waiting','Czeka na Ciebie',c('waiting')],['progress','W toku',c('progress')],['todo','Do zrobienia',c('todo')],['done','Zrobione',c('done')]].map(([k,l,n])=>`<button type="button" class="chip" data-fst="${k}" aria-pressed="${S.f.st===k}">${l}<span class="mono">${n}</span></button>`).join('')}</div>
+ <span class="spacer"></span><label class="sr" for="farea" hidden>Obszar</label><select id="farea" aria-label="Obszar"><option value="all">Wszystkie obszary</option><option value="env" ${S.f.area==='env'?'selected':''}>Środowisko (EUDR, PPWR, EPR, BDO, KOBiZE)</option>${Object.entries(AREAS).map(([k,a])=>`<option value="${k}" ${S.f.area===k?'selected':''}>${a.n}</option>`).join('')}</select></div>
+ <div class="card" id="otbl">${oblTable(filtered())}</div>`;
+ $('#farea').onchange=e=>{S.f.area=e.target.value;V.obowiazki()};
+};
+
+/* ---------- OBSZAR ---------- */
+function vArea(k){
+ const a=AREAS[k],ex=EXPERTS[a.ex],L=obls().filter(o=>o.a===k);
+ const c=s=>L.filter(o=>eff(o)===s).length; const next=L.filter(o=>o.st!=='done'&&daysTo(o.due)>=0).sort((x,y)=>D(x.due)-D(y.due))[0];
+ let extra='';
+ if(k==='prawo') extra=prawoHTML();
+ if(k==='cross') extra=crossHTML();
+ $('#main').innerHTML=topbar()+`<div class="ahead"><div class="card"><div class="card-b head" style="gap:8px"><span class="label">${ENV.includes(k)?'Usługi środowiskowe':k==='prawo'?'Doradztwo prawne':'Sprzedaż cross-border'}</span><h1>${a.full.replace(a.n,`<b>${a.n}</b>`).includes('<b>')?a.full.replace(a.n,`<b>${a.n}</b>`):`${esc(a.full)}`}</h1><p>${esc(a.lead)}</p></div>
+  <div class="facts"><div><b>${L.length}</b><span>obowiązków</span></div><div><b>${c('done')}</b><span>zrobionych</span></div><div><b>${next?D(next.due).getDate()+'.'+String(D(next.due).getMonth()+1).padStart(2,'0'):'—'}</b><span>najbliższy termin</span></div></div></div>
+  <div class="card expert"><img src="${ex.img}" alt="${esc(ex.n)}"><div><span class="label">Twój ekspert</span><b>${esc(ex.n)}</b><small>${esc(ex.role)}</small><button class="btn sm ghost" type="button" data-act="ask" data-ex="${a.ex}">Napisz do eksperta</button></div></div></div>`+
+ extra+
+ `<div class="card"><div class="card-h"><h2>Obowiązki: ${esc(a.n)}</h2><span class="hint">${L.length?'kliknij, aby zobaczyć szczegóły':'nie dotyczą obecnego profilu'}</span></div>${L.length?oblTable(filtered(k)):`<p class="empty">Ten obszar nie dotyczy profilu firmy. <button class="btn sm" type="button" data-act="profile">Zmień profil</button></p>`}</div>`;
+}
+
+function prawoHTML(){
+ const t=S.ptab;
+ let body='';
+ if(t==='umowy') body=`<div class="card"><div class="card-h"><h2>Rejestr umów</h2><span class="hint">Pilnujemy końca umów, okresów wypowiedzenia i zobowiązań.</span><span class="spacer"></span><button class="btn sm" type="button" data-act="add-contract">Dodaj umowę</button></div><div class="tbl-wrap"><table><thead><tr><th>Umowa</th><th>Do</th><th>Wypowiedzenie</th><th>Decyzja do</th><th>Uwagi prawnika</th></tr></thead><tbody>${CONTRACTS.map(c=>{const n=c.dec?daysTo(c.dec):null;return `<tr><td><span class="t">${esc(c.n)}</span><small>${esc(c.p)}</small></td><td class="mono" style="white-space:nowrap">${c.end.includes('-')?fmt(c.end):esc(c.end)}</td><td>${esc(c.notice)}</td><td class="mono" style="white-space:nowrap">${c.dec?fmt(c.dec)+`<small class="days ${n<=14?'soon':''}">${daysTxt(n)}</small>`:'—'}</td><td><span class="pill ${c.risk==='ok'?'done':'waiting'}">${c.risk==='ok'?'Bez uwag':'Do przeglądu'}</span><small>${esc(c.o)}</small></td></tr>`}).join('')}</tbody></table></div></div>`;
+ if(t==='zlec') body=`${S.cases.length?`<div class="card"><div class="card-h"><h2>Twoje sprawy</h2></div><div class="rows">${S.cases.map(c=>`<div class="row"><span class="aic">${svg('prawo','')}</span><span class="t">${esc(c.s)}<small>${esc(c.d||'bez opisu')}</small></span><span class="r"><span class="pill progress">Wycena w przygotowaniu</span><span class="days">${esc(c.w)}</span></span></div>`).join('')}</div></div>`:''}
+  <div class="svc">${SERVICES.map((s,i)=>`<div class="card"><h3>${esc(s[0])}</h3><p>${esc(s[1])}</p><div class="ft"><span>${esc(s[2])}</span><button class="btn sm primary" type="button" data-act="order" data-i="${i}">Zleć</button></div></div>`).join('')}</div>
+  <p style="margin:0;color:var(--muted);font-size:13px">Cenę poznajesz przed startem pracy. Sprawy prowadzi zespół mec. Siwickiej.</p>`;
+ if(t==='kondycja'){const sc=Math.round(HEALTH.reduce((a,h)=>a+(h[1]==='ok'?1:h[1]==='mid'?.5:0),0)/HEALTH.length*100);const C=2*Math.PI*70;
+  body=`<div class="card health"><div class="ring"><svg viewBox="0 0 160 160" aria-hidden="true"><circle class="bg" cx="80" cy="80" r="70"/><circle class="fg" cx="80" cy="80" r="70" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-sc/100)}"/></svg><div class="t"><span><b>${sc}</b><span>kondycja prawna sklepu</span></span></div></div>
+  <div style="display:flex;flex-direction:column;gap:12px;min-width:0"><div><span class="label">Przegląd prawny sklepu</span><p style="margin:4px 0 0;color:var(--muted)">Osiem obszarów, które najczęściej sprawdzają klienci, UOKiK i marketplace’y.</p></div><div class="checks">${HEALTH.map(h=>`<div class="ck"><span class="s ${h[1]}">${h[1]==='ok'?'✓':h[1]==='mid'?'…':'!'}</span><span><b>${esc(h[0])}</b><small>${esc(h[2])}</small></span></div>`).join('')}</div></div></div>`;}
+ return `<div class="tabs" role="tablist" aria-label="Prawo">${[['umowy','Rejestr umów'],['zlec','Zleć sprawę'],['kondycja','Kondycja prawna']].map(([k,l])=>`<button type="button" role="tab" data-ptab="${k}" aria-selected="${t===k}">${l}</button>`).join('')}</div>`+body;
+}
+const CELL={done:'Zrobione',progress:'W toku',todo:'Do zrobienia',na:'nie dotyczy'};
+function crossHTML(){
+ const add=Object.entries(MARKETS).filter(([c])=>!S.countries.some(x=>x.c===c));
+ return `<div class="card"><div class="card-h"><h2>Mapa wymogów w krajach sprzedaży</h2><span class="hint">Każdy kraj to osobne rejestracje i dokumenty.</span><span class="spacer"></span>${add.length?`<label for="addc" hidden>Dodaj kraj</label><select id="addc" aria-label="Dodaj kraj"><option value="">Dodaj kraj…</option>${add.map(([c,n])=>`<option value="${c}">${n}</option>`).join('')}</select>`:''}</div>
+ <div class="tbl-wrap"><table class="mx"><thead><tr><th>Kraj</th><th>VAT</th><th>EPR opakowania</th><th>EPR elektronika</th><th>Język i regulamin</th><th>Marketplace</th></tr></thead><tbody>${S.countries.map(r=>`<tr><td style="white-space:nowrap"><span class="flag">${r.c}</span>${esc(r.n)}</td>${['vat','pack','weee','lang','mkt'].map(k=>`<td><span class="cell ${r[k]}">${CELL[r[k]]}</span></td>`).join('')}</tr>`).join('')}</tbody></table></div></div>`;
+}
+
+/* ---------- KALENDARZ ---------- */
+V.kalendarz=function(){
+ const [y,m]=S.cal; const first=new Date(y,m,1); const start=new Date(y,m,1-((first.getDay()+6)%7));
+ const L=obls(); const by={}; L.forEach(o=>{(by[o.due]=by[o.due]||[]).push(o)});
+ CONTRACTS.forEach(c=>{if(c.dec)(by[c.dec]=by[c.dec]||[]).push({id:null,a:'prawo',t:'Umowa: '+c.n,contract:true})});
+ const key=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+ let cells=''; for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const k=key(d);const ev=by[k]||[];
+  cells+=`<div class="d ${d.getMonth()!==m?'out':''} ${+d===+TODAY?'today':''}"><span class="n">${d.getDate()}</span>${ev.map(o=>`<button type="button" class="ev" style="--c:${AREAS[o.a].c}" ${o.id?`data-open="${o.id}"`:`data-go="prawo"`} title="${esc(o.t)}">${esc(o.t)}</button>`).join('')}</div>`;}
+ const monthName=first.toLocaleDateString('pl-PL',{month:'long',year:'numeric'});
+ const list=Object.keys(by).filter(k=>{const d=D(k);return d.getFullYear()===y&&d.getMonth()===m}).sort().flatMap(k=>by[k].map(o=>({...o,due:k})));
+ $('#main').innerHTML=topbar()+`<div class="head"><small>Terminy ustawowe, umowne i wewnętrzne</small><h1>Kalendarz <b>terminów</b></h1></div>
+ <div class="cal-h"><button class="btn sm" type="button" data-cal="-1" aria-label="Poprzedni miesiąc">‹</button><h2>${monthName}</h2><button class="btn sm" type="button" data-cal="1" aria-label="Następny miesiąc">›</button><button class="btn sm" type="button" data-cal="0">Dziś</button><span class="spacer"></span><div class="legend" style="border:0;padding:0">${Object.values(AREAS).map(a=>`<span><i style="background:${a.c}"></i>${a.n}</span>`).join('')}</div></div>
+ <div class="tbl-wrap"><div class="cal" style="min-width:320px">${['pon','wt','śr','czw','pt','sob','nd'].map(d=>`<div class="dn">${d}</div>`).join('')}${cells}</div></div>
+ <div class="card"><div class="card-h"><h2>W tym miesiącu</h2><span class="hint">${list.length} ${list.length===1?'termin':'terminów'}</span></div><div class="rows">${list.length?list.map(o=>o.contract?`<button class="row" type="button" data-go="prawo">${dateBox(o.due)}<span class="t">${esc(o.t)}<small>Prawo · rejestr umów</small></span><span class="r"><span class="pill waiting">Decyzja</span></span></button>`:`<button class="row" type="button" data-open="${o.id}">${dateBox(o.due)}<span class="t">${esc(o.t)}<small>${AREAS[o.a].n}</small></span><span class="r">${pill(o)}</span></button>`).join(''):`<p class="empty">Brak terminów w tym miesiącu.</p>`}</div></div>`;
+};
+
+/* ---------- DOKUMENTY ---------- */
+V.dokumenty=function(){
+ const q=S.f.q.trim().toLowerCase(); const area=S.f.darea||'all';
+ const L=S.docs.filter(d=>(area==='all'||d.a===area)&&(!q||d.n.toLowerCase().includes(q)));
+ const stp=d=>d.st==='ok'?'<span class="pill done">Aktualny</span>':d.st==='exp'?`<span class="pill waiting">${esc(d.x||'do odnowienia')}</span>`:d.st==='new'?'<span class="pill progress">Nowy · do opisania</span>':'<span class="pill todo">Projekt</span>';
+ $('#main').innerHTML=topbar()+`<div class="head"><small>${S.docs.length} plików</small><h1>Dokumenty <b>gotowe na kontrolę</b></h1><p>Zaświadczenia, umowy, raporty i potwierdzenia złożenia w jednym miejscu, przypisane do obszarów i obowiązków.</p></div>
+ <label class="drop" id="drop" for="file">${svg('up','')}<span><b>Dodaj pliki</b> · przeciągnij tutaj albo kliknij. W demo zapisujemy tylko nazwę pliku.</span><input id="file" type="file" multiple hidden></label>
+ <div class="filters"><div class="chips" role="group" aria-label="Obszar">${[['all','Wszystkie'],...Object.entries(AREAS).map(([k,a])=>[k,a.n])].map(([k,l])=>`<button type="button" class="chip" data-darea="${k}" aria-pressed="${area===k}">${l}<span class="mono">${k==='all'?S.docs.length:S.docs.filter(d=>d.a===k).length}</span></button>`).join('')}</div></div>
+ <div class="card">${L.length?`<div class="tbl-wrap"><table><thead><tr><th>Plik</th><th>Obszar</th><th>Data</th><th>Status</th></tr></thead><tbody>${L.map(d=>`<tr><td><span style="display:flex;gap:12px;align-items:center"><span class="fic">${esc(d.n.split('.').pop().toUpperCase().slice(0,4))}</span><span class="t">${esc(d.n)}</span></span></td><td><span class="tag">${AREAS[d.a].n}</span></td><td class="mono" style="white-space:nowrap">${fmt(d.d)}</td><td>${stp(d)}</td></tr>`).join('')}</tbody></table></div>`:`<p class="empty">Brak dokumentów dla tego filtra.</p>`}</div>`;
+ const add=files=>{[...files].forEach(f=>S.docs.unshift({n:f.name,a:area==='all'?'prawo':area,d:'2026-10-25',st:'new'}));save();V.dokumenty();renderNav();toast(`Dodano ${files.length} ${files.length===1?'plik':'pliki'}`)};
+ $('#file').onchange=e=>{if(e.target.files.length)add(e.target.files)};
+ const dz=$('#drop');dz.ondragover=e=>{e.preventDefault();dz.classList.add('over')};dz.ondragleave=()=>dz.classList.remove('over');dz.ondrop=e=>{e.preventDefault();dz.classList.remove('over');if(e.dataTransfer.files.length)add(e.dataTransfer.files)};
+};
+
+/* ---------- szczegóły obowiązku ---------- */
+function openObl(id){
+ const o=obls().find(x=>x.id===id); if(!o) return; const a=AREAS[o.a]; const ex=EXPERTS[o.own||a.ex]; const n=daysTo(o.due);
+ layer(`<div class="scrim" data-close><aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="dt">
+  <div class="dh"><div style="display:flex;flex-direction:column;gap:8px"><span style="display:flex;gap:8px;flex-wrap:wrap"><span class="tag">${a.n}</span>${pill(o)}</span><h2 id="dt">${esc(o.t)}</h2></div><button class="x" type="button" data-close aria-label="Zamknij">${svg('x','')}</button></div>
+  <dl class="kv"><dt>Termin</dt><dd><b>${fmt(o.due)}</b> · <span class="days ${n<0&&o.st!=='done'?'late':n<=14?'soon':''}">${o.st==='done'?'zrobione':daysTxt(n)}</span></dd><dt>Prowadzi</dt><dd>${o.own?esc(EXPERTS[o.own].n)+' (Octosello)':'Ty'}</dd></dl>
+  <div class="sec"><h3>Status</h3><div class="seg" role="group" aria-label="Status">${Object.entries(STATUS).map(([k,l])=>`<button type="button" data-st="${k}" aria-pressed="${o.st===k}">${l}</button>`).join('')}</div></div>
+  <div class="sec"><h3>Na czym polega</h3><p>${esc(o.d)}</p></div>
+  <div class="sec"><h3>Podstawa</h3><div class="basis">${esc(o.b)}</div></div>
+  <div class="sec"><h3>Kroki · ${o.sd.filter(Boolean).length} z ${o.steps.length}</h3><div class="steps">${o.steps.map((s,i)=>`<label class="${o.sd[i]?'done':''}"><input type="checkbox" data-step="${i}" ${o.sd[i]?'checked':''}><span>${esc(s)}</span></label>`).join('')}</div></div>
+  ${o.docs.length?`<div class="sec"><h3>Dokumenty</h3><div class="steps">${o.docs.map(d=>`<span style="display:flex;gap:10px;align-items:center;background:var(--sunk);border-radius:10px;padding:8px 12px"><span class="fic">${esc(d.split('.').pop().toUpperCase().slice(0,4))}</span>${esc(d)}</span>`).join('')}</div></div>`:''}
+  ${o.st==='waiting'?`<div class="cta-box"><img src="${ex.img}" alt=""><div><b>${esc(ex.n)} czeka na Twoją decyzję</b><small>Po akceptacji ekspert kończy sprawę.</small></div><button class="btn primary" type="button" data-act="approve">Akceptuję</button><button class="btn" type="button" data-act="comment">Mam uwagi</button></div>`:
+   o.own?`<div class="cta-box"><img src="${ex.img}" alt=""><div><b>Prowadzi ${esc(ex.n)}</b><small>${esc(ex.role)} · odpowiedź w 24 h</small></div><button class="btn ghost" type="button" data-act="ask" data-ex="${o.own}">Napisz</button></div>`:
+   `<div class="cta-box"><img src="${ex.img}" alt=""><div><b>Nie chcesz robić tego sam?</b><small>${esc(ex.n)} · ${esc(ex.role)}</small></div><button class="btn primary" type="button" data-act="delegate">Zleć ekspertowi</button></div>`}
+ </aside></div>`);
+ const dr=$('.drawer');
+ dr.querySelectorAll('[data-st]').forEach(b=>b.onclick=()=>{setOv(id,{st:b.dataset.st});refresh();openObl(id);toast('Status: '+STATUS[b.dataset.st])});
+ dr.querySelectorAll('[data-step]').forEach(c=>c.onchange=()=>{const sd=[...o.sd];sd[+c.dataset.step]=c.checked;const all=sd.every(Boolean);setOv(id,{sd,...(all?{st:'done'}:{})});refresh();openObl(id);if(all)toast('Wszystkie kroki zrobione. Obowiązek zamknięty.')});
+ const act=dr.querySelector('[data-act="approve"]'); if(act) act.onclick=()=>{setOv(id,{st:'progress'});S.log.unshift([o.own||a.ex,'Klient zaakceptował: '+o.t,'teraz']);save();refresh();openObl(id);toast('Zaakceptowano. Ekspert kończy sprawę.')};
+ const del=dr.querySelector('[data-act="delegate"]'); if(del) del.onclick=()=>{setOv(id,{own:a.ex,st:'progress'});S.log.unshift([a.ex,'Przyjęto zlecenie: '+o.t,'teraz']);save();refresh();openObl(id);toast(`Zlecono: ${EXPERTS[a.ex].n} odezwie się w ciągu 24 h`)};
+ const cm=dr.querySelector('[data-act="comment"]'); if(cm) cm.onclick=()=>askDlg(o.own||a.ex,'Uwagi: '+o.t);
+ dr.querySelector('.x').focus();
+}
+function refresh(){renderNav();const v=S.view;(V[v]||(AREAS[v]?()=>vArea(v):V.pulpit))()}
+
+/* ---------- okna ---------- */
+function layer(h){$('#layer').innerHTML=h}
+function closeLayer(){$('#layer').innerHTML=''}
+function askDlg(exk,subject){
+ const ex=EXPERTS[exk];
+ layer(`<div class="scrim center" data-close><form class="dlg" id="askf" role="dialog" aria-modal="true" aria-labelledby="at"><div class="dh"><div style="display:flex;gap:12px;align-items:center"><img src="${ex.img}" alt="" style="width:48px;height:48px;border-radius:14px;object-fit:cover;object-position:50% 18%"><div><h2 id="at">Wiadomość do eksperta</h2><span style="color:var(--muted)">${esc(ex.n)} · ${esc(ex.role)}</span></div></div><button class="x" type="button" data-close aria-label="Zamknij">${svg('x','')}</button></div>
+ <div class="form"><label for="as">Temat<input id="as" type="text" value="${esc(subject||'')}"></label><label for="am">Wiadomość<textarea id="am" placeholder="Opisz, w czym pomóc"></textarea></label></div>
+ <div class="dlg-f"><span class="hint">W wersji demo wiadomość nie jest wysyłana.</span><button class="btn primary" type="submit">Wyślij</button></div></form></div>`);
+ $('#askf').onsubmit=e=>{e.preventDefault();closeLayer();toast('Wiadomość zapisana w demo. W aplikacji trafi do eksperta.')};
+ $('#am').focus();
+}
+function orderDlg(i){
+ const s=SERVICES[i];
+ layer(`<div class="scrim center" data-close><form class="dlg" id="ordf" role="dialog" aria-modal="true" aria-labelledby="ot"><div class="dh"><div><span class="label">Zleć sprawę</span><h2 id="ot" style="margin-top:4px">${esc(s[0])}</h2></div><button class="x" type="button" data-close aria-label="Zamknij">${svg('x','')}</button></div>
+ <p style="margin:0;color:var(--muted)">${esc(s[1])} Najpierw dostajesz wycenę, pracę zaczynamy po Twojej akceptacji.</p>
+ <div class="form"><label for="od">Opisz sprawę<textarea id="od" placeholder="Np. umowa z nowym dostawcą lamp z Chin, 12 stron, podpis w przyszłym tygodniu"></textarea></label>
+ <label for="ou">Termin, na kiedy potrzebujesz<select id="ou"><option>Standardowo (${esc(s[2])})</option><option>Pilne, w 24 h</option><option>Bez pośpiechu</option></select></label></div>
+ <div class="dlg-f"><span class="hint">Prowadzi zespół mec. Siwickiej</span><button class="btn primary" type="submit">Poproś o wycenę</button></div></form></div>`);
+ $('#ordf').onsubmit=e=>{e.preventDefault();S.cases.unshift({s:s[0],d:$('#od').value.trim(),w:$('#ou').value});S.log.unshift(['siwicka','Nowa sprawa do wyceny: '+s[0],'teraz']);save();closeLayer();refresh();toast('Sprawa przyjęta. Wycena w ciągu 1 dnia roboczego.')};
+}
+function profileDlg(){
+ const p=S.profile;
+ layer(`<div class="scrim center" data-close><form class="dlg" id="pf" role="dialog" aria-modal="true" aria-labelledby="pt"><div class="dh"><div><span class="label">Profil firmy</span><h2 id="pt" style="margin-top:4px">Co i gdzie sprzedajesz?</h2></div><button class="x" type="button" data-close aria-label="Zamknij">${svg('x','')}</button></div>
+ <p style="margin:0;color:var(--muted)">Na tej podstawie panel dobiera obowiązki. Opakowania wysyłkowe ma każdy sklep, dlatego BDO, PPWR i KOBiZE są zawsze na liście.</p>
+ <div class="form"><label for="pn">Nazwa sklepu<input id="pn" type="text" value="${esc(p.name)}"></label>
+ <fieldset style="border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:8px"><legend class="label" style="margin-bottom:8px">Kategorie produktów</legend><div class="opts">${Object.entries(CATS).map(([k,[n,t]])=>`<label><input type="checkbox" name="cat" value="${k}" ${p.cats[k]?'checked':''}><span>${n}${t?`<small>${t}</small>`:''}</span></label>`).join('')}</div></fieldset>
+ <fieldset style="border:0;padding:0;margin:0"><legend class="label" style="margin-bottom:8px">Rynki poza Polską</legend><div class="chips">${Object.entries(MARKETS).map(([c,n])=>`<label class="chip" style="display:inline-flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" name="mkt" value="${c}" ${p.markets.includes(c)?'checked':''} style="accent-color:var(--mint)">${n}</label>`).join('')}</div></fieldset>
+ <fieldset style="border:0;padding:0;margin:0"><legend class="label" style="margin-bottom:8px">Kanały i narzędzia</legend><div class="opts"><label><input type="checkbox" id="pamz" ${p.ch.amazon?'checked':''}><span>Amazon<small>magazyn FBA, Seller Central</small></span></label><label><input type="checkbox" id="pall" ${p.ch.allegro?'checked':''}><span>Allegro</span></label><label><input type="checkbox" id="pai" ${p.ai?'checked':''}><span>Chatbot lub treści AI<small>AI Act</small></span></label></div></fieldset></div>
+ <div class="dlg-f"><span class="hint" id="pcount"></span><button class="btn primary" type="submit">Zapisz i przelicz obowiązki</button></div></form></div>`);
+ const f=$('#pf');
+ const read=()=>({name:$('#pn').value.trim()||'Twój sklep',cats:Object.fromEntries([...f.querySelectorAll('[name=cat]')].filter(c=>c.checked).map(c=>[c.value,true])),markets:[...f.querySelectorAll('[name=mkt]')].filter(c=>c.checked).map(c=>c.value),ch:{own:true,amazon:$('#pamz').checked,allegro:$('#pall').checked},ai:$('#pai').checked});
+ const upd=()=>{const n=CATALOG.filter(o=>o.when(read())).length;$('#pcount').textContent=`${n} obowiązków dla tego profilu`};
+ f.addEventListener('change',upd);upd();
+ f.onsubmit=e=>{e.preventDefault();const before=obls().length;S.profile=read();
+  S.countries=[{...COUNTRIES0[0]},...S.profile.markets.map(c=>S.countries.find(x=>x.c===c)||COUNTRIES0.find(x=>x.c===c)||{c,n:MARKETS[c],vat:'todo',pack:'todo',weee:S.profile.cats.elec?'todo':'na',lang:'todo',mkt:S.profile.ch.amazon?'todo':'na'})];
+  save();closeLayer();refresh();const d=obls().length-before;toast(d===0?'Profil zapisany. Lista obowiązków bez zmian.':d>0?`Profil zapisany. Doszło ${d} obowiązków.`:`Profil zapisany. Ubyło ${-d} obowiązków.`)};
+}
+
+/* ---------- zdarzenia ---------- */
+document.addEventListener('click',e=>{
+ const t=e.target;
+ if(t.closest('[data-close]')&&(t.matches('[data-close]')||t.closest('button[data-close]'))){closeLayer();return}
+ const g=t.closest('[data-go]'); if(g){closeLayer();go(g.dataset.go);return}
+ const op=t.closest('[data-open]'); if(op){openObl(op.dataset.open);return}
+ const fs=t.closest('[data-fst]'); if(fs){S.f.st=fs.dataset.fst;V.obowiazki();return}
+ const da=t.closest('[data-darea]'); if(da){S.f.darea=da.dataset.darea;V.dokumenty();return}
+ const pt=t.closest('[data-ptab]'); if(pt){S.ptab=pt.dataset.ptab;save();vArea('prawo');return}
+ const cl=t.closest('[data-cal]'); if(cl){const d=+cl.dataset.cal;if(d===0)S.cal=[2026,9];else{let [y,m]=S.cal;m+=d;if(m<0){m=11;y--}if(m>11){m=0;y++}S.cal=[y,m]}V.kalendarz();return}
+ const a=t.closest('[data-act]'); if(!a) return;
+ const k=a.dataset.act;
+ if(k==='profile') profileDlg();
+ if(k==='hide-setup'){S.setupHidden=true;save();V.pulpit()}
+ if(k==='ask') askDlg(a.dataset.ex,'');
+ if(k==='order') orderDlg(+a.dataset.i);
+ if(k==='add-contract') toast('W aplikacji wgrasz umowę, a prawnik wypisze terminy i zobowiązania.');
+ if(k==='reset'){try{localStorage.removeItem('octosello-panel-demo-v1')}catch(e){}S=fresh();refresh();toast('Przywrócono dane przykładowe')}
+});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&$('#layer').innerHTML){closeLayer()}
+ if((e.key==='Enter'||e.key===' ')&&e.target.matches('tr[data-open]')){e.preventDefault();openObl(e.target.dataset.open)}
+});
+document.addEventListener('input',e=>{
+ if(e.target.id==='q'){S.f.q=e.target.value;const pos=e.target.selectionStart;
+  if(S.view==='obowiazki'){$('#otbl').innerHTML=oblTable(filtered());return}
+  if(S.view==='dokumenty'){V.dokumenty();const q=$('#q');q.focus();q.setSelectionRange(pos,pos);return}
+  if(S.f.q.trim()){go('obowiazki');const q=$('#q');q.focus();q.setSelectionRange(pos,pos)}}
+});
+document.addEventListener('change',e=>{
+ if(e.target.id==='addc'&&e.target.value){const c=e.target.value;S.profile.markets.push(c);S.countries.push({c,n:MARKETS[c],vat:'todo',pack:'todo',weee:S.profile.cats.elec?'todo':'na',lang:'todo',mkt:S.profile.ch.amazon?'todo':'na'});S.log.unshift(['grzyw','Analiza wymogów: '+MARKETS[c],'teraz']);save();refresh();toast(`${MARKETS[c]} dodane. Mateusz Grzywnowicz przygotuje listę wymogów.`)}
+});
+
+const h=(location.hash||'').slice(1);
+if(h&&(['pulpit','obowiazki','kalendarz','dokumenty'].includes(h)||AREAS[h]))S.view=h; else S.view='pulpit';
+render();
+</script>
+
+</body>
+</html>

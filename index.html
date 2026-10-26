@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Octosello</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Octosello – kompleksowe wsparcie compliance dla firm e-commerce: środowisko (EUDR, PPWR, EPR, BDO, KOBiZE), prawo e-commerce, sprzedaż cross-border i procesy AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Układ: hero = 4 pionowe panele (wstęp + 3 obszary), niżej sekcje obszarów w układzie ekspert | zakres usług */
+:root{
+  --bg:#F1F2F0; --surface:#FFFFFF; --ink:#14171B; --muted:#59616A; --line:#D3D7D9; --accent:#1E8A62; --mint:#95FFD1; --mint-hover:#6FF0BA; --on-mint:#0B1A14;
+  --hero-ink:#F4F5F3; --hero-bg:#0E1114;
+  --f-display:"Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-body:"Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --gut:max(16px, env(safe-area-inset-left, 0px));
+  --gut-r:max(16px, env(safe-area-inset-right, 0px));
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1215; --surface:#171B1F; --ink:#E7E9EA; --muted:#9AA2AA; --line:#2A3036; --accent:#95FFD1; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1215; --surface:#171B1F; --ink:#E7E9EA; --muted:#9AA2AA; --line:#2A3036; --accent:#95FFD1; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+body{background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.6; margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+.wrap{max-width:1240px; margin:0 auto; padding-left:var(--gut); padding-right:var(--gut-r)}
+h1,h2,h3{font-family:var(--f-display); font-weight:400; text-wrap:balance; margin:0; letter-spacing:-.03em; line-height:1.08}
+h1 em,h2 em,h3 em{font-style:normal}
+.eyebrow{font-family:var(--f-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent)}
+
+/* ---------- Nawigacja ---------- */
+.nav{position:absolute; inset:0 0 auto; z-index:20; color:var(--hero-ink); padding-top:env(safe-area-inset-top,0px)}
+.nav .wrap{display:flex; align-items:center; justify-content:space-between; gap:24px; padding-block:22px; max-width:none; padding-left:max(28px, env(safe-area-inset-left,0px)); padding-right:max(28px, env(safe-area-inset-right,0px))}
+.logo{display:flex; align-items:center; gap:12px; text-decoration:none}
+.logo img{height:40px; width:auto; display:block}
+.logo b{font-family:var(--f-display); font-size:26px; font-weight:500; letter-spacing:.01em}
+.logo small{display:block; font-family:var(--f-mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; opacity:.7}
+.menu{display:flex; align-items:center; gap:30px; font-size:15px}
+.menu a{text-decoration:none; opacity:.88}
+.menu a:hover{opacity:1}
+.btn{display:inline-flex; align-items:center; gap:10px; border-radius:999px; padding:14px 26px; font-weight:600; text-decoration:none; font-size:15px; border:1px solid transparent; cursor:pointer; font-family:var(--f-body)}
+.btn-light,.btn-dark,.btn-line{background:var(--mint); color:var(--on-mint); border-color:var(--mint)}
+.btn-light:hover,.btn-dark:hover,.btn-line:hover{background:var(--mint-hover); border-color:var(--mint-hover); color:var(--on-mint)}
+.btn svg{width:14px; height:14px}
+@media (max-width:980px){.menu a:not(.btn){display:none}}
+
+/* ---------- Hero: 4 panele ---------- */
+.hero{position:relative; display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr 1fr; min-height:max(640px, 94vh); background:var(--hero-bg); color:var(--hero-ink); overflow:hidden}
+.panel{position:relative; display:flex; flex-direction:column; justify-content:flex-end; padding:0 clamp(20px,3vw,44px) clamp(40px,8vh,90px); text-decoration:none; border-left:1px solid rgba(255,255,255,.14); isolation:isolate; min-width:0; overflow:hidden}
+.panel:first-child{border-left:0}
+.panel .bg{position:absolute; inset:0; z-index:-2; filter:grayscale(1) brightness(.62) contrast(1.05); transition:filter .7s ease, transform 1.2s ease}
+.panel::after{content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg, rgba(10,12,15,.55) 0%, rgba(10,12,15,.05) 40%, rgba(10,12,15,.72) 100%)}
+.panel:hover .bg, .panel:focus-visible .bg{filter:grayscale(0) brightness(.9) contrast(1); transform:scale(1.04)}
+.panel h2{font-size:clamp(26px,2.2vw,38px); line-height:1.05; color:rgba(244,245,243,.82); transition:color .4s}
+.panel:hover h2{color:#fff}
+.panel .tags{font-family:var(--f-mono); font-size:12px; letter-spacing:.08em; margin-top:18px; opacity:0; transform:translateY(8px); transition:opacity .45s, transform .45s; line-height:1.9; min-height:calc(1.9em * 4)}
+.panel:hover .tags, .panel:focus-visible .tags{opacity:.92; transform:none}
+.panel .more{display:inline-flex; align-items:center; gap:8px; font-size:14px; margin-top:22px; border-bottom:1px solid rgba(255,255,255,.4); align-self:flex-start; padding-bottom:3px}
+.intro{justify-content:flex-end}
+.intro .bg{background:radial-gradient(120% 70% at 20% 30%, #2a3138 0%, #11151a 60%)}
+.intro h1{font-size:clamp(29px,calc(2.6vw - 1px),43px); line-height:1.06; color:#fff}
+.intro h1 em{font-style:normal; color:#95FFD1}
+.intro p{max-width:36ch; margin:20px 0 0; font-size:14px; line-height:1.6; opacity:.86}
+.intro .eyebrow{color:#95FFD1; margin-bottom:22px; font-size:11px}
+
+/* Tła paneli: kolorowe kompozycje, domyślnie szare */
+.bg-env{background:
+  repeating-radial-gradient(circle at 70% 35%, rgba(255,255,255,.07) 0 1px, transparent 1px 26px),
+  radial-gradient(60% 45% at 70% 35%, #8fbf5a 0%, transparent 70%),
+  radial-gradient(80% 60% at 20% 80%, #1f6b4a 0%, transparent 70%),
+  linear-gradient(160deg, #2e5d3a 0%, #13321f 100%)}
+.bg-law{background:
+  repeating-linear-gradient(90deg, rgba(255,255,255,.07) 0 2px, transparent 2px 46px),
+  radial-gradient(70% 40% at 50% 22%, #d4a75b 0%, transparent 70%),
+  linear-gradient(175deg, #5b1f2a 0%, #24101a 100%)}
+.bg-cb{background:
+  linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px) 0 0/48px 48px,
+  linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px) 0 0/48px 48px,
+  radial-gradient(60% 40% at 40% 30%, #3fa7c9 0%, transparent 70%),
+  linear-gradient(165deg, #1b4f7a 0%, #0c1c33 100%)}
+.bg-ai{background:
+  radial-gradient(circle at 30% 30%, rgba(149,255,209,.25) 0 2px, transparent 3px) 0 0/36px 36px,
+  radial-gradient(60% 45% at 65% 30%, #95FFD1 0%, transparent 70%),
+  linear-gradient(165deg, #1d3b4a 0%, #0b1418 100%)}
+.bg img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 20%}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr; min-height:0}
+  .panel{min-height:300px; border-left:0; border-top:1px solid rgba(255,255,255,.14); padding-bottom:36px}
+  .intro{min-height:min(620px, 88vh); padding-top:120px}
+  .panel .tags{opacity:.9; transform:none; min-height:0}
+}
+@media (hover:none){.panel .bg{filter:grayscale(.35) brightness(.75)}}
+
+/* ---------- Pasek wartości ---------- */
+.strip{border-bottom:1px solid var(--line)}
+.strip .wrap{display:grid; grid-template-columns:1.3fr 2fr; gap:clamp(24px,5vw,80px); padding-block:clamp(56px,8vw,110px)}
+.strip h2{font-size:clamp(30px,3.4vw,48px); line-height:1.1}
+.strip p{margin:0 0 18px; color:var(--muted); max-width:62ch}
+.reg{display:flex; flex-wrap:wrap; gap:8px; margin-top:26px}
+.reg span{font-family:var(--f-mono); font-size:12.5px; border:1px solid var(--line); padding:6px 12px; border-radius:999px; color:var(--ink)}
+@media (max-width:820px){.strip .wrap{grid-template-columns:1fr}}
+
+/* ---------- Sekcje obszarów ---------- */
+.area{border-bottom:1px solid var(--line); scroll-margin-top:20px}
+.area .wrap{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:clamp(28px,6vw,96px); padding-block:clamp(64px,9vw,128px)}
+.area.flip .expert{order:2}
+.area-head{display:flex; flex-direction:column; gap:16px; margin-bottom:40px}
+.area-head h2{font-size:clamp(36px,4.2vw,60px); line-height:1.02}
+.area-head p{margin:0; color:var(--muted); max-width:58ch}
+.svc{list-style:none; margin:0; padding:0; border-top:1px solid var(--line)}
+.svc li{display:grid; grid-template-columns:minmax(120px,190px) minmax(0,1fr); gap:20px; padding:20px 0; border-bottom:1px solid var(--line); transition:background .3s}
+.svc li:hover{background:linear-gradient(90deg, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%)}
+.svc b{font-family:var(--f-display); font-weight:600; font-size:21px; line-height:1.2}
+.svc span{color:var(--muted); font-size:16px}
+@media (max-width:560px){.svc li{grid-template-columns:1fr; gap:4px}}
+.links{display:flex; flex-wrap:wrap; gap:12px; margin-top:32px}
+.svc b a{text-decoration:none; background-image:linear-gradient(currentColor,currentColor); background-size:0 1px; background-position:0 100%; background-repeat:no-repeat; transition:background-size .3s}
+.svc li:hover b a{background-size:100% 1px}
+
+.expert{position:relative; align-self:start; position:sticky; top:24px}
+.photo{position:relative; aspect-ratio:4/5; width:100%; max-width:100%; overflow:hidden; background:var(--line); border-radius:22px}
+.photo img{width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(1) contrast(1.05); transition:filter .7s ease, transform 1.2s ease}
+.expert:hover .photo img{filter:grayscale(0) contrast(1); transform:scale(1.03)}
+@media (hover:none){.photo img{filter:grayscale(.2)}}
+.expert{width:100%; max-width:440px}
+.cap{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; padding-top:18px; border-top:1px solid var(--ink); margin-top:18px}
+.cap h3{font-size:26px; line-height:1.15}
+.cap p{margin:4px 0 0; color:var(--muted); font-size:15px}
+.cap .eyebrow{white-space:nowrap}
+@media (max-width:860px){
+  .area .wrap{grid-template-columns:1fr}
+  .area.flip .expert{order:0}
+  .expert{position:relative; top:0; max-width:420px}
+}
+
+
+/* ---------- Karty obszarów ---------- */
+.areas{border-bottom:1px solid var(--line)}
+.areas .wrap{padding-block:clamp(72px,11vw,150px)}
+.areas-head{display:grid; gap:28px; margin-bottom:clamp(40px,6vw,72px); max-width:1100px}
+.areas-head h2{font-size:clamp(34px,4.2vw,64px); line-height:1.05; margin-top:18px; letter-spacing:-.02em}
+.areas-head h2 em{font-style:normal; color:inherit; padding:0 .06em; background:linear-gradient(transparent 38%, var(--mint) 38%, var(--mint) 74%, transparent 74%); -webkit-box-decoration-break:clone; box-decoration-break:clone}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .areas-head h2 em{background:none; color:var(--mint)}}
+:root[data-theme="dark"] .areas-head h2 em{background:none; color:var(--mint)}
+.areas-head p{margin:0; color:var(--muted); font-size:clamp(19px,1.7vw,24px); line-height:1.5; max-width:46ch}
+.cards{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px}
+.card{position:relative; display:flex; flex-direction:column; gap:18px; min-height:300px; padding:30px 28px 84px; background:var(--surface); border-radius:18px; text-decoration:none; transition:background .35s, transform .35s}
+.card h3{font-size:26px; line-height:1.15; font-weight:600}
+.card p{margin:0; color:var(--muted); font-size:15.5px}
+.card .arrow{position:absolute; right:24px; bottom:24px; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; background:color-mix(in srgb, var(--mint) 45%, var(--surface)); color:var(--on-mint); transition:background .35s, transform .35s}
+.card .arrow svg{width:15px; height:15px}
+.card:hover, .card:focus-visible{background:color-mix(in srgb, var(--mint) 30%, var(--surface))}
+.card:hover .arrow{background:var(--surface); transform:rotate(45deg)}
+@media (max-width:1080px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.cards{grid-template-columns:1fr} .card{min-height:0}}
+
+/* ---------- Eksperci ---------- */
+.team{border-bottom:1px solid var(--line)}
+.team .wrap{padding-block:clamp(56px,8vw,100px)}
+.team h2{font-size:clamp(30px,3.4vw,48px); line-height:1.1; margin:14px 0 40px}
+.members{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:clamp(16px,2.4vw,32px)}
+.member{display:flex; flex-direction:column; gap:6px; text-decoration:none}
+.member .photo{margin-bottom:14px}
+.member:hover .photo img{filter:grayscale(0) contrast(1); transform:scale(1.03)}
+.member h3{font-size:24px; line-height:1.15}
+.member p{margin:0; color:var(--muted); font-size:15px}
+@media (max-width:960px){.members{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* ---------- Zaufali nam ---------- */
+.trust{border-bottom:1px solid var(--line); padding-block:clamp(56px,8vw,96px); overflow:hidden}
+.trust h2{font-size:clamp(28px,3vw,42px); line-height:1.1; margin:14px 0 40px}
+.marquee{display:flex; gap:0; overflow:hidden; mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)}
+.track{display:flex; flex:none; gap:16px; padding:0 8px; margin:0; list-style:none; animation:scroll 48s linear infinite}
+.marquee:hover .track{animation-play-state:paused}
+@keyframes scroll{to{transform:translateX(-100%)}}
+.logo-item{flex:none; display:flex; align-items:center; justify-content:center; gap:10px; width:200px; height:96px; border:1px solid var(--line); border-radius:16px; background:var(--surface); font-size:22px; font-weight:600; color:var(--muted); filter:grayscale(1); opacity:.75; transition:opacity .3s, filter .3s, color .3s}
+.logo-item:hover{opacity:1; filter:none; color:var(--ink)}
+.lg{display:inline-block; width:22px; height:22px; flex:none; background:var(--accent)}
+.lg.sq{border-radius:5px}
+.lg.circ{border-radius:50%}
+.lg.dot{width:12px; height:12px; border-radius:50%}
+.lg.leaf{border-radius:0 60% 0 60%}
+.lg.tri{clip-path:polygon(50% 0,100% 100%,0 100%)}
+@media (prefers-reduced-motion: reduce){.marquee{flex-wrap:wrap; mask-image:none; -webkit-mask-image:none} .track{flex-wrap:wrap; justify-content:center; padding-left:var(--gut)} .track[aria-hidden]{display:none}}
+
+
+/* ---------- Liczby ---------- */
+.stats{background:var(--hero-bg); color:var(--hero-ink)}
+.stats .wrap{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); padding-block:clamp(48px,6vw,80px)}
+.stat{display:flex; flex-direction:column; gap:10px; padding:4px clamp(16px,2.4vw,36px)}
+.stat:first-child{padding-left:0}
+.stat + .stat{border-left:1px solid #2a3036}
+.stat .eyebrow{color:var(--mint)}
+.stat b{font-family:var(--f-display); font-weight:500; font-size:clamp(52px,6vw,88px); line-height:1; font-variant-numeric:tabular-nums}
+.stat b[data-todo]{color:#5c656d}
+.stat p{margin:0; color:#AEB5BC; font-size:15.5px; max-width:24ch}
+@media (max-width:860px){.stats .wrap{grid-template-columns:repeat(2,minmax(0,1fr)); row-gap:36px} .stat:nth-child(3){padding-left:0; border-left:0}}
+@media (max-width:460px){.stats .wrap{grid-template-columns:1fr} .stat{padding-left:0} .stat + .stat{border-left:0; border-top:1px solid #2a3036; padding-top:28px}}
+
+/* ---------- Proces ---------- */
+.process .wrap{padding-block:clamp(64px,9vw,120px)}
+.process h2{font-size:clamp(32px,3.6vw,50px); margin:14px 0 48px; max-width:20ch}
+.steps{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0; border-top:1px solid var(--ink)}
+.steps div{padding:26px 26px 6px 0}
+.steps div + div{padding-left:26px; border-left:1px solid var(--line)}
+.steps i{font-family:var(--f-mono); font-style:normal; font-size:12px; color:var(--accent); letter-spacing:.1em}
+.steps b{display:block; font-family:var(--f-display); font-size:24px; font-weight:500; margin:10px 0 8px}
+.steps p{margin:0; color:var(--muted); font-size:15.5px}
+@media (max-width:860px){.steps{grid-template-columns:1fr 1fr} .steps div:nth-child(3){padding-left:0; border-left:0}}
+@media (max-width:520px){.steps{grid-template-columns:1fr} .steps div + div{padding-left:0; border-left:0; border-top:1px solid var(--line)}}
+
+
+
+/* ---------- Jeden punkt styku (orbita) ---------- */
+.orbit-sec{background:#07090b; color:#F4F5F3; overflow:hidden; background-image:radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size:22px 22px}
+.orbit-sec .wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:clamp(28px,5vw,72px); align-items:center; padding-block:clamp(64px,9vw,120px)}
+.orbit{position:relative; width:100%; max-width:600px; aspect-ratio:1; margin:0 auto}
+.olines{position:absolute; inset:0; width:100%; height:100%; overflow:visible}
+.oline{stroke:rgba(149,255,209,.25); stroke-width:1.2; stroke-dasharray:3 5; vector-effect:non-scaling-stroke; transition:stroke .3s}
+.oline.on{stroke:var(--mint); stroke-width:2; stroke-dasharray:none; filter:drop-shadow(0 0 4px var(--mint))}
+.core{position:absolute; left:50%; top:50%; width:40%; aspect-ratio:1; translate:-50% -50%; display:grid; place-items:center}
+.glass{width:100%; height:100%; border-radius:26%; background:linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.02) 45%, rgba(149,255,209,.10)); border:1.5px solid rgba(255,255,255,.35); box-shadow:0 0 60px rgba(149,255,209,.35), inset 0 0 40px rgba(149,255,209,.25), inset 0 2px 0 rgba(255,255,255,.4); display:grid; place-items:center; backdrop-filter:blur(4px)}
+.brain{width:78%; height:auto; overflow:visible; filter:drop-shadow(0 0 18px rgba(149,255,209,.55)); animation:pulse 3.6s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.04); filter:drop-shadow(0 0 30px rgba(149,255,209,.8))}}
+.core-lab{position:absolute; bottom:-14%; display:inline-flex; align-items:center; gap:8px; white-space:nowrap; font-weight:600; font-size:14px; padding:7px 14px; border-radius:999px; background:#0f1417; border:1px solid rgba(149,255,209,.45)}
+.core-lab i{width:8px; height:8px; border-radius:2px; background:var(--mint)}
+.otile{position:absolute; translate:-50% -50%; display:flex; flex-direction:column; align-items:center; gap:8px; background:none; border:0; padding:0; cursor:pointer; color:#E7EAEC; font:500 clamp(11px,1.1vw,14px)/1.2 var(--f-body); width:clamp(64px,9vw,110px); text-align:center}
+.cube{display:grid; place-items:center; width:clamp(44px,5.4vw,72px); aspect-ratio:1; border-radius:24%; color:#0B1A14; background:linear-gradient(160deg, #c9ffe6 0%, var(--mint) 40%, #4fd9a2 100%); box-shadow:inset 0 2px 0 rgba(255,255,255,.7), inset 0 -5px 0 rgba(0,0,0,.18), 0 8px 18px rgba(0,0,0,.5); transition:transform .25s, box-shadow .25s}
+.cube svg{width:48%; height:48%}
+.otile.you .cube{background:linear-gradient(160deg, #ffffff, #dfe3e6); color:#14171B}
+.otile:hover .cube,.otile:focus-visible .cube{transform:translateY(-3px)}
+.otile.on .cube{box-shadow:inset 0 2px 0 rgba(255,255,255,.7), inset 0 -5px 0 rgba(0,0,0,.18), 0 0 0 2px #07090b, 0 0 0 4px var(--mint), 0 0 28px rgba(149,255,209,.7)}
+.otile.on .olab{color:#fff; font-weight:700}
+.orbit-copy .eyebrow{color:var(--mint)}
+.orbit-copy h2{font-size:clamp(30px,2.8vw,42px); line-height:1.08; margin:12px 0 14px; color:#fff}
+.orbit-copy h2 em{color:var(--mint)}
+.orbit-copy .lead{font-size:16px; color:#AEB5BC; margin:0 0 20px; max-width:48ch}
+.orbit-copy .lead b{color:#fff; font-weight:600}
+.ocard{background:linear-gradient(180deg,#14191d,#0d1114); border:1px solid #2a3036; border-radius:22px; padding:clamp(18px,2vw,26px)}
+.ocard-top{display:flex; align-items:center; gap:14px; margin-bottom:12px}
+.cube.sm{width:48px; flex:none}
+.ocard-meta{font-size:13.5px; color:#8E969E}
+.ocard h3{font-family:var(--f-display); font-size:clamp(22px,2vw,28px); font-weight:500; color:#fff; margin-top:4px}
+.ocard p{margin:0 0 12px; color:#D3D8DC; font-size:15.5px}
+.ocard ul{list-style:none; margin:0 0 12px; padding:0; display:grid; gap:6px; font-size:15px}
+.ocard li{position:relative; padding-left:22px; color:#C9CED3}
+.ocard li::before{content:""; position:absolute; left:0; top:.55em; width:9px; height:9px; border-radius:2px; background:var(--mint)}
+.ocard .ocard-you{color:#AEB5BC; font-size:14.5px}
+.ocard-you b{color:var(--mint)}
+.ocard-foot{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; border-top:1px solid #2a3036; padding-top:14px}
+.ocard-foot .btn{padding:11px 20px}
+.oc-exp{display:flex; align-items:center; gap:10px; font-size:14.5px; color:#C9CED3}
+.oc-exp img{width:40px; height:40px; border-radius:50%; object-fit:cover; object-position:50% 20%; border:2px solid var(--mint)}
+.oc-exp img[src=""]{display:none}
+@media (max-width:980px){.orbit-sec .wrap{grid-template-columns:1fr} .orbit{max-width:520px}}
+@media (max-width:520px){.otile .olab{font-size:10.5px} .core-lab{font-size:12px}}
+@media (prefers-reduced-motion: reduce){.brain{animation:none}}
+
+
+/* ---------- Aplikacja (panel w stylu SaaS) ---------- */
+.app-eb{display:flex; align-items:center; gap:12px}
+.free-pill{font:600 12px var(--f-body); letter-spacing:.02em; padding:5px 12px; border-radius:999px; background:var(--mint); color:var(--on-mint)}
+.app{border-bottom:1px solid var(--line)}
+.app .wrap{padding-block:clamp(64px,9vw,120px)}
+.app-top{display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:clamp(24px,5vw,80px); align-items:end; margin-bottom:clamp(32px,4vw,52px)}
+.app h2{font-size:clamp(32px,3.6vw,52px); line-height:1.06; margin:14px 0 16px}
+.app-top p{color:var(--muted); margin:0; max-width:52ch}
+.app-feat{list-style:none; margin:0 0 24px; padding:0; display:grid; gap:12px}
+.app-feat li{display:flex; gap:12px; align-items:flex-start}
+.app-feat svg{width:20px; height:20px; flex:none; margin-top:3px}
+.app-feat span{color:var(--muted)} .app-feat b{color:var(--ink); font-weight:600}
+@media (max-width:900px){.app-top{grid-template-columns:1fr}}
+
+/* stała, jasna kolorystyka makiety (wygląda jak aplikacja niezależnie od motywu) */
+.ap{--a-bg:#F3F2EE; --a-card:#FBFAF7; --a-ink:#121518; --a-mut:#6B7178; --a-line:#E4E2DC; --a-side:#141719;
+  margin:0; display:grid; grid-template-columns:270px minmax(0,1fr); gap:18px; padding:18px; border-radius:28px; background:var(--a-bg); color:var(--a-ink);
+  box-shadow:0 50px 90px -50px rgba(10,20,30,.55), 0 0 0 1px var(--a-line); font-family:var(--f-body)}
+.ap-side{background:var(--a-side); color:#E7EAEC; border-radius:24px; padding:20px 14px; display:flex; flex-direction:column; gap:4px}
+.ap-brand{display:flex; justify-content:space-between; align-items:center; padding:0 8px 16px}
+.ap-brand img{height:26px; width:auto}
+.ap-brand span{font-size:12px; border:1px solid #33393f; border-radius:999px; padding:4px 10px; color:#AEB5BC}
+.ap-shop{display:flex; align-items:center; gap:12px; padding:12px; border:1px solid #2a3036; border-radius:16px; background:#1b1f22; margin-bottom:14px}
+.ap-shopi{width:34px; height:34px; border-radius:10px; flex:none; background:linear-gradient(160deg,#c9ffe6,var(--mint) 45%,#4fd9a2); box-shadow:inset 0 -3px 0 rgba(0,0,0,.2)}
+.ap-shop b{display:block; font-size:14.5px}
+.ap-shop small{display:flex; align-items:center; gap:6px; font-size:12px; color:#AEB5BC}
+.ap-shop small i{width:7px; height:7px; background:var(--mint); border-radius:1px}
+.ap-shop .c{margin-left:auto}
+.ap-side .i{width:18px; height:18px; flex:none}
+.ap-side .c{width:14px; height:14px; color:#7d858c}
+.ap-nav{display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; font-size:14.5px; font-weight:600}
+.ap-nav span{flex:1}
+.ap-nav .c.up{transform:rotate(180deg)}
+.ap-sub{padding:8px 12px 8px 42px; font-size:13.5px; color:#AEB5BC; border-radius:12px; display:flex; align-items:center; gap:10px}
+.ap-sub.on{background:#262b2f; color:#fff; font-weight:600; padding-left:14px}
+.ap-sub.on i{width:7px; height:7px; background:var(--mint); border-radius:1px; margin-right:14px}
+.badge{font-style:normal; font-size:11px; font-weight:700; min-width:20px; height:20px; display:inline-grid; place-items:center; border-radius:50%; background:rgba(149,255,209,.18); color:var(--mint); border:1px solid rgba(149,255,209,.5)}
+.ap-main{padding:6px 6px 6px 10px; display:grid; gap:14px; align-content:start; min-width:0}
+.ap-top{display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap}
+.ap-search{display:flex; align-items:center; gap:10px; background:var(--a-card); border:1px solid var(--a-line); border-radius:999px; padding:8px 10px 8px 16px; font-size:14px; color:var(--a-mut); min-width:min(320px,100%)}
+.ap-search .i{width:16px; height:16px}
+.ap-search kbd{margin-left:auto; font:500 11px var(--f-body); border:1px solid var(--a-line); border-radius:6px; padding:2px 6px; background:#fff}
+.ap-help{display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; background:var(--a-card); border:1px solid var(--a-line); border-radius:999px; padding:6px 16px 6px 6px}
+.ap-av{width:26px; height:26px; border-radius:8px; background:var(--a-side); box-shadow:inset -6px -6px 0 -3px var(--mint)}
+.ap-date{color:var(--a-mut); font-size:14px; margin-top:6px}
+.ap-hello{font-family:var(--f-body); font-size:clamp(28px,3vw,40px); font-weight:400; letter-spacing:-.03em; line-height:1.05}
+.ap-hello b{font-weight:700}
+.ap-status{display:flex; align-items:center; gap:8px; margin:-6px 0 4px; color:#3d4248; font-size:15px}
+.ap-status i,.ap-card h4 i,.ap-kpis a i{width:9px; height:9px; border-radius:2px; background:#E0B341; flex:none}
+.ap-kpis a i.g,.ap-card h4 i.g{background:#2f9a63} .ap-kpis a i.y,.ap-card h4 i.y{background:#E0B341}
+.ap-kpis{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
+.ap-kpis > div{background:var(--a-card); border:1px solid var(--a-line); border-radius:20px; padding:16px 18px; display:flex; flex-direction:column; gap:2px}
+.ap-kpis small{font-size:13px; color:var(--a-mut); font-weight:600}
+.ap-kpis b{font-size:34px; font-weight:700; letter-spacing:-.02em; line-height:1.1; font-variant-numeric:tabular-nums}
+.ap-kpis span{font-size:13.5px; color:#3d4248; padding-bottom:10px; border-bottom:1px solid var(--a-line); margin-bottom:8px}
+.ap-kpis a{display:flex; align-items:center; gap:8px; font-size:13.5px; text-decoration:underline; text-underline-offset:3px}
+.ap-row{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:12px}
+.ap-card{background:var(--a-card); border:1px solid var(--a-line); border-radius:20px; padding:18px 20px}
+.ap-card h4{display:flex; align-items:center; gap:10px; font-size:19px; font-weight:700; letter-spacing:-.01em; margin:0}
+.ap-card h4 .badge{background:#FBF1D6; color:#8a6a10; border-color:#E0B341}
+.ap-sub2{margin:4px 0 12px 19px; font-size:13.5px; color:var(--a-mut)}
+.ap-item{display:flex; align-items:center; gap:12px; padding:10px 0; border-top:1px solid var(--a-line)}
+.ap-ico{width:40px; height:40px; flex:none; border-radius:12px; display:grid; place-items:center; color:#0B1A14; background:linear-gradient(160deg,#c9ffe6,var(--mint) 45%,#4fd9a2); box-shadow:inset 0 -3px 0 rgba(0,0,0,.15)}
+.ap-ico .i{width:20px; height:20px}
+.ap-item div{flex:1; min-width:0}
+.ap-item small{display:block; font-size:12px; color:var(--a-mut); font-weight:600}
+.ap-item b{display:block; font-size:14.5px}
+.ap-item span{font-size:12.5px; color:var(--a-mut)}
+.ap-item button{font:600 13px var(--f-body); border:1px solid var(--a-line); background:#fff; color:var(--a-ink); border-radius:999px; padding:8px 14px; cursor:default}
+.ap-log{list-style:none; margin:0; padding:0}
+.ap-log li{display:flex; align-items:center; gap:12px; padding:9px 0; border-top:1px solid var(--a-line)}
+.ap-log img{width:34px; height:34px; border-radius:50%; object-fit:cover; object-position:50% 20%; flex:none}
+.ap-log b{display:block; font-size:14px}
+.ap-log span{font-size:12.5px; color:var(--a-mut)}
+.ap-mods{display:grid; gap:10px}
+.ap-modh{display:flex; justify-content:space-between; align-items:center; gap:10px}
+.ap-modh b{font-size:19px; letter-spacing:-.01em}
+.ap-modh span{display:flex; align-items:center; gap:6px; font-size:12.5px; color:var(--a-mut)}
+.ap-modh i{width:10px; height:10px; border-radius:2px; border:1px solid #b9bcbf; margin-left:8px}
+.ap-modh i.on{background:var(--accent); border-color:var(--accent)}
+.ap-modl{display:flex; flex-wrap:wrap; gap:8px}
+.mod{display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:600; padding:7px 12px; border-radius:10px; background:var(--a-card); border:1px solid var(--a-line); color:var(--a-mut)}
+.mod i{width:8px; height:8px; border-radius:2px; border:1px solid #b9bcbf}
+.mod.on{color:var(--a-ink)} .mod.on i{background:#2f9a63; border-color:#2f9a63}
+.ap-note{margin:14px 0 0; font-size:13px; color:var(--muted); text-align:center}
+@media (max-width:1080px){.ap{grid-template-columns:220px minmax(0,1fr)}}
+@media (max-width:820px){.ap{grid-template-columns:1fr; padding:12px; border-radius:22px} .ap-side{display:none} .ap-row{grid-template-columns:1fr}}
+@media (max-width:560px){.ap-kpis{gap:8px} .ap-kpis > div{padding:12px; border-radius:16px} .ap-kpis small{font-size:11.5px} .ap-kpis b{font-size:24px} .ap-kpis span{font-size:11.5px; border:0; padding:0; margin:0} .ap-kpis a{display:none} .ap-top{justify-content:stretch} .ap-help{display:none} .ap-item div span{display:none}}
+
+/* ---------- FAQ ---------- */
+.faq{border-bottom:1px solid var(--line)}
+.faq .wrap{display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:clamp(28px,6vw,96px); padding-block:clamp(56px,8vw,110px)}
+.faq-head{align-self:start; position:sticky; top:24px; display:flex; flex-direction:column; align-items:flex-start; gap:14px}
+.faq-head h2{font-size:clamp(34px,4vw,56px); line-height:1.05}
+.faq-head p{margin:0 0 8px; color:var(--muted); max-width:36ch}
+.faq-list{border-top:1px solid var(--line)}
+.qa{border-bottom:1px solid var(--line)}
+.qa summary{list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:20px; padding:22px 0; font-family:var(--f-display); font-size:clamp(19px,1.6vw,23px); font-weight:500; line-height:1.3}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary:hover{color:var(--accent)}
+.pm{position:relative; flex:none; width:36px; height:36px; border-radius:50%; background:var(--mint); transition:transform .3s}
+.pm::before,.pm::after{content:""; position:absolute; left:50%; top:50%; width:12px; height:1.6px; background:var(--on-mint); translate:-50% -50%}
+.pm::after{rotate:90deg; transition:rotate .3s}
+.qa[open] .pm::after{rotate:0deg}
+.qa p{margin:0 0 24px; color:var(--muted); max-width:62ch; padding-right:56px}
+@media (max-width:860px){.faq .wrap{grid-template-columns:1fr} .faq-head{position:static} .qa p{padding-right:0}}
+
+/* ---------- Kontakt ---------- */
+.contact{background:var(--hero-bg); color:var(--hero-ink)}
+.contact .wrap{display:grid; grid-template-columns:1fr 1fr; gap:clamp(28px,6vw,96px); padding-block:clamp(64px,9vw,120px)}
+.contact h2{font-size:clamp(36px,4.4vw,64px); line-height:1.02}
+.contact h2 em{color:#95FFD1}
+.contact p{color:#AEB5BC; max-width:44ch}
+.contact .eyebrow{color:#95FFD1}
+form{display:grid; gap:16px}
+label{display:grid; gap:6px; font-size:13px; font-family:var(--f-mono); letter-spacing:.08em; text-transform:uppercase; color:#AEB5BC}
+input,select,textarea{font:inherit; font-family:var(--f-body); font-size:16px; text-transform:none; letter-spacing:0; color:#F4F5F3; background:transparent; border:0; border-bottom:1px solid #3a4148; padding:10px 0; border-radius:0}
+select option{color:#14171B}
+input:focus,select:focus,textarea:focus{outline:none; border-bottom-color:#95FFD1}
+textarea{min-height:96px; resize:vertical}
+.form-note{font-size:14px; color:#95FFD1; min-height:1.4em; margin:0}
+@media (max-width:820px){.contact .wrap{grid-template-columns:1fr}}
+
+footer{background:var(--hero-bg); color:#8E969E; border-top:1px solid #23292f; font-size:14.5px}
+footer a{color:#C9CED3; text-decoration:none}
+footer a:hover{color:var(--mint)}
+.foot-grid{display:grid; grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr)); gap:clamp(28px,4vw,56px); padding-block:clamp(56px,7vw,88px) 40px}
+.foot-brand img{height:32px; width:auto}
+.foot-brand p{margin:18px 0 24px; max-width:34ch; line-height:1.6}
+.foot-col{display:flex; flex-direction:column; gap:10px; font-style:normal; line-height:1.5}
+.foot-col h4{margin:0 0 6px; font:500 11px var(--f-mono); letter-spacing:.14em; text-transform:uppercase; color:var(--mint)}
+.foot-col b{color:#F4F5F3; font-weight:600}
+.foot-bottom{display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; padding-block:22px; border-top:1px solid #23292f; font-size:13px}
+@media (max-width:900px){.foot-grid{grid-template-columns:1fr 1fr} .foot-brand{grid-column:1/-1}}
+@media (max-width:520px){.foot-grid{grid-template-columns:1fr}}
+
+/* =========================================================
+   Motyw 2026-10: ciemny, Geist, pływające menu, odtwarzacz demo
+   ========================================================= */
+:root,:root[data-theme="dark"],:root[data-theme="light"]{
+  --bg:#0A0A0B; --surface:#141416; --surface-2:#1B1B1E; --ink:#F2F0EA; --muted:#A3A09A; --line:#26262A; --accent:#95FFD1;
+  --hero-ink:#F2F0EA; --hero-bg:#0A0A0B; --ring:inset 0 1px 0 rgba(255,254,251,.08), inset 0 0 0 1px rgba(255,254,251,.07);
+  --f-display:"Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-body:"Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono:"Geist Mono", ui-monospace, Menlo, monospace;
+  color-scheme:dark}
+body{background:var(--bg); font-size:16.5px; position:relative; overflow-x:clip}
+.page-glow{position:absolute; left:50%; top:-280px; transform:translateX(-50%); width:min(1100px,100%); height:900px; background:radial-gradient(closest-side, rgba(149,255,209,.20), rgba(149,255,209,.05) 55%, transparent 75%); pointer-events:none; z-index:0}
+h1,h2,h3{font-weight:300; letter-spacing:-.038em; line-height:1.05}
+h1 em,h2 em,h3 em,h1 b,h2 b{font-weight:700; color:var(--mint); font-style:normal}
+.eyebrow{font-size:12px; letter-spacing:.06em; color:var(--mint)}
+.btn{font-weight:700; padding:13px 22px; box-shadow:inset 0 1px 0 rgba(255,254,251,.45), inset 0 -2px 0 rgba(10,10,11,.12), 0 14px 30px -14px rgba(149,255,209,.65)}
+.btn-ghost{background:transparent; color:var(--ink); border:0; box-shadow:inset 0 1px 0 rgba(255,254,251,.14), inset 0 0 0 1px rgba(255,254,251,.12)}
+.btn-ghost:hover{box-shadow:inset 0 0 0 1px var(--mint); color:var(--mint)}
+
+/* menu: pływająca pigułka */
+.nav,.subnav{position:sticky; top:0; inset:auto; z-index:30; background:none; color:var(--ink); padding:12px var(--gut) 0}
+.nav .wrap,.subnav .wrap{max-width:1180px; margin:0 auto; padding:8px 8px 8px 20px; display:flex; align-items:center; gap:22px; border-radius:999px; background:rgba(10,10,11,.72); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); box-shadow:var(--ring)}
+.logo img{height:28px}
+.menu{flex:1; gap:20px; font-size:14px; justify-content:flex-end}
+.menu a{color:#BDBAB2; opacity:1}
+.menu a:hover,.subnav .menu a[aria-current="page"]{color:var(--ink); border-bottom:0}
+.menu .btn{color:var(--on-mint); padding:10px 18px; font-size:14px; box-shadow:none}
+.menu .live{display:inline-flex; align-items:center; gap:7px; color:var(--ink)}
+.ldot{width:7px; height:7px; border-radius:50%; background:var(--mint); animation:pulse 1.6s infinite; flex:none}
+@keyframes pulse{50%{opacity:.35}}
+@keyframes rise{from{transform:translateY(14px); opacity:0}to{transform:none; opacity:1}}
+@media (max-width:980px){.menu a:not(.btn):not(.live){display:none}}
+@media (max-width:520px){.menu .live{display:none} .nav .wrap,.subnav .wrap{padding-left:16px}}
+
+/* hero + odtwarzacz */
+.hero2{position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:56px var(--gut) 24px; display:flex; flex-direction:column; align-items:center; gap:26px; text-align:center}
+.hero2 .eyebrow{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; box-shadow:var(--ring); color:#BDBAB2}
+.hero2 h1{font-size:clamp(34px,4.4vw,58px); max-width:920px; text-wrap:balance}
+.hero2 .lead{margin:-6px 0 0; max-width:640px; color:var(--muted); font-size:clamp(15px,1.3vw,17px)}
+.player{width:100%; max-width:980px; border-radius:26px; padding:10px; background:linear-gradient(180deg,#1B1B1E,#111113); box-shadow:inset 0 1px 0 rgba(255,254,251,.10), inset 0 0 0 1px rgba(255,254,251,.07), 0 40px 80px -40px rgba(149,255,209,.35); text-align:left}
+.screen{position:relative; border-radius:18px; overflow:hidden; aspect-ratio:16/9; background:#0E0E10; background-image:linear-gradient(rgba(255,254,251,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,254,251,.035) 1px, transparent 1px); background-size:40px 40px}
+.scr-logo{position:absolute; top:16px; left:20px; height:18px; width:auto}
+.scr-chap{position:absolute; top:16px; right:20px; font:500 12px var(--f-mono); color:#8E8C86}
+.scene{position:absolute; inset:52px 6% 76px; display:none; gap:6%; align-items:center; justify-content:center}
+.scene.on{display:flex; animation:rise .5s ease}
+.scene .say{flex:0 1 40%; display:flex; flex-direction:column; gap:10px}
+.scene .say span{font:500 12px var(--f-mono); color:var(--mint)}
+.scene .say div{font-size:clamp(17px,2.5vw,33px); font-weight:300; letter-spacing:-.035em; line-height:1.1}
+.scene .say b{font-weight:700; color:var(--mint)}
+.mock{flex:0 1 44%; display:flex; flex-direction:column; gap:8px; font-size:clamp(10px,1.25vw,14px)}
+.row{display:flex; justify-content:space-between; align-items:center; gap:10px; background:#17171A; border-radius:12px; padding:9px 12px; box-shadow:inset 0 0 0 1px rgba(255,254,251,.07)}
+.row small{color:#8E8C86; font-size:.86em}
+.row .ok{color:var(--mint)} .row .wait{color:#F2B25C} .row .q{color:#BDBAB2}
+.row.hl{background:rgba(149,255,209,.10); box-shadow:inset 0 0 0 1px rgba(149,255,209,.45)}
+.paper{background:#F2F0EA; color:#0A0A0B; border-radius:16px; padding:14px 16px; line-height:1.5}
+.paper s{color:#9a5a50}
+.paper mark{background:#95FFD1; color:#0A0A0B; padding:0 .15em}
+.paper .bdg{display:inline-flex; align-items:center; gap:6px; margin-top:8px; font:600 .85em var(--f-body); color:#0B1A14; background:#95FFD1; border-radius:999px; padding:3px 10px}
+.pchips{display:flex; flex-wrap:wrap; gap:6px}
+.pchip{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:#17171A; box-shadow:inset 0 0 0 1px rgba(255,254,251,.08)}
+.pchip i{width:7px; height:7px; border-radius:50%; background:var(--mint)} .pchip i.w{background:#F2B25C}
+.bar{height:8px; border-radius:99px; background:#26262A; overflow:hidden} .bar i{display:block; height:100%; background:var(--mint); border-radius:99px}
+.big-cta{display:inline-block; align-self:center; background:var(--mint); color:var(--on-mint); border-radius:999px; padding:10px 20px; font-weight:700}
+.subt{position:absolute; left:50%; bottom:52px; transform:translateX(-50%); max-width:86%; text-align:center; font-size:clamp(10.5px,1.2vw,13.5px); background:rgba(10,10,11,.75); border-radius:8px; padding:4px 10px}
+.ctrl{position:absolute; left:12px; right:12px; bottom:10px; display:flex; align-items:center; gap:12px}
+.ctrl .pp{flex:none; width:36px; height:36px; border-radius:999px; border:0; cursor:pointer; display:grid; place-items:center; color:var(--ink); background:rgba(10,10,11,.6); box-shadow:inset 0 1px 0 rgba(255,254,251,.22), inset 0 0 0 1px rgba(255,254,251,.08)}
+.ctrl .pp svg{width:14px; height:14px}
+.ctrl time{font:500 12px var(--f-mono); color:#BDBAB2; white-space:nowrap}
+.chaps{flex:1; display:flex; gap:4px}
+.chaps button{flex:1; height:24px; border:0; padding:0; background:none; cursor:pointer; display:flex; align-items:center}
+.chaps button span{display:block; width:100%; height:4px; border-radius:2px; background:rgba(255,254,251,.16); overflow:hidden}
+.chaps button i{display:block; height:100%; width:0; background:#F2F0EA; border-radius:2px}
+.chaps button.cur i{background:var(--mint)}
+.player-note{margin:-10px 0 0; font-size:13px; color:#8E8C86}
+.hero-cta{width:100%; max-width:980px; display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between; text-align:left; margin-top:6px}
+.hero-cta p{margin:0}
+.hero-cta .big{font-size:24px; font-weight:300; letter-spacing:-.025em; line-height:1.25}
+.hero-cta .big b{color:var(--mint)}
+.hero-cta .sm{font-size:14px; color:#8E8C86; max-width:440px; margin-top:6px}
+.hero-cta .acts{display:flex; gap:12px; flex-wrap:wrap}
+@media (max-width:720px){
+  .screen{aspect-ratio:auto; min-height:430px}
+  .scene{inset:48px 16px 92px; flex-direction:column-reverse; justify-content:center; gap:16px}
+  .scene .say,.mock{flex:none; width:100%; max-width:none}
+  .scene .say div{font-size:20px}
+  .subt{bottom:54px}
+}
+
+/* karty obszarów z ekspertami */
+.areas{border-bottom:0}
+.areas-head h2 em{background:none; padding:0; color:var(--mint)}
+.card{background:var(--surface); box-shadow:var(--ring); padding:28px 26px 26px; min-height:0; gap:14px}
+.card h3{font-weight:500; font-size:24px; letter-spacing:-.03em}
+.card:hover,.card:focus-visible{background:var(--surface-2); box-shadow:inset 0 0 0 1px rgba(149,255,209,.55), 0 20px 40px -24px rgba(149,255,209,.45)}
+.card .arrow{position:static; flex:none; background:rgba(149,255,209,.14); color:var(--mint)}
+.card:hover .arrow{background:var(--mint); color:var(--on-mint)}
+.cwho{display:flex; align-items:center; gap:10px; min-width:0; line-height:1.3}
+.cwho img{width:44px; height:44px; border-radius:12px; object-fit:cover; object-position:50% 18%; filter:grayscale(1); transition:filter .5s}
+.card:hover .cwho img{filter:none}
+.cwho b{display:block; font-size:14px; font-weight:600; color:var(--ink)}
+.cwho span{font-size:12.5px; color:var(--muted)}
+.foot-row{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:auto; padding-top:16px; border-top:1px solid var(--line)}
+.cwho span{display:block}
+.areas .wrap{padding-block:clamp(56px,7vw,96px)}
+.process .wrap,.law .wrap,.app .wrap,.faq .wrap{padding-block:clamp(48px,6vw,88px)}
+.trust{padding-block:clamp(40px,5vw,72px)}
+
+/* pozostałe sekcje na ciemnym tle */
+.stats{background:transparent; padding-inline:var(--gut)}
+.contact{padding-inline:var(--gut)}
+@media (max-width:460px){.stats .wrap{grid-template-columns:1fr 1fr; row-gap:24px} .stat{padding:0} .stat + .stat{border:0; padding-top:0} .stat b{font-size:44px}}
+.stats .wrap{background:var(--surface); box-shadow:var(--ring); border-radius:26px; padding:clamp(28px,4vw,52px)}
+.stat + .stat{border-left-color:var(--line)}
+.stat b{font-weight:300; letter-spacing:-.04em}
+.trust{border-bottom:0}
+.logo-item{box-shadow:var(--ring); border:0}
+.steps{border-top:1px solid var(--line)}
+.steps div{background:none}
+.steps b{font-weight:500}
+.orbit-sec{background-color:var(--bg)}
+.ocard{background:var(--surface); border-color:var(--line)}
+.app{border-bottom:0}
+.faq{border-bottom:0}
+.qa summary{font-weight:400}
+.contact .wrap{background:var(--surface); box-shadow:var(--ring); border-radius:28px; padding:clamp(28px,5vw,64px); margin-bottom:clamp(48px,6vw,80px)}
+.contact{background:transparent}
+footer{border-top:1px solid var(--line)}
+.foot-bottom{border-top-color:var(--line)}
+
+/* ---------- Prawo (styl kepta) ---------- */
+.law{position:relative}
+.law .wrap{padding-block:clamp(64px,9vw,120px); display:flex; flex-direction:column; gap:clamp(48px,6vw,80px)}
+.law-head{display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:clamp(24px,5vw,72px); align-items:end}
+.law-head h2{font-size:clamp(34px,4.2vw,60px); margin-top:14px}
+.law-head p{margin:0; color:var(--muted); font-size:17px}
+.law-head .acts{display:flex; gap:12px; flex-wrap:wrap; margin-top:22px}
+.law h3{font-size:clamp(26px,2.6vw,38px); margin:0 0 22px}
+.risk{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px}
+.risk article{background:var(--surface); box-shadow:var(--ring); border-radius:20px; padding:22px; display:flex; flex-direction:column; gap:10px}
+.risk small{font:500 11.5px var(--f-mono); color:#8E8C86; letter-spacing:.04em}
+.risk b{font-size:18px; font-weight:600; letter-spacing:-.02em}
+.risk p{margin:0; color:var(--muted); font-size:14.5px; line-height:1.5}
+.risk .flag{margin-top:auto; align-self:flex-start; font-size:12.5px; font-weight:600; color:#F2B25C; background:rgba(242,178,92,.1); box-shadow:inset 0 0 0 1px rgba(242,178,92,.35); border-radius:999px; padding:4px 10px}
+.law-split{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(24px,4vw,56px); align-items:center}
+.nsteps{list-style:none; margin:0; padding:0; display:grid; gap:12px; counter-reset:s}
+.nsteps li{display:grid; grid-template-columns:52px minmax(0,1fr); gap:14px; align-items:start; background:var(--surface); box-shadow:var(--ring); border-radius:18px; padding:18px}
+.nsteps i{font:500 13px var(--f-mono); font-style:normal; width:40px; height:40px; border-radius:12px; display:grid; place-items:center; background:rgba(149,255,209,.12); color:var(--mint)}
+.nsteps b{display:block; font-size:17px; font-weight:600; letter-spacing:-.02em}
+.nsteps span{color:var(--muted); font-size:14.5px}
+.redline{background:#F2F0EA; color:#0A0A0B; border-radius:22px; padding:clamp(20px,2.4vw,30px); box-shadow:0 40px 80px -40px rgba(149,255,209,.35); font-size:15px; line-height:1.65}
+.redline header{display:flex; justify-content:space-between; gap:10px; align-items:center; font:500 12px var(--f-mono); color:#5F5C55; margin-bottom:14px}
+.redline header em{font-style:normal; background:#E4E1D8; border-radius:999px; padding:3px 9px}
+.redline h4{margin:0 0 8px; font-size:18px; font-weight:600; letter-spacing:-.02em}
+.redline s{color:#9a4f45; text-decoration-thickness:1.5px}
+.redline mark{background:#95FFD1; color:#0A0A0B; padding:0 .12em}
+.redline .note{margin-top:14px; display:flex; gap:10px; align-items:flex-start; background:#E7E4DB; border-radius:14px; padding:10px 12px; font-size:13.5px}
+.redline .note img{width:30px; height:30px; border-radius:50%; object-fit:cover; object-position:50% 20%; flex:none}
+.redline .ok{display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-size:13px; font-weight:600; background:#0A0A0B; color:#95FFD1; border-radius:999px; padding:5px 12px}
+.principles{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px}
+.principles div{padding:22px 0 0; border-top:1px solid var(--line)}
+.principles b{display:block; font-size:19px; font-weight:600; letter-spacing:-.02em; margin-bottom:8px}
+.principles p{margin:0; color:var(--muted); font-size:15px}
+.price{border-top:1px solid var(--line)}
+.price li{display:flex; justify-content:space-between; gap:16px; padding:15px 0; border-bottom:1px solid var(--line); align-items:baseline}
+.price ul{list-style:none; margin:0; padding:0}
+.price span{color:var(--muted); font-size:14px; white-space:nowrap}
+.price b{font-weight:500}
+.law-note{font-size:13px; color:#8E8C86; margin:0}
+@media (max-width:980px){.risk{grid-template-columns:repeat(2,minmax(0,1fr))} .law-head,.law-split{grid-template-columns:1fr}}
+@media (max-width:560px){.risk,.principles{grid-template-columns:1fr} .price li{flex-direction:column; gap:2px}}
+
+/* podstrony */
+header.subnav{background:none; padding:12px var(--gut) 0}
+header.subnav .wrap{max-width:1180px; padding:8px 8px 8px 20px}
+header.subnav .menu a[aria-current="page"]{border-bottom:0; color:var(--mint)}
+section.page-hero{background:transparent; margin-top:-80px; padding-top:80px}
+.page-hero{background:transparent}
+.page-hero::after{background:linear-gradient(90deg, rgba(10,10,11,.94) 0%, rgba(10,10,11,.6) 60%, rgba(10,10,11,.35) 100%)}
+.page-hero h1{font-weight:300}
+.toc{background:rgba(10,10,11,.85); backdrop-filter:blur(10px); top:76px}
+.result,.next a,.mini{box-shadow:var(--ring); border:0}
+.result{background:var(--surface)}
+.next{background:transparent}
+
+/* hero z 4 zdjęciami pod pływającym menu */
+.hero{margin:16px var(--gut) 0; border-radius:24px; min-height:max(560px, 74vh); grid-template-columns:repeat(4,minmax(0,1fr))}
+.panel{padding-top:40px}
+.panel .bg img{object-position:50% 12%}
+.hero::after{content:""; position:absolute; left:0; right:0; bottom:0; height:120px; background:linear-gradient(transparent, var(--bg)); pointer-events:none}
+@media (max-width:900px){.hero{grid-template-columns:1fr 1fr; min-height:0} .panel{min-height:260px; padding-top:40px}}
+@media (max-width:520px){.panel{min-height:300px; padding-bottom:20px} .panel .tags{display:none} .panel h2{font-size:22px} .panel .more{margin-top:12px}}
+.intro{padding-top:120px}
+.intro h1{font-weight:300}
+.intro .eyebrow{color:var(--mint)}
+.panel h2{font-weight:300}
+.hero2{padding-top:clamp(40px,5vw,64px)}
+
+/* ---------- Pakiety ---------- */
+.pk-head{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:24px; align-items:end; margin-bottom:26px}
+.pk-head h3{margin:0} .pk-head p{margin:0; color:var(--muted)}
+.pks{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; align-items:stretch}
+.pk{background:var(--surface); box-shadow:var(--ring); border-radius:24px; padding:26px; display:flex; flex-direction:column; gap:10px}
+.pk.hl{background:linear-gradient(180deg, rgba(149,255,209,.10), var(--surface) 55%); box-shadow:inset 0 0 0 1px rgba(149,255,209,.55), 0 30px 60px -36px rgba(149,255,209,.5)}
+.pk header{display:flex; justify-content:space-between; align-items:center; gap:10px}
+.pk header b{display:flex; align-items:center; gap:10px; font-size:24px; font-weight:600; letter-spacing:-.03em}
+.pk header b i{width:10px; height:10px; border-radius:3px; background:var(--mint)}
+.pk-badge{font:600 11.5px var(--f-body); font-style:normal; color:var(--on-mint); background:var(--mint); border-radius:999px; padding:4px 10px}
+.pk small{font:500 12px var(--f-mono); color:var(--mint)}
+.pk p{margin:0; color:var(--muted); font-size:14.5px}
+.pk-price{font-size:22px; font-weight:300; letter-spacing:-.03em; padding:12px 0; border-block:1px solid var(--line); margin:6px 0}
+.pk ul{list-style:none; margin:0 0 14px; padding:0; display:grid; gap:9px; font-size:14.5px}
+.pk li{position:relative; padding-left:24px}
+.pk li::before{content:""; position:absolute; left:0; top:.45em; width:12px; height:7px; border-left:2px solid var(--mint); border-bottom:2px solid var(--mint); transform:rotate(-45deg)}
+.pk .btn{margin-top:auto; justify-content:center}
+.cmp{margin-top:28px}
+.cmp h4{margin:0 0 12px; font-size:18px; font-weight:600; letter-spacing:-.02em}
+.cmp-scroll{overflow-x:auto; border-radius:18px; box-shadow:var(--ring); background:var(--surface)}
+.cmp table{width:100%; min-width:560px; border-collapse:collapse; font-size:14.5px}
+.cmp th,.cmp td{padding:12px 16px; text-align:left; border-bottom:1px solid var(--line)}
+.cmp td{color:var(--muted); text-align:center}
+.cmp thead th{font:500 12px var(--f-mono); color:var(--mint); text-align:center}
+.cmp thead th:first-child,.cmp tbody th{text-align:left}
+.cmp tbody th{font-weight:500}
+.cmp tr.grp th{font:500 11.5px var(--f-mono); letter-spacing:.06em; text-transform:uppercase; color:#8E8C86; background:rgba(255,254,251,.02)}
+.cmp .law-note{margin-top:12px}
+@media (max-width:980px){.pks{grid-template-columns:1fr} .pk-head{grid-template-columns:1fr}}
+
+/* ---------- Obszary rozbudowane ---------- */
+.ars{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px}
+.ar{display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr); background:var(--surface); box-shadow:var(--ring); border-radius:26px; overflow:hidden; transition:box-shadow .35s}
+.ar:hover{box-shadow:inset 0 0 0 1px rgba(149,255,209,.5), 0 30px 60px -36px rgba(149,255,209,.45)}
+.ar-photo{position:relative; display:block; min-height:100%; overflow:hidden}
+.ar-photo img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 15%; filter:grayscale(1) contrast(1.05); transition:filter .7s, transform 1.2s}
+.ar:hover .ar-photo img{filter:none; transform:scale(1.03)}
+.ar-photo::after{content:""; position:absolute; inset:0; background:linear-gradient(transparent 55%, rgba(10,10,11,.85))}
+.ar-name{position:absolute; left:16px; right:16px; bottom:14px; z-index:1; line-height:1.3}
+.ar-name b{display:block; font-size:15px; font-weight:600} .ar-name small{font-size:12.5px; color:#BDBAB2}
+.ar-body{padding:26px; display:flex; flex-direction:column; gap:12px}
+.ar-lab{font:500 12px var(--f-mono); color:var(--mint)}
+.ar h3{font-size:clamp(24px,2.2vw,30px); font-weight:400} .ar h3 a{text-decoration:none}
+.ar-body > p{margin:0; color:var(--muted); font-size:15px}
+.ar-tags{display:flex; flex-wrap:wrap; gap:6px}
+.ar-tags span{font:500 12px var(--f-mono); padding:5px 10px; border-radius:999px; background:rgba(149,255,209,.08); color:var(--ink); box-shadow:inset 0 0 0 1px rgba(149,255,209,.25)}
+.ar-grid{display:grid; grid-template-columns:1fr; gap:12px; padding-top:12px; border-top:1px solid var(--line)}
+.ar h4{margin:0 0 4px; font:500 11.5px var(--f-mono); letter-spacing:.06em; text-transform:uppercase; color:#8E8C86}
+.ar-grid p{margin:0; font-size:14.5px}
+.ar ul{list-style:none; margin:0; padding:0; display:grid; gap:6px; font-size:14.5px}
+.ar li{position:relative; padding-left:20px}
+.ar li::before{content:""; position:absolute; left:0; top:.55em; width:8px; height:8px; border-radius:2px; background:var(--mint)}
+.ar-more{margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:10px; text-decoration:none; font-weight:600; font-size:14.5px}
+.ar-more span{width:36px; height:36px; border-radius:50%; display:grid; place-items:center; background:rgba(149,255,209,.14); color:var(--mint); transition:background .3s, transform .3s}
+.ar-more span svg{width:13px; height:13px}
+.ar:hover .ar-more span{background:var(--mint); color:var(--on-mint); transform:rotate(45deg)}
+@media (max-width:1100px){.ars{grid-template-columns:1fr}}
+@media (max-width:620px){.ar{grid-template-columns:1fr} .ar-photo{min-height:0; aspect-ratio:4/3}}
+</style>
+</head>
+<body>
+
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Octosello – strona główna">
+      <img src="img/octosello-logo-white.png" alt="octosello" width="182" height="47">
+    </a>
+    <nav class="menu" aria-label="Główna">
+      <a class="live" href="panel/index.html#pulpit" target="_blank" rel="noopener"><span class="ldot"></span>Demo panelu</a>
+      <a href="#obszary">Obszary</a>
+      <a href="#prawo">Prawo</a>
+      <a href="case-study.html">Case study</a>
+      <a href="#punkt-styku">Punkt styku</a>
+      <a href="#faq">Pytania</a>
+      <a class="btn btn-light" href="#kontakt">Kontakt <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="page-glow" aria-hidden="true"></div>
+<section class="hero2" aria-labelledby="h-hero">
+  <span class="eyebrow"><span class="ldot"></span>Compliance dla e&#8209;commerce</span>
+  <h1 id="h-hero">Kompleksowe wsparcie <em>compliance</em> dla firm e&#8209;commerce</h1>
+  <p class="lead">Środowisko, prawo i sprzedaż zagraniczna w jednym zespole. Pilnujemy obowiązków regulacyjnych, żeby Twój sklep mógł spokojnie rosnąć na każdym rynku.</p>
+  <div class="player" id="demo">
+    <div class="screen">
+      <img class="scr-logo" src="img/octosello-logo-white.png" alt="">
+      <span class="scr-chap" id="pl-chap">Diagnoza</span>
+      <div class="scene on" data-sub="Opisujesz sklep, a my wskazujemy obowiązki, które go dotyczą." data-name="Diagnoza"><div class="mock">
+     <div class="row"><span>Rynki sprzedaży</span><small>PL · DE · FR</small></div>
+     <div class="row"><span>Produkty</span><small>meble z drewna, opakowania</small></div>
+     <div class="row"><span>Kanały</span><small>sklep, Amazon, Allegro</small></div>
+     <div class="row hl"><b>Wykryte obowiązki</b><b class="ok">7</b></div>
+   </div><div class="say"><span>01 · DIAGNOZA</span><div>Opisujesz sklep. Wskazujemy, <b>co Cię dotyczy</b>.</div></div></div>
+<div class="scene" data-sub="EPR, BDO, KOBiZE i EUDR prowadzi Michał Dyrszka z zespołem." data-name="Środowisko"><div class="mock">
+     <div class="row"><span><b>EPR Niemcy</b> <small>LUCID</small></span><span class="ok">✓ zarejestrowano</span></div>
+     <div class="row"><span><b>BDO</b> <small>sprawozdanie</small></span><span class="ok">✓ złożone</span></div>
+     <div class="row"><span><b>KOBiZE</b> <small>raport roczny</small></span><span class="wait">⏳ do 28.02</span></div>
+     <div class="row hl"><span><b>EUDR</b> <small>5 dostawców</small></span><span class="q">? oświadczenia</span></div>
+   </div><div class="say"><span>02 · ŚRODOWISKO</span><div>EPR, BDO i EUDR <b>w jednym miejscu</b>.</div></div></div>
+<div class="scene" data-sub="Regulamin poprawia prawnik z kancelarii SK Law, a Ty tylko akceptujesz." data-name="Prawo"><div class="mock"><div class="paper">
+     <b>§ 7. Zwroty</b><br>Klient może odstąpić od umowy w terminie <s>7 dni</s> <mark>14 dni</mark> od otrzymania towaru, <mark>bez podawania przyczyny</mark>.
+     <br><span class="bdg">✓ Sprawdzone przez prawnika</span>
+   </div></div><div class="say"><span>03 · PRAWO</span><div>Regulamin zmienia się z prawem. <b>Ty tylko akceptujesz</b>.</div></div></div>
+<div class="scene" data-sub="Konta, dokumenty i koszty na nowych rynkach przygotowuje Mateusz Grzywnowicz." data-name="Cross-border"><div class="mock">
+     <div class="pchips"><span class="pchip"><i></i>Niemcy</span><span class="pchip"><i></i>Francja</span><span class="pchip"><i class="w"></i>Włochy</span><span class="pchip"><i class="w"></i>Hiszpania</span></div>
+     <div class="row"><span>Konto Amazon.fr</span><span class="ok">✓ gotowe</span></div>
+     <div class="row"><span>Regulamin FR</span><span class="ok">✓ przetłumaczony</span></div>
+     <div class="row hl"><span>Kalkulacja kosztów IT</span><span class="wait">w przygotowaniu</span></div>
+   </div><div class="say"><span>04 · CROSS-BORDER</span><div>Nowy rynek <b>bez zgadywania</b> kosztów.</div></div></div>
+<div class="scene" data-sub="Krzysztof Kaczmarek wdraża automatyzacje, które zgadzają się z AI Act." data-name="Procesy AI"><div class="mock">
+     <div class="row"><span>Opisy produktów z AI</span><small>32 / 40</small></div>
+     <div class="bar"><i style="width:80%"></i></div>
+     <div class="row"><span>Asystent obsługi klienta</span><span class="ok">✓ oznaczony jako AI</span></div>
+     <div class="row hl"><span>Raport tygodniowy</span><span class="ok">✓ wysyła się sam</span></div>
+   </div><div class="say"><span>05 · PROCESY AI</span><div>Automatyzacje, które <b>oszczędzają czas</b>.</div></div></div>
+<div class="scene" data-sub="Ty prowadzisz sklep. Compliance pilnuje Octosello." data-name="Ty" style="flex-direction:column; text-align:center; gap:18px"><div class="say" style="align-items:center; flex:none; max-width:80%"><span>06 · TY</span><div style="font-size:clamp(22px,3.4vw,44px)">Ty prowadzisz sklep. <b>Compliance pilnujemy my.</b></div></div><a class="big-cta" href="#kontakt">Umów rozmowę →</a></div>
+
+      <div class="subt" id="pl-sub">Opisujesz sklep, a my wskazujemy obowiązki, które go dotyczą.</div>
+      <div class="ctrl">
+        <button type="button" class="pp" id="pl-pp" aria-label="Pauza"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg></button>
+        <time id="pl-time">0:00 / 0:36</time>
+        <div class="chaps" id="pl-chaps"><button type="button" aria-label="Rozdział 1: Diagnoza"><span><i></i></span></button><button type="button" aria-label="Rozdział 2: Środowisko"><span><i></i></span></button><button type="button" aria-label="Rozdział 3: Prawo"><span><i></i></span></button><button type="button" aria-label="Rozdział 4: Cross-border"><span><i></i></span></button><button type="button" aria-label="Rozdział 5: Procesy AI"><span><i></i></span></button><button type="button" aria-label="Rozdział 6: Ty"><span><i></i></span></button></div>
+      </div>
+    </div>
+  </div>
+  <p class="player-note">Jak pracujemy, w 36 sekund. Kliknij pasek, żeby przejść do rozdziału. Dane w demo są przykładowe.</p>
+  <div class="hero-cta">
+    <div><p class="big">Compliance pilnujemy <b>my</b>.<br>Ty rozwijasz sklep.</p><p class="sm">Jeden opiekun i zespół ekspertów: środowisko, prawo, sprzedaż cross-border i procesy AI.</p></div>
+    <div class="acts"><a class="btn btn-light" href="#kontakt">Umów rozmowę <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><a class="btn btn-ghost" href="panel/index.html#pulpit" target="_blank" rel="noopener"><span class="ldot"></span>Zobacz demo panelu</a></div>
+  </div>
+</section>
+
+<section class="areas" id="obszary" aria-labelledby="h-areas">
+  <div class="wrap">
+    <div class="areas-head">
+      <div><span class="eyebrow">Obszary</span><h2 id="h-areas">Jeden partner zamiast <em>kilkunastu</em> doradców!</h2></div>
+      <p>Sklep internetowy podlega przepisom środowiskowym, konsumenckim i podatkowym, często w kilku krajach naraz. Łączymy te obszary w jedną, uporządkowaną obsługę.</p>
+    </div>
+    <div class="cards">
+      <a class="card" href="uslugi-srodowiskowe.html"><h3>Usługi środowiskowe</h3><p>Przejmujemy obowiązki środowiskowe sklepów i producentów: EUDR, PPWR, EPR, BDO i KOBiZE, w Polsce i za granicą.</p><div class="foot-row"><div class="cwho"><img src="img/michal-dyrszka.jpg" alt=""><div><b>Michał Dyrszka</b><span>Ekspert ds. środowiska</span></div></div><span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></span></div></a>
+      <a class="card" href="doradztwo-prawne.html"><h3>Doradztwo prawne e-commerce</h3><p>Audyt prawny sklepu, ochrona marki, regulaminy i zgodność z AI Act, we współpracy z kancelarią SK Law.</p><div class="foot-row"><div class="cwho"><img src="img/siwicka.jpg" alt=""><div><b>Mec. Siwicka</b><span>Kancelaria SK Law</span></div></div><span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></span></div></a>
+      <a class="card" href="sprzedaz-cross-border.html"><h3>Sprzedaż cross-border</h3><p>Konfiguracja kont, dokumenty na zagraniczne rynki, logistyka, integracje i pełna kalkulacja kosztów.</p><div class="foot-row"><div class="cwho"><img src="img/mateusz-grzywnowicz.jpg" alt=""><div><b>Mateusz Grzywnowicz</b><span>Sprzedaż cross-border</span></div></div><span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></span></div></a>
+      <a class="card" href="procesy-ai.html"><h3>Procesy AI</h3><p>Audyt procesów, automatyzacje i wdrożenia AI, które realnie oszczędzają czas zespołu e-commerce.</p><div class="foot-row"><div class="cwho"><img src="img/krzysztof-kaczmarek.jpg" alt=""><div><b>Krzysztof Kaczmarek</b><span>Procesy AI</span></div></div><span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></span></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="stats" aria-label="Octosello w liczbach">
+  <div class="wrap">
+      <div class="stat"><span class="eyebrow">Eksperci</span><b>4</b><p>obszary compliance, każdy prowadzony przez eksperta</p></div>
+      <div class="stat"><span class="eyebrow">Regulacje</span><b>10+</b><p>regulacji w zakresie: od EUDR i PPWR po AI Act i VAT OSS</p></div>
+      <div class="stat"><span class="eyebrow">Kontakt</span><b>1</b><p>opiekun i jeden punkt kontaktu dla całej firmy</p></div>
+      <div class="stat"><span class="eyebrow">Odpowiedź</span><b>24 h</b><p>na odpowiedź na zapytanie w dni robocze</p></div>
+  </div>
+</section>
+
+<section class="trust" id="zaufali-nam" aria-labelledby="h-trust">
+  <div class="wrap">
+    <span class="eyebrow">Zaufali nam</span>
+    <h2 id="h-trust">Sklepy i marki, które z nami współpracują</h2>
+  </div>
+  <!-- Przykładowe logotypy: podmienić na prawdziwe pliki logo klientów -->
+  <div class="marquee" aria-label="Logotypy klientów (przykładowe)">
+    <ul class="track"><li class="logo-item" style="font-family:var(--f-display)"><i class="lg sq"></i><span>Kalmo</span></li><li class="logo-item" style="font-family:var(--f-body)"><i class="lg leaf"></i><span>Brightleaf</span></li><li class="logo-item" style="font-family:var(--f-mono)"><span>MORVI</span></li><li class="logo-item" style="font-family:var(--f-display)"><i class="lg dot"></i><span>okkatu</span></li><li class="logo-item" style="font-family:var(--f-body)"><span>Fennel & Co.</span></li><li class="logo-item" style="font-family:var(--f-mono)"><i class="lg circ"></i><span>Lumio</span></li><li class="logo-item" style="font-family:var(--f-display)"><i class="lg tri"></i><span>TARRA</span></li><li class="logo-item" style="font-family:var(--f-body)"><span>Velo Nord</span></li><li class="logo-item" style="font-family:var(--f-mono)"><i class="lg sq"></i><span>quarzo</span></li><li class="logo-item" style="font-family:var(--f-display)"><i class="lg leaf"></i><span>Pinea</span></li><li class="logo-item" style="font-family:var(--f-body)"><i class="lg circ"></i><span>HOLMI</span></li><li class="logo-item" style="font-family:var(--f-mono)"><span>Sabbia</span></li><li class="logo-item" style="font-family:var(--f-display)"><i class="lg tri"></i><span>Ardent</span></li></ul>
+    <ul class="track" aria-hidden="true"><li class="logo-item" style="font-family:var(--f-display)"><i class="lg sq"></i><span>Kalmo</span></li><li class="logo-item" style="font-family:var(--f-body)"><i class="lg leaf"></i><span>Brightleaf</span></li><li class="logo-item" style="font-family:var(--f-mono)"><span>MORVI</span></li><li class="logo-item" style="font-family:var(--f-display)"><i class="lg dot"></i><span>okkatu</span></li><li class="logo-item" style="font-family:var(--f-body)"><span>Fennel & Co.</span></li><li class="logo-item" style="font-family:var(--f-mono)"><i class="lg circ"></i><span>Lumio</span></li><li class="logo-item" style="font-family:var(--f-display)"><i class="lg tri"></i><span>TARRA</span></li><li class="logo-item" style="font-family:var(--f-body)"><span>Velo Nord</span></li><li class="logo-item" style="font-family:var(--f-mono)"><i class="lg sq"></i><span>quarzo</span></li><li class="logo-item" style="font-family:var(--f-display)"><i class="lg leaf"></i><span>Pinea</span></li><li class="logo-item" style="font-family:var(--f-body)"><i class="lg circ"></i><span>HOLMI</span></li><li class="logo-item" style="font-family:var(--f-mono)"><span>Sabbia</span></li><li class="logo-item" style="font-family:var(--f-display)"><i class="lg tri"></i><span>Ardent</span></li></ul>
+  </div>
+</section>
+
+<section class="process" id="proces" aria-labelledby="h-proc">
+  <div class="wrap">
+    <span class="eyebrow">Jak pracujemy</span>
+    <h2 id="h-proc">Od diagnozy do stałej opieki compliance</h2>
+    <div class="steps">
+      <div><i>Krok 1</i><b>Diagnoza</b><p>Sprawdzamy, jakie obowiązki dotyczą Twojej firmy, produktów i rynków.</p></div>
+      <div><i>Krok 2</i><b>Plan</b><p>Dostajesz listę działań z priorytetami, terminami i kosztami.</p></div>
+      <div><i>Krok 3</i><b>Wdrożenie</b><p>Rejestracje, dokumenty i konfiguracje przygotowujemy za Ciebie.</p></div>
+      <div><i>Krok 4</i><b>Opieka</b><p>Pilnujemy terminów sprawozdań i zmian w przepisach.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="law" id="prawo" aria-labelledby="h-law">
+  <div class="wrap">
+    <div class="law-head">
+      <div><span class="eyebrow">Prawo e&#8209;commerce · z kancelarią SK Law</span>
+      <h2 id="h-law">Finansów pilnuje księgowa. <em>Regulaminów</em> pilnuje Octosello.</h2></div>
+      <div><p>Mec. Siwicka z kancelarii SK Law sprawdza dokumenty sklepu, a my pilnujemy terminów i zmian w przepisach, żeby nic nie umknęło po wdrożeniu.</p>
+      <div class="acts"><a class="btn btn-light" href="#kontakt">Wyślij dokument do analizy <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><a class="btn btn-ghost" href="doradztwo-prawne.html">Zakres prawny</a></div></div>
+    </div>
+    <div>
+      <h3>Na razie <em>nikt</em> tego nie pilnuje.</h3>
+      <div class="risk">
+        <article><small>Regulamin sklepu</small><b>Zwroty według starych zasad</b><p>Regulamin nie nadąża za zmianami w prawie konsumenckim.</p><span class="flag">Ryzyko: klauzula niedozwolona</span></article>
+        <article><small>Znak towarowy</small><b>Marka chroniona tylko w Polsce</b><p>Sklep sprzedaje na Amazon.de, a znak nie jest zgłoszony w UE.</p><span class="flag">Ryzyko: brak ochrony marki</span></article>
+        <article><small>Umowa z dostawcą</small><b>Kto odpowiada za EUDR?</b><p>Umowa nie mówi, kto zbiera oświadczenia o pochodzeniu drewna.</p><span class="flag">Ryzyko: odpowiedzialność po Twojej stronie</span></article>
+        <article><small>Chatbot w sklepie</small><b>Klient nie wie, że pisze z AI</b><p>Asystent działa bez informacji, że jest systemem AI.</p><span class="flag">Ryzyko: obowiązek z AI Act</span></article>
+      </div>
+    </div>
+    <div class="law-split">
+      <div>
+        <h3>Na początek wystarczy <em>jeden</em> dokument.</h3>
+        <ol class="nsteps">
+          <li><i>01</i><div><b>Wysyłasz regulamin, umowę lub link do sklepu</b><span>Bez przygotowań i bez wypełniania ankiet.</span></div></li>
+          <li><i>02</i><div><b>Akceptujesz zakres i cenę</b><span>Zanim zaczniemy, wiesz, co dostaniesz i ile to kosztuje.</span></div></li>
+          <li><i>03</i><div><b>Dostajesz analizę z poprawkami</b><span>Sprawdzoną przez prawnika, z gotowym tekstem do wdrożenia.</span></div></li>
+        </ol>
+      </div>
+      <figure class="redline" style="margin:0" aria-label="Przykładowa poprawka regulaminu">
+        <header><span>regulamin-sklepu.docx · § 7</span><em>Przykład</em></header>
+        <h4>§ 7. Prawo odstąpienia od umowy</h4>
+        <div>Konsument może odstąpić od umowy w terminie <s>7 dni</s> <mark>14 dni</mark> od dnia otrzymania towaru. <s>Zwrot wymaga zgody sprzedawcy.</s> <mark>Odstąpienie nie wymaga podania przyczyny.</mark></div>
+        <div class="note"><img src="img/siwicka.jpg" alt=""><span><b>Mec. Siwicka:</b> poprzedni zapis skracał ustawowy termin. Nowy tekst jest zgodny z ustawą o prawach konsumenta.</span></div>
+        <span class="ok">✓ Sprawdzone przez prawnika</span>
+      </figure>
+    </div>
+    <div>
+      <h3>Jasny zakres. <em>Jasna</em> odpowiedzialność.</h3>
+      <div class="principles">
+        <div><b>Zakres i cena przed startem</b><p>Nie ma niespodzianek na fakturze. Każdą usługę wyceniamy, zanim zaczniemy.</p></div>
+        <div><b>Za treść odpowiada prawnik</b><p>Dokumenty przygotowuje i podpisuje kancelaria SK Law. Automatyzacje tylko pomagają.</p></div>
+        <div><b>Pilnujemy po wdrożeniu</b><p>Gdy zmienią się przepisy, wracamy z poprawką, zanim zrobi się problem.</p></div>
+      </div>
+    </div>
+    <div class="pk-wrap">
+      <div class="pk-head"><h3>Pakiety dopasowane do <em>skali</em> sklepu.</h3><p>Stała obsługa prawna i compliance w abonamencie. Wybierz poziom, a zakres dopasujemy po krótkiej diagnozie.</p></div>
+      <div class="pks"><article class="pk"><header><b><i></i>Start</b></header><small>Sklepy z przychodem 1–5 mln zł</small><p>Dla sklepu, który sprzedaje w Polsce i wchodzi na pierwsze rynki UE.</p><div class="pk-price">wycena po diagnozie</div><ul><li>Rejestracje EPR na maks. 5 rynkach UE</li><li>Monitoring zmian w prawie e&#8209;commerce</li><li>Regulamin, polityka prywatności i dokumenty sprzedażowe dla Polski</li><li>Konsultacje prawne w rozsądnym limicie</li><li>Kalendarz terminów BDO, KOBiZE i EPR w aplikacji</li><li>Odpowiedź merytoryczna w ciągu 24 h</li></ul><a class="btn btn-ghost" href="#kontakt">Zapytaj o pakiet Start <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a></article><article class="pk hl"><header><b><i></i>Rozwój</b><em class="pk-badge">Polecany</em></header><small>Sklepy z przychodem 5–20 mln zł</small><p>Dla marki, która sprzedaje na kilku rynkach i marketplace’ach.</p><div class="pk-price">wycena po diagnozie</div><ul><li>Wszystko z pakietu Start</li><li>Stały opiekun klienta</li><li>Rejestracje EPR na maks. 10 rynkach UE</li><li>Dokumenty sprzedażowe na maks. 5 rynków UE</li><li>Ochrona marki na marketplace’ach</li><li>Przegląd EUDR i PPWR dla Twoich produktów</li></ul><a class="btn btn-light" href="#kontakt">Zapytaj o pakiet Rozwój <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a></article><article class="pk"><header><b><i></i>Skala</b></header><small>Firmy z przychodem powyżej 20 mln zł</small><p>Dla firm, które działają w całej UE i planują dalszą ekspansję.</p><div class="pk-price">wycena po diagnozie</div><ul><li>Wszystko z pakietu Rozwój</li><li>EPR i compliance na wszystkich rynkach UE</li><li>Konsultacje prawne bez limitu</li><li>Dokumenty dla wszystkich kanałów sprzedaży</li><li>Audyt procesów i wdrożenia AI zgodne z AI Act</li><li>Comiesięczne spotkanie z zarządem: ekspansja, ryzyka, nowe przepisy</li></ul><a class="btn btn-ghost" href="#kontakt">Zapytaj o pakiet Skala <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a></article></div>
+      <div class="cmp"><h4>Zakres usług w pakietach</h4><div class="cmp-scroll"><table>
+        <thead><tr><th scope="col">Usługa</th><th scope="col">Start</th><th scope="col">Rozwój</th><th scope="col">Skala</th></tr></thead>
+        <tbody><tr class="grp"><th colspan="4" scope="colgroup">W każdym pakiecie</th></tr><tr><th scope="row">Rejestracje EPR</th><td>5 rynków UE</td><td>10 rynków UE</td><td>cała UE</td></tr><tr><th scope="row">Monitoring prawa e&#8209;commerce</th><td>✓</td><td>✓</td><td>✓</td></tr><tr><th scope="row">Dokumenty sprzedażowe</th><td>Polska</td><td>do 5 rynków</td><td>wszystkie kanały</td></tr><tr><th scope="row">Konsultacje prawne</th><td>w limicie</td><td>w limicie</td><td>bez limitu</td></tr><tr><th scope="row">Aplikacja z kalendarzem terminów</th><td>✓</td><td>✓</td><td>✓</td></tr><tr class="grp"><th colspan="4" scope="colgroup">Od pakietu Rozwój</th></tr><tr><th scope="row">Stały opiekun klienta</th><td>—</td><td>✓</td><td>✓</td></tr><tr><th scope="row">Ochrona marki na marketplace’ach</th><td>—</td><td>✓</td><td>✓</td></tr><tr><th scope="row">Przegląd EUDR i PPWR</th><td>—</td><td>✓</td><td>✓</td></tr><tr class="grp"><th colspan="4" scope="colgroup">Tylko w pakiecie Skala</th></tr><tr><th scope="row">Audyt procesów i wdrożenia AI</th><td>—</td><td>—</td><td>✓</td></tr><tr><th scope="row">Spotkanie z zarządem co miesiąc</th><td>—</td><td>—</td><td>✓</td></tr></tbody></table></div>
+      <p class="law-note">Opłaty urzędowe, koszty autoryzowanych przedstawicieli EPR i opłaty zależne od ilości opakowań rozliczamy osobno. Usługi prawne świadczy kancelaria SK Law.</p></div>
+    </div>
+  </div>
+</section>
+<section class="orbit-sec" id="punkt-styku" aria-labelledby="h-hub">
+  <div class="wrap">
+    <div class="orbit" id="orbit">
+      <svg class="olines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line class="oline" data-i="0" x1="50" y1="50" x2="50.00" y2="10.00"/><line class="oline on" data-i="1" x1="50" y1="50" x2="71.63" y2="16.35"/><line class="oline" data-i="2" x1="50" y1="50" x2="86.39" y2="33.38"/><line class="oline" data-i="3" x1="50" y1="50" x2="89.59" y2="55.69"/><line class="oline" data-i="4" x1="50" y1="50" x2="80.23" y2="76.19"/><line class="oline" data-i="5" x1="50" y1="50" x2="61.27" y2="88.38"/><line class="oline" data-i="6" x1="50" y1="50" x2="38.73" y2="88.38"/><line class="oline" data-i="7" x1="50" y1="50" x2="19.77" y2="76.19"/><line class="oline" data-i="8" x1="50" y1="50" x2="10.41" y2="55.69"/><line class="oline" data-i="9" x1="50" y1="50" x2="13.61" y2="33.38"/><line class="oline" data-i="10" x1="50" y1="50" x2="28.37" y2="16.35"/></svg>
+      <div class="core" aria-hidden="true"><div class="glass"><svg class="brain" viewBox="0 0 102 86" aria-hidden="true"><defs><filter id="bglow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g filter="url(#bglow)"><rect x="31.4" y="10.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="35.6" y="10.4" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="60.8" y="10.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="65.0" y="10.4" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="14.6" y="14.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="18.8" y="14.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="23.0" y="14.6" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="27.2" y="14.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="31.4" y="14.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="35.6" y="14.6" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="39.8" y="14.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="56.6" y="14.6" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="60.8" y="14.6" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="65.0" y="14.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="69.2" y="14.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="73.4" y="14.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="77.6" y="14.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="81.8" y="14.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="10.4" y="18.8" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="14.6" y="18.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="18.8" y="18.8" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="23.0" y="18.8" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="27.2" y="18.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="31.4" y="18.8" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="35.6" y="18.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="39.8" y="18.8" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="56.6" y="18.8" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="60.8" y="18.8" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="65.0" y="18.8" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="69.2" y="18.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="73.4" y="18.8" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="77.6" y="18.8" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="81.8" y="18.8" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="86.0" y="18.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="10.4" y="23.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="14.6" y="23.0" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="18.8" y="23.0" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="23.0" y="23.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="27.2" y="23.0" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="31.4" y="23.0" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="35.6" y="23.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="39.8" y="23.0" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="44.0" y="23.0" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="52.4" y="23.0" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="56.6" y="23.0" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="60.8" y="23.0" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="65.0" y="23.0" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="69.2" y="23.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="73.4" y="23.0" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="77.6" y="23.0" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="81.8" y="23.0" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="86.0" y="23.0" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="10.4" y="27.2" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="14.6" y="27.2" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="18.8" y="27.2" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="23.0" y="27.2" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="27.2" y="27.2" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="31.4" y="27.2" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="35.6" y="27.2" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="39.8" y="27.2" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="44.0" y="27.2" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="52.4" y="27.2" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="56.6" y="27.2" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="60.8" y="27.2" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="65.0" y="27.2" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="69.2" y="27.2" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="73.4" y="27.2" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="77.6" y="27.2" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="81.8" y="27.2" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="86.0" y="27.2" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="6.2" y="31.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="10.4" y="31.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="14.6" y="31.4" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="18.8" y="31.4" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="23.0" y="31.4" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="27.2" y="31.4" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="31.4" y="31.4" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="35.6" y="31.4" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="39.8" y="31.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="44.0" y="31.4" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="52.4" y="31.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="56.6" y="31.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="60.8" y="31.4" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="65.0" y="31.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="69.2" y="31.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="73.4" y="31.4" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="77.6" y="31.4" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="81.8" y="31.4" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="86.0" y="31.4" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="6.2" y="35.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="10.4" y="35.6" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="14.6" y="35.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="18.8" y="35.6" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="23.0" y="35.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="27.2" y="35.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="31.4" y="35.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="35.6" y="35.6" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="39.8" y="35.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="44.0" y="35.6" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="52.4" y="35.6" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="56.6" y="35.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="60.8" y="35.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="65.0" y="35.6" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="69.2" y="35.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="73.4" y="35.6" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="77.6" y="35.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="81.8" y="35.6" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="86.0" y="35.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="90.2" y="35.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="2.0" y="39.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="6.2" y="39.8" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="10.4" y="39.8" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="14.6" y="39.8" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="18.8" y="39.8" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="23.0" y="39.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="27.2" y="39.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="31.4" y="39.8" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="35.6" y="39.8" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="39.8" y="39.8" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="44.0" y="39.8" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="52.4" y="39.8" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="56.6" y="39.8" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="60.8" y="39.8" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="65.0" y="39.8" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="69.2" y="39.8" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="73.4" y="39.8" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="77.6" y="39.8" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="81.8" y="39.8" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="86.0" y="39.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="90.2" y="39.8" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="94.4" y="39.8" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="6.2" y="44.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="10.4" y="44.0" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="14.6" y="44.0" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="18.8" y="44.0" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="23.0" y="44.0" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="27.2" y="44.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="31.4" y="44.0" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="35.6" y="44.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="39.8" y="44.0" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="44.0" y="44.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="52.4" y="44.0" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="56.6" y="44.0" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="60.8" y="44.0" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="65.0" y="44.0" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="69.2" y="44.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="73.4" y="44.0" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="77.6" y="44.0" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="81.8" y="44.0" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="86.0" y="44.0" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="90.2" y="44.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="6.2" y="48.2" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="10.4" y="48.2" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="14.6" y="48.2" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="18.8" y="48.2" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="23.0" y="48.2" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="27.2" y="48.2" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="31.4" y="48.2" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="35.6" y="48.2" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="39.8" y="48.2" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="44.0" y="48.2" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="52.4" y="48.2" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="56.6" y="48.2" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="60.8" y="48.2" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="65.0" y="48.2" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="69.2" y="48.2" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="73.4" y="48.2" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="77.6" y="48.2" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="81.8" y="48.2" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="86.0" y="48.2" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="90.2" y="48.2" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="6.2" y="52.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="10.4" y="52.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="14.6" y="52.4" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="18.8" y="52.4" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="23.0" y="52.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="27.2" y="52.4" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="31.4" y="52.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="35.6" y="52.4" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="39.8" y="52.4" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="44.0" y="52.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="52.4" y="52.4" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="56.6" y="52.4" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="60.8" y="52.4" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="65.0" y="52.4" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="69.2" y="52.4" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="73.4" y="52.4" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="77.6" y="52.4" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="81.8" y="52.4" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="86.0" y="52.4" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="6.2" y="56.6" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="10.4" y="56.6" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="14.6" y="56.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="18.8" y="56.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="23.0" y="56.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="27.2" y="56.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="31.4" y="56.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="35.6" y="56.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="39.8" y="56.6" width="3.6" height="3.6" rx=".9" fill="#d9fff0"/><rect x="44.0" y="56.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="52.4" y="56.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="56.6" y="56.6" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="60.8" y="56.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="65.0" y="56.6" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="69.2" y="56.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="73.4" y="56.6" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="77.6" y="56.6" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="81.8" y="56.6" width="3.6" height="3.6" rx=".9" fill="#95FFD1"/><rect x="86.0" y="56.6" width="3.6" height="3.6" rx=".9" fill="#b5ffe0"/><rect x="6.2" y="60.8" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="10.4" y="60.8" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="14.6" y="60.8" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="18.8" y="60.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="23.0" y="60.8" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="27.2" y="60.8" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="31.4" y="60.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="35.6" y="60.8" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="39.8" y="60.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="44.0" y="60.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="52.4" y="60.8" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="56.6" y="60.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="60.8" y="60.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="65.0" y="60.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="69.2" y="60.8" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="73.4" y="60.8" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="77.6" y="60.8" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="81.8" y="60.8" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="86.0" y="60.8" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="10.4" y="65.0" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="14.6" y="65.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="18.8" y="65.0" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="23.0" y="65.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="27.2" y="65.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="31.4" y="65.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="35.6" y="65.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="39.8" y="65.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="56.6" y="65.0" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="60.8" y="65.0" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="65.0" y="65.0" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="69.2" y="65.0" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="73.4" y="65.0" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="77.6" y="65.0" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="81.8" y="65.0" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="86.0" y="65.0" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="18.8" y="69.2" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="23.0" y="69.2" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="27.2" y="69.2" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="31.4" y="69.2" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="35.6" y="69.2" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="60.8" y="69.2" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="65.0" y="69.2" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="69.2" y="69.2" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="73.4" y="69.2" width="3.6" height="3.6" rx=".9" fill="#4fd9a2"/><rect x="77.6" y="69.2" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="23.0" y="73.4" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="27.2" y="73.4" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="31.4" y="73.4" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="60.8" y="73.4" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/><rect x="65.0" y="73.4" width="3.6" height="3.6" rx=".9" fill="#3fc994"/><rect x="69.2" y="73.4" width="3.6" height="3.6" rx=".9" fill="#6ff0ba"/></g></svg></div><span class="core-lab"><i></i>Octosello</span></div>
+      <button type="button" class="otile you" data-i="0" style="left:50.00%;top:10.00%" aria-pressed="false"><span class="cube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><span class="olab">Twój sklep</span></button><button type="button" class="otile on" data-i="1" style="left:71.63%;top:16.35%" aria-pressed="true"><span class="cube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19 13 11"/></svg></span><span class="olab">EUDR</span></button><button type="button" class="otile" data-i="2" style="left:86.39%;top:33.38%" aria-pressed="false"><span class="cube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/></svg></span><span class="olab">PPWR</span></button><button type="button" class="otile" data-i="3" style="left:89.59%;top:55.69%" aria-pressed="false"><span class="cube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 19h10l-2.5-4M4 14l3-5 2 3.5M17 9l3 5h-5"/><path d="M9.5 6 12 3l3 5"/></svg></span><span class="olab">EPR</span></button><button type="button" class="otile" data-i="4" style="left:80.23%;top:76.19%" aria-pressed="false"><span class="cube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg></span><span class="olab">BDO i KOBiZE</span></button><button type="button" class="otile" data-i="5" style="left:61.27%;top:88.38%" aria-pressed="false"><span class="cube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 21h10M4 8h16"/><path d="m4 8-2 6a3 3 0 0 0 4 0zM20 8l-2 6a3 3 0 0 0 4 0z"/></svg></span><span class="olab">Audyt i regulaminy</span></button><button type="button" class="otile" data-i="6" style="left:38.73%;top:88.38%" aria-pressed="false"><span class="cube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 16V8h3a2.5 2.5 0 0 1 0 5h-3"/></svg></span><span class="olab">Znak towarowy</span></button><button type="button" class="otile" data-i="7" style="left:19.77%;top:76.19%" aria-pressed="false"><span class="cube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c.6 4.4 2.6 6.4 7 7-4.4.6-6.4 2.6-7 7-.6-4.4-2.6-6.4-7-7 4.4-.6 6.4-2.6 7-7z"/></svg></span><span class="olab">AI Act</span></button><button type="button" class="otile" data-i="8" style="left:10.41%;top:55.69%" aria-pressed="false"><span class="cube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.5 5.6 3.5 9s-1 6.4-3.5 9c-2.5-2.6-3.5-5.6-3.5-9s1-6.4 3.5-9z"/></svg></span><span class="olab">Marketplace</span></button><button type="button" class="otile" data-i="9" style="left:13.61%;top:33.38%" aria-pressed="false"><span class="cube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h11v10H2zM13 9h4l4 4v3h-8"/><circle cx="6" cy="17.5" r="2"/><circle cx="17" cy="17.5" r="2"/></svg></span><span class="olab">Logistyka i koszty</span></button><button type="button" class="otile" data-i="10" style="left:28.37%;top:16.35%" aria-pressed="false"><span class="cube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg></span><span class="olab">Automatyzacje AI</span></button>
+    </div>
+    <div class="orbit-copy">
+      <span class="eyebrow">Jeden punkt styku</span>
+      <h2 id="h-hub">Twój sklep dostał jeden <em>punkt styku</em>?</h2>
+      <p class="lead"><b>Octosello to centrum compliance Twojego sklepu.</b> Koordynujemy 10 obszarów działań i zespół ekspertów, a decyzje zostawiamy Tobie.</p>
+      <article class="ocard" aria-live="polite">
+        <div class="ocard-top">
+          <span class="cube sm" id="oc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19 13 11"/></svg></span>
+          <div><span class="ocard-meta" id="oc-meta">Proces · 1 z 10</span><h3 id="oc-name">EUDR</h3></div>
+        </div>
+        <p id="oc-desc">Sprawdzamy, które produkty podlegają EUDR, i budujemy system należytej staranności.</p>
+        <ul id="oc-list"><li>Analiza kodów CN i dostawców</li><li>Zbieranie danych geolokalizacyjnych</li><li>Oświadczenia w systemie UE</li></ul>
+        <p class="ocard-you"><b>Ty:</b> <span id="oc-you">przekazujesz listę produktów i kontakty do dostawców.</span></p>
+        <div class="ocard-foot">
+          <span class="oc-exp"><img id="oc-img" src="img/michal-dyrszka.jpg" alt=""><span id="oc-expname">Michał Dyrszka</span></span>
+          <a class="btn btn-light" id="oc-link" href="uslugi-srodowiskowe.html#eudr">Szczegóły <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="app" id="aplikacja" aria-labelledby="h-app">
+  <div class="wrap">
+    <div class="app-top">
+      <div>
+        <div class="app-eb"><span class="eyebrow">Aplikacja</span><span class="free-pill">Za darmo</span></div>
+        <h2 id="h-app">Darmowa aplikacja do zarządzania compliance</h2>
+        <p>Wszystkie obowiązki compliance w jednym miejscu. Dostęp do panelu jest bezpłatny. Panel pokazuje, co jest zrobione, co czeka na Twoją decyzję i kiedy mija termin. Widzisz pracę ekspertów na bieżąco, bez maili i arkuszy.</p>
+      </div>
+      <div>
+        <ul class="app-feat">
+          <li><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="var(--accent)"/><path d="m4.8 8.2 2.2 2.2 4.2-4.6" fill="none" stroke="var(--surface)" stroke-width="1.7"/></svg><span><b>Kalendarz terminów</b> BDO, KOBiZE, EPR i raportów w każdym kraju</span></li>
+          <li><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="var(--accent)"/><path d="m4.8 8.2 2.2 2.2 4.2-4.6" fill="none" stroke="var(--surface)" stroke-width="1.7"/></svg><span><b>Statusy procesów</b> od EUDR po regulaminy, w jednym widoku</span></li>
+          <li><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="var(--accent)"/><path d="m4.8 8.2 2.2 2.2 4.2-4.6" fill="none" stroke="var(--surface)" stroke-width="1.7"/></svg><span><b>Repozytorium dokumentów</b> gotowe na kontrolę</span></li>
+          <li><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="var(--accent)"/><path d="m4.8 8.2 2.2 2.2 4.2-4.6" fill="none" stroke="var(--surface)" stroke-width="1.7"/></svg><span><b>Decyzje zostają u Ciebie.</b> Akceptujesz, my wykonujemy</span></li>
+        </ul>
+        <a class="btn btn-light" href="#kontakt">Odbierz darmowy dostęp <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a> <a class="btn btn-ghost" href="panel/index.html#pulpit" target="_blank" rel="noopener"><span class="ldot"></span>Otwórz demo panelu</a>
+      </div>
+    </div>
+    <figure class="ap" aria-label="Przykładowy widok aplikacji Octosello (dane przykładowe)">
+      <aside class="ap-side" aria-hidden="true">
+        <div class="ap-brand"><img src="img/octosello-logo-white.png" alt=""><span>twoja-firma</span></div>
+        <div class="ap-shop"><span class="ap-shopi"></span><div><b>Sklep Przykładowy</b><small><i></i>86% zgodności</small></div><svg class="c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></div>
+        <div class="ap-nav open"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7v9h-6v-6H9v6H3z"/></svg><span>Pulpit</span><svg class="c up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="ap-sub on"><i></i>Strona główna</div><div class="ap-sub">Kalendarz</div><div class="ap-sub">Alerty</div><div class="ap-nav"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Terminy</span><em class="badge">2</em><svg class="c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="ap-nav"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19 13 11"/></svg><span>Środowisko</span><svg class="c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="ap-nav"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 21h10M4 8h16"/><path d="m4 8-2 6a3 3 0 0 0 4 0zM20 8l-2 6a3 3 0 0 0 4 0z"/></svg><span>Prawo</span><em class="badge">1</em><svg class="c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="ap-nav"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.5 5.6 3.5 9s-1 6.4-3.5 9c-2.5-2.6-3.5-5.6-3.5-9s1-6.4 3.5-9z"/></svg><span>Cross-border</span><svg class="c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="ap-nav"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg><span>Procesy AI</span><svg class="c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="ap-nav"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg><span>Dokumenty</span><svg class="c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="ap-nav"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span>Ustawienia</span><svg class="c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+      </aside>
+      <div class="ap-main">
+        <div class="ap-top"><div class="ap-search"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Szukaj w panelu</span><kbd>Ctrl K</kbd></div><div class="ap-help"><span class="ap-av"></span>Twój opiekun</div></div>
+        <small class="ap-date">Wtorek, 20 października</small>
+        <h3 class="ap-hello">Dzień dobry, <b>Anna.</b></h3>
+        <p class="ap-status"><i></i>Eksperci pracują. 3 sprawy czekają na Twoją decyzję.</p>
+        <div class="ap-kpis">
+          <div><small>Procesy aktywne</small><b>12</b><span>w 3 krajach UE</span><a><i class="g"></i>wszystkie na czas</a></div>
+          <div><small>Najbliższy termin</small><b>28.02</b><span>raport KOBiZE</span><a><i class="y"></i>w przygotowaniu</a></div>
+          <div><small>Dokumenty</small><b>48</b><span>gotowych na kontrolę</span><a><i class="g"></i>aktualne</a></div>
+        </div>
+        <div class="ap-row">
+          <div class="ap-card">
+            <h4><i class="y"></i>Czeka na Ciebie <em class="badge">3</em></h4>
+            <p class="ap-sub2">Akcepty i decyzje zostają przy Tobie.</p>
+            <div class="ap-item"><span class="ap-ico"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 21h10M4 8h16"/><path d="m4 8-2 6a3 3 0 0 0 4 0zM20 8l-2 6a3 3 0 0 0 4 0z"/></svg></span><div><small>Prawo · Mec. Siwicka</small><b>Nowy regulamin sklepu do akceptu</b><span>Zmiany po aktualizacji przepisów konsumenckich.</span></div><button type="button" tabindex="-1">Zobacz</button></div>
+            <div class="ap-item"><span class="ap-ico"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19 13 11"/></svg></span><div><small>EUDR · Michał Dyrszka</small><b>5 dostawców bez oświadczeń</b><span>Zatwierdź wysyłkę przypomnień.</span></div><button type="button" tabindex="-1">Zobacz</button></div>
+          </div>
+          <div class="ap-card">
+            <h4><i class="g"></i>Dziś zrobili eksperci</h4>
+            <p class="ap-sub2">Dziennik dnia.</p>
+            <ul class="ap-log">
+              <li><img src="img/michal-dyrszka.jpg" alt=""><div><b>Raport EPR złożony w LUCID</b><span>Michał Dyrszka · 10:24</span></div></li>
+              <li><img src="img/mateusz-grzywnowicz.jpg" alt=""><div><b>Konto Amazon.fr skonfigurowane</b><span>Mateusz Grzywnowicz · 12:05</span></div></li>
+              <li><img src="img/krzysztof-kaczmarek.jpg" alt=""><div><b>40 opisów produktów do sprawdzenia</b><span>Krzysztof Kaczmarek · 14:40</span></div></li>
+            </ul>
+          </div>
+        </div>
+        <div class="ap-mods"><div class="ap-modh"><b>Moduły</b><span><i class="on"></i>aktywne <i></i>do włączenia</span></div><div class="ap-modl"><span class="mod on"><i></i>EUDR</span><span class="mod"><i></i>PPWR</span><span class="mod on"><i></i>EPR</span><span class="mod on"><i></i>BDO</span><span class="mod on"><i></i>KOBiZE</span><span class="mod on"><i></i>Regulaminy</span><span class="mod"><i></i>Znak towarowy</span><span class="mod on"><i></i>AI Act</span><span class="mod on"><i></i>Marketplace</span><span class="mod"><i></i>Automatyzacje AI</span></div></div>
+      </div>
+    </figure>
+    <p class="ap-note">Widok poglądowy z przykładowymi danymi.</p>
+  </div>
+</section>
+
+<section class="faq" id="faq" aria-labelledby="h-faq">
+  <div class="wrap">
+    <div class="faq-head">
+      <span class="eyebrow">FAQ</span>
+      <h2 id="h-faq">Najczęstsze pytania</h2>
+      <p>Nie ma tu Twojego pytania? Napisz do nas, odpowiemy w ciągu jednego dnia roboczego.</p>
+      <a class="btn btn-light" href="#kontakt">Zadaj pytanie</a>
+    </div>
+    <div class="faq-list">
+      <details class="qa"><summary>Czy sklep internetowy musi mieć wpis do rejestru BDO?<span class="pm" aria-hidden="true"></span></summary><p>Tak, jeśli wprowadza na rynek produkty w opakowaniach, w tym w opakowaniach wysyłkowych, albo sprzedaje np. sprzęt elektroniczny lub baterie. Wpis jest potrzebny jeszcze przed rozpoczęciem takiej sprzedaży, a jego brak grozi karą administracyjną. Pomagamy ustalić, czy obowiązek Cię dotyczy, i prowadzimy całą procedurę.</p></details>
+      <details class="qa"><summary>Sprzedaję do Niemiec. Czy muszę się tam rejestrować w ramach EPR?<span class="pm" aria-hidden="true"></span></summary><p>Najczęściej tak. Opakowania trafiające do niemieckich konsumentów wymagają rejestracji w LUCID i umowy z systemem zbiórki, a elektronika rejestracji w stiftung ear. Marketplace’y coraz częściej weryfikują te numery i mogą zablokować ofertę bez nich. Podobne zasady obowiązują m.in. we Francji i Austrii.</p></details>
+      <details class="qa"><summary>Kogo dotyczy rozporządzenie EUDR?<span class="pm" aria-hidden="true"></span></summary><p>Firm, które wprowadzają na rynek UE lub eksportują produkty z bydła, kakao, kawy, palmy olejowej, kauczuku, soi i drewna oraz produkty z nich wytworzone, np. meble, papier, wyroby skórzane czy czekoladę. Termin stosowania był przesuwany, dlatego dla każdej firmy sprawdzamy aktualne obowiązki i daty.</p></details>
+      <details class="qa"><summary>Od kiedy obowiązuje PPWR i co zmienia dla e-commerce?<span class="pm" aria-hidden="true"></span></summary><p>Rozporządzenie opakowaniowe PPWR stosuje się od 12 sierpnia 2026 r., a część wymagań wchodzi etapami w kolejnych latach. Dla sklepów ważne są m.in. wymogi recyklingu, oznakowania opakowań i ograniczania pustej przestrzeni w paczkach.</p></details>
+      <details class="qa"><summary>Czy muszę oznaczać treści i chatboty oparte na AI?<span class="pm" aria-hidden="true"></span></summary><p>AI Act wprowadza obowiązki przejrzystości, m.in. informowanie klientów, że rozmawiają z chatbotem, i oznaczanie niektórych treści wygenerowanych przez AI. Zakres zależy od tego, jak korzystasz z AI, dlatego zaczynamy od mapy narzędzi i oceny ryzyka.</p></details>
+      <details class="qa"><summary>Czy przy sprzedaży za granicę muszę rejestrować VAT w każdym kraju?<span class="pm" aria-hidden="true"></span></summary><p>Nie zawsze. Przy sprzedaży wysyłkowej do konsumentów w UE po przekroczeniu łącznego limitu 10 000 euro VAT można rozliczać w jednej deklaracji w procedurze VAT OSS. Magazyn w innym kraju, np. w programie fulfillment marketplace’u, zwykle wymaga już lokalnej rejestracji VAT.</p></details>
+      <details class="qa"><summary>Czy mogę skorzystać tylko z jednego obszaru?<span class="pm" aria-hidden="true"></span></summary><p>Tak. Możesz zlecić pojedynczą usługę, np. wpis do BDO albo regulamin sklepu, lub całą obsługę compliance. Gdy obszarów jest więcej, jeden opiekun koordynuje pracę ekspertów.</p></details>
+      <details class="qa"><summary>Ile kosztuje współpraca?<span class="pm" aria-hidden="true"></span></summary><p>Koszt zależy od zakresu, liczby rynków i produktów. Po krótkiej rozmowie diagnostycznej przygotowujemy konkretną wycenę: jednorazową dla pojedynczych usług albo miesięczną dla stałej opieki.</p></details>
+    </div>
+  </div>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Czy sklep internetowy musi mieć wpis do rejestru BDO?", "acceptedAnswer": {"@type": "Answer", "text": "Tak, jeśli wprowadza na rynek produkty w opakowaniach, w tym w opakowaniach wysyłkowych, albo sprzedaje np. sprzęt elektroniczny lub baterie. Wpis jest potrzebny jeszcze przed rozpoczęciem takiej sprzedaży, a jego brak grozi karą administracyjną. Pomagamy ustalić, czy obowiązek Cię dotyczy, i prowadzimy całą procedurę."}}, {"@type": "Question", "name": "Sprzedaję do Niemiec. Czy muszę się tam rejestrować w ramach EPR?", "acceptedAnswer": {"@type": "Answer", "text": "Najczęściej tak. Opakowania trafiające do niemieckich konsumentów wymagają rejestracji w LUCID i umowy z systemem zbiórki, a elektronika rejestracji w stiftung ear. Marketplace’y coraz częściej weryfikują te numery i mogą zablokować ofertę bez nich. Podobne zasady obowiązują m.in. we Francji i Austrii."}}, {"@type": "Question", "name": "Kogo dotyczy rozporządzenie EUDR?", "acceptedAnswer": {"@type": "Answer", "text": "Firm, które wprowadzają na rynek UE lub eksportują produkty z bydła, kakao, kawy, palmy olejowej, kauczuku, soi i drewna oraz produkty z nich wytworzone, np. meble, papier, wyroby skórzane czy czekoladę. Termin stosowania był przesuwany, dlatego dla każdej firmy sprawdzamy aktualne obowiązki i daty."}}, {"@type": "Question", "name": "Od kiedy obowiązuje PPWR i co zmienia dla e-commerce?", "acceptedAnswer": {"@type": "Answer", "text": "Rozporządzenie opakowaniowe PPWR stosuje się od 12 sierpnia 2026 r., a część wymagań wchodzi etapami w kolejnych latach. Dla sklepów ważne są m.in. wymogi recyklingu, oznakowania opakowań i ograniczania pustej przestrzeni w paczkach."}}, {"@type": "Question", "name": "Czy muszę oznaczać treści i chatboty oparte na AI?", "acceptedAnswer": {"@type": "Answer", "text": "AI Act wprowadza obowiązki przejrzystości, m.in. informowanie klientów, że rozmawiają z chatbotem, i oznaczanie niektórych treści wygenerowanych przez AI. Zakres zależy od tego, jak korzystasz z AI, dlatego zaczynamy od mapy narzędzi i oceny ryzyka."}}, {"@type": "Question", "name": "Czy przy sprzedaży za granicę muszę rejestrować VAT w każdym kraju?", "acceptedAnswer": {"@type": "Answer", "text": "Nie zawsze. Przy sprzedaży wysyłkowej do konsumentów w UE po przekroczeniu łącznego limitu 10 000 euro VAT można rozliczać w jednej deklaracji w procedurze VAT OSS. Magazyn w innym kraju, np. w programie fulfillment marketplace’u, zwykle wymaga już lokalnej rejestracji VAT."}}, {"@type": "Question", "name": "Czy mogę skorzystać tylko z jednego obszaru?", "acceptedAnswer": {"@type": "Answer", "text": "Tak. Możesz zlecić pojedynczą usługę, np. wpis do BDO albo regulamin sklepu, lub całą obsługę compliance. Gdy obszarów jest więcej, jeden opiekun koordynuje pracę ekspertów."}}, {"@type": "Question", "name": "Ile kosztuje współpraca?", "acceptedAnswer": {"@type": "Answer", "text": "Koszt zależy od zakresu, liczby rynków i produktów. Po krótkiej rozmowie diagnostycznej przygotowujemy konkretną wycenę: jednorazową dla pojedynczych usług albo miesięczną dla stałej opieki."}}]}</script>
+</section>
+
+<section class="contact" id="kontakt" aria-labelledby="h-contact">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Kontakt</span>
+      <h2 id="h-contact" style="margin:16px 0 22px">Porozmawiajmy o <em>Twoim</em> sklepie</h2>
+      <p>Opisz krótko, czym handlujesz i na jakich rynkach. Wrócimy z propozycją zakresu wsparcia w ciągu jednego dnia roboczego.</p>
+      <p style="color:#F4F5F3">info@otoneso.pl</p>
+    </div>
+    <form id="contact-form" novalidate>
+      <label for="f-name">Imię i nazwisko<input id="f-name" name="name" autocomplete="name" required></label>
+      <label for="f-mail">E-mail<input id="f-mail" name="email" type="email" autocomplete="email" required></label>
+      <label for="f-area">Obszar
+        <select id="f-area" name="area">
+          <option>Usługi środowiskowe</option>
+          <option>Doradztwo prawne</option>
+          <option>Sprzedaż cross-border</option>
+          <option>Procesy AI</option>
+          <option>Kompleksowa obsługa</option>
+        </select>
+      </label>
+      <label for="f-msg">Wiadomość<textarea id="f-msg" name="message"></textarea></label>
+      <div><button class="btn btn-light" type="submit">Wyślij zapytanie</button></div>
+      <p class="form-note" id="form-note" role="status"></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <img src="img/octosello-logo-white.png" alt="Octosello" width="150" height="34">
+      <p>Kompleksowe wsparcie compliance dla firm e&#8209;commerce: środowisko, prawo, sprzedaż cross&#8209;border i procesy AI.</p>
+      <a class="btn btn-light" href="#kontakt">Umów rozmowę <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 11 3M5 3h6v6"/></svg></a>
+    </div>
+    <nav class="foot-col" aria-label="Obszary">
+      <h4>Obszary</h4>
+      <a href="uslugi-srodowiskowe.html">Usługi środowiskowe</a>
+      <a href="doradztwo-prawne.html">Doradztwo prawne</a>
+      <a href="sprzedaz-cross-border.html">Sprzedaż cross-border</a>
+      <a href="procesy-ai.html">Procesy AI</a>
+    </nav>
+    <nav class="foot-col" aria-label="Firma">
+      <h4>Octosello</h4>
+      <a href="case-study.html">Case study</a>
+      <a href="#aplikacja">Darmowa aplikacja</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://otoneso.pl/" target="_blank" rel="noopener">otoneso.pl</a>
+      <a href="https://eprpilot.com/" target="_blank" rel="noopener">eprpilot.com</a>
+      <a href="https://sklaw.com.pl/" target="_blank" rel="noopener">sklaw.com.pl</a>
+    </nav>
+    <address class="foot-col">
+      <h4>Kontakt</h4>
+      <b>VIAREGIA.ONLINE Sp. z o.o.</b>
+      <span>ul. Złota 7 lok. 28<br>00-019 Warszawa</span>
+      <a href="mailto:info@otoneso.pl">info@otoneso.pl</a>
+      <a href="tel:+48459596793">+48 459 596 793</a>
+    </address>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 Octosello. Marka VIAREGIA.ONLINE Sp. z o.o.</span>
+    <span>Compliance dla e-commerce</span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('contact-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var note = document.getElementById('form-note');
+  if (!this.name.value.trim() || !/\S+@\S+\.\S+/.test(this.email.value)) {
+    note.textContent = 'Podaj imię i poprawny adres e-mail.';
+    return;
+  }
+  note.textContent = 'Dziękujemy! Odezwiemy się wkrótce.';
+  this.reset();
+});
+
+(function () {
+  var P = [{"a": "you", "n": "Twój sklep", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7\"/></svg>", "d": "Jeden punkt styku dla całej firmy. Koordynujemy procesy i ekspertów, a decyzje zostawiamy Tobie.", "b": ["Jedno zapytanie zamiast wielu ofert", "Opiekun koordynuje zespół ekspertów", "Wspólny kalendarz terminów i obowiązków"], "y": "kontakt z jednym opiekunem i decyzje biznesowe.", "h": "#kontakt"}, {"a": "env", "n": "EUDR", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 19c0-8 5-13 14-14 0 9-5 14-13 14\"/><path d=\"M5 19 13 11\"/></svg>", "d": "Sprawdzamy, które produkty podlegają EUDR, i budujemy system należytej staranności.", "b": ["Analiza kodów CN i dostawców", "Zbieranie danych geolokalizacyjnych", "Oświadczenia w systemie UE"], "y": "przekazujesz listę produktów i kontakty do dostawców.", "h": "uslugi-srodowiskowe.html#eudr"}, {"a": "env", "n": "PPWR", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z\"/><path d=\"M3 7.5 12 12l9-4.5M12 12v9\"/></svg>", "d": "Przygotowujemy opakowania na nowe unijne rozporządzenie.", "b": ["Przegląd opakowań wysyłkowych i produktowych", "Wymogi recyklingu i oznakowania", "Plan zmian z harmonogramem"], "y": "decydujesz o zmianach w opakowaniach.", "h": "uslugi-srodowiskowe.html#ppwr"}, {"a": "env", "n": "EPR", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 19h10l-2.5-4M4 14l3-5 2 3.5M17 9l3 5h-5\"/><path d=\"M9.5 6 12 3l3 5\"/></svg>", "d": "Rejestrujemy i raportujemy EPR w Polsce i w krajach sprzedaży.", "b": ["Rejestracje, np. LUCID w Niemczech", "Umowy z systemami zbiórki", "Raporty ilości w EPR Pilot"], "y": "podajesz dane o sprzedaży.", "h": "uslugi-srodowiskowe.html#epr"}, {"a": "env", "n": "BDO i KOBiZE", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 3h8l4 4v14H6z\"/><path d=\"M14 3v4h4M9 12h6M9 16h6\"/></svg>", "d": "Prowadzimy rejestr, ewidencję i coroczne raporty.", "b": ["Wpis i aktualizacja w BDO", "Sprawozdanie BDO do 15 marca", "Raport KOBiZE do końca lutego"], "y": "zatwierdzasz raporty przed wysyłką.", "h": "uslugi-srodowiskowe.html#bdo"}, {"a": "law", "n": "Audyt i regulaminy", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3v18M7 21h10M4 8h16\"/><path d=\"m4 8-2 6a3 3 0 0 0 4 0zM20 8l-2 6a3 3 0 0 0 4 0z\"/></svg>", "d": "Sprawdzamy sklep i przygotowujemy dokumenty pod Twój model sprzedaży.", "b": ["Audyt prawa konsumenckiego i RODO", "Regulamin i polityka prywatności", "Aktualizacje po zmianach przepisów"], "y": "akceptujesz ostateczne wersje dokumentów.", "h": "doradztwo-prawne.html#audyt-prawny"}, {"a": "law", "n": "Znak towarowy", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M10 16V8h3a2.5 2.5 0 0 1 0 5h-3\"/></svg>", "d": "Chronimy Twoją markę w Polsce i w UE.", "b": ["Badanie podobnych znaków", "Zgłoszenie w UPRP lub EUIPO", "Monitoring nowych zgłoszeń"], "y": "wybierasz nazwę i logo do ochrony.", "h": "doradztwo-prawne.html#znak-towarowy"}, {"a": "law", "n": "AI Act", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3c.6 4.4 2.6 6.4 7 7-4.4.6-6.4 2.6-7 7-.6-4.4-2.6-6.4-7-7 4.4-.6 6.4-2.6 7-7z\"/></svg>", "d": "Ustalamy zasady korzystania z AI zgodne z AI Act.", "b": ["Mapa narzędzi AI w firmie", "Oznaczanie chatbotów i treści AI", "Polityka AI dla zespołu"], "y": "decydujesz, gdzie używać AI.", "h": "doradztwo-prawne.html#ai"}, {"a": "cb", "n": "Marketplace", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M3 12h18M12 3c2.5 2.6 3.5 5.6 3.5 9s-1 6.4-3.5 9c-2.5-2.6-3.5-5.6-3.5-9s1-6.4 3.5-9z\"/></svg>", "d": "Otwieramy sprzedaż na zagranicznych platformach.", "b": ["Założenie i weryfikacja kont", "Regulaminy w językach rynków", "Ustawienia podatkowe i wysyłkowe"], "y": "wybierasz rynki i produkty.", "h": "sprzedaz-cross-border.html#konta"}, {"a": "cb", "n": "Logistyka i koszty", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M2 6h11v10H2zM13 9h4l4 4v3h-8\"/><circle cx=\"6\" cy=\"17.5\" r=\"2\"/><circle cx=\"17\" cy=\"17.5\" r=\"2\"/></svg>", "d": "Liczymy, gdzie sprzedaż za granicą się opłaca.", "b": ["Model wysyłek i zwrotów", "Prowizje, wysyłka i VAT OSS", "Integracja zamówień i magazynu"], "y": "zatwierdzasz ceny i marże.", "h": "sprzedaz-cross-border.html#procesy-koszty"}, {"a": "ai", "n": "Automatyzacje AI", "i": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"6\" y=\"6\" width=\"12\" height=\"12\" rx=\"2\"/><path d=\"M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3\"/></svg>", "d": "Odciążamy zespół z powtarzalnych zadań.", "b": ["Opisy produktów z AI", "Asystent obsługi klienta", "Automatyczne raporty i dokumenty"], "y": "trudne sprawy klientów zostają u Ciebie.", "h": "procesy-ai.html"}];
+  var E = {"env": ["img/michal-dyrszka.jpg", "Michał Dyrszka"], "law": ["img/siwicka.jpg", "Mec. Siwicka"], "cb": ["img/mateusz-grzywnowicz.jpg", "Mateusz Grzywnowicz"], "ai": ["img/krzysztof-kaczmarek.jpg", "Krzysztof Kaczmarek"], "you": ["", "Twój opiekun Octosello"]};
+  var orbit = document.getElementById('orbit'), timer = null, cur = 1;
+  function pick(i) {
+    cur = i; var p = P[i], e = E[p.a];
+    orbit.querySelectorAll('.otile, .oline').forEach(function (el) {
+      var on = +el.dataset.i === i;
+      el.classList.toggle('on', on);
+      if (el.tagName === 'BUTTON') el.setAttribute('aria-pressed', on);
+    });
+    document.getElementById('oc-icon').innerHTML = p.i;
+    document.getElementById('oc-meta').textContent = i === 0 ? 'Punkt startowy' : 'Proces · ' + i + ' z ' + (P.length - 1);
+    document.getElementById('oc-name').textContent = p.n;
+    document.getElementById('oc-desc').textContent = p.d;
+    document.getElementById('oc-list').innerHTML = p.b.map(function (x) { return '<li>' + x + '</li>'; }).join('');
+    document.getElementById('oc-you').textContent = p.y;
+    document.getElementById('oc-img').setAttribute('src', e[0]);
+    document.getElementById('oc-expname').textContent = e[1];
+    document.getElementById('oc-link').href = p.h;
+  }
+  orbit.querySelectorAll('.otile').forEach(function (b) {
+    b.addEventListener('click', function () { clearInterval(timer); timer = null; pick(+b.dataset.i); });
+  });
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    timer = setInterval(function () { pick(cur % (P.length - 1) + 1); }, 4000);
+  }
+})();
+
+// Odtwarzacz demo w hero: 6 rozdziałów po 6 s
+(function(){
+  var root=document.getElementById('demo'); if(!root) return;
+  var sc=[].slice.call(root.querySelectorAll('.scene')), bt=[].slice.call(root.querySelectorAll('#pl-chaps button'));
+  var sub=document.getElementById('pl-sub'), chap=document.getElementById('pl-chap'), tm=document.getElementById('pl-time'), pp=document.getElementById('pl-pp');
+  var D=6, T=D*sc.length, t=0, cur=-1, playing=!window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var PAUSE='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+  var PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>';
+  function f(s){s=Math.floor(s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+  function draw(){
+    var k=Math.min(sc.length-1,Math.floor(t/D));
+    if(k!==cur){sc.forEach(function(e,i){e.classList.toggle('on',i===k)}); sub.textContent=sc[k].dataset.sub; chap.textContent=sc[k].dataset.name; cur=k;}
+    bt.forEach(function(b,i){var p=i<k?100:i>k?0:(t-i*D)/D*100; b.querySelector('i').style.width=p.toFixed(1)+'%'; b.classList.toggle('cur',i===k)});
+    tm.textContent=f(t)+' / '+f(T);
+    pp.innerHTML=playing?PAUSE:PLAY; pp.setAttribute('aria-label',playing?'Pauza':'Odtwórz');
+  }
+  bt.forEach(function(b,i){b.addEventListener('click',function(){t=i*D;playing=true;draw()})});
+  pp.addEventListener('click',function(){playing=!playing;draw()});
+  setInterval(function(){if(!playing)return; t+=.25; if(t>=T)t=0; draw()},250);
+  draw();
+})();
+</script>
+</body>
+</html>
